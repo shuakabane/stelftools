@@ -15,4 +15,5 @@ stelftools is a set of tools and rules needed to identify statically linked libr
 
 ## Paper
 [Identification of library functions statically linked to Linux malware without symbols](https://www.sciencedirect.com/science/article/pii/S1877050920319487) (2020)
+<br>
 [シンボル情報が消去されたIoTマルウェアに静的結合されたライブラリ関数の特定](http://id.nii.ac.jp/1001/00208402/) (2020)
