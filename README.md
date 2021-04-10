@@ -1,19 +1,15 @@
 stelftools
 ====
-stelftoolsは, パターンマッチングによって静的結合されたライブラリ関数を特定するために必要なツールやルール群です。
+パターンマッチングによって静的結合されたライブラリ関数を特定するために必要なツールやルール
 stelftools is a set of tools and rules needed to identify statically linked library functions by pattern matching.
 
 ## File Description
 * ghidra_export_funclist
-<br>
 ライブラリ関数の特定結果をghidraで読み込める形式にエクスポートしたもの
-<br>
 * yara-patterns
-ライブラリ関数の特定に必要なルール
-`./yara-patterns/short`短い関数のルールを含む
+ライブラリ関数の特定に必要なルール<br>
+`./yara-patterns/short`短い関数のルールを含む<br>
 `./yara-patterns/short`短い関数のルールを含まない
-
-<br>
 * sample_toolchain
 検体名と検体のビルドに使用されたツールチェイン名のリスト
 
