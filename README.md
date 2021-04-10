@@ -4,13 +4,13 @@ stelftools
 stelftools is a set of tools and rules needed to identify statically linked library functions by pattern matching.
 
 ## File Description
-* ghidra_export_funclist
+* ghidra_export_funclist :
 ライブラリ関数の特定結果をghidraで読み込める形式にエクスポートしたもの
-* yara-patterns
+* yara-patterns :
 ライブラリ関数の特定に必要なルール<br>
 `./yara-patterns/short`短い関数のルールを含む<br>
 `./yara-patterns/short`短い関数のルールを含まない
-* sample_toolchain
+* sample_toolchain :
 検体名と検体のビルドに使用されたツールチェイン名のリスト
 
 ## Paper
