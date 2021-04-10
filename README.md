@@ -9,7 +9,7 @@ stelftools is a set of tools and rules needed to identify statically linked libr
 * yara-patterns :
 ライブラリ関数の特定に必要なルール<br>
 `./yara-patterns/short`短い関数のルールを含む<br>
-`./yara-patterns/short`短い関数のルールを含まない
+`./yara-patterns/long`短い関数のルールを含まない
 * sample_toolchain :
 検体名と検体のビルドに使用されたツールチェイン名のリスト
 
