@@ -1,0 +1,8 @@
+{
+  "name" : "ucli-pub-0.9.30_armv5l",
+  "arch" : "arm",
+  "yara_path" : "yara-patterns/ucli-pub-0.9.30_armv5l.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/ucli-pub-0.9.30_armv5l.alist",
+  "dependency_list_path" : "_tmpdir/dlists/ucli-pub-0.9.30_armv5l.dlist"
+}

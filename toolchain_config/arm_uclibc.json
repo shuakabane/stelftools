@@ -1,0 +1,8 @@
+{
+  "name" : "arm_uclibc",
+  "arch" : "arn",
+  "yara_path" : "yara-patterns/arm_uclibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

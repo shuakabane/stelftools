@@ -1,0 +1,8 @@
+{
+  "name" : "bootlin_mips32--uclibc--stable-2018.02-1",
+  "arch" : "mips32--uclibc--stable-2018.02-1",
+  "yara_path" : "yara-patterns/bootlin_mips32--uclibc--stable-2018.02-1.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

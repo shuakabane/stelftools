@@ -1,0 +1,8 @@
+{
+  "name" : "bootlin_mips32el--glibc--stable-2021.11-1",
+  "arch" : "mips32el--glibc--stable-2021.11-1",
+  "yara_path" : "yara-patterns/bootlin_mips32el--glibc--stable-2021.11-1.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

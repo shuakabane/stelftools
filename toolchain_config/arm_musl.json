@@ -1,0 +1,8 @@
+{
+  "name" : "arm_musl",
+  "arch" : "arm",
+  "yara_path" : "yara-patterns/arm_musl.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

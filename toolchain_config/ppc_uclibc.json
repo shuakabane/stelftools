@@ -1,0 +1,8 @@
+{
+  "name" : "ppc_uclibc",
+  "arch" : "ppc",
+  "yara_path" : "yara-patterns/ppc_uclibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

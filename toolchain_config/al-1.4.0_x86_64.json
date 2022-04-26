@@ -1,0 +1,8 @@
+{
+  "name" : "al-1.4.0_x86_64",
+  "arch" : "x86_64",
+  "yara_path" : "yara-patterns/al-1.4.0_x86_64.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/al-1.4.0_x86_64.alist",
+  "dependency_list_path" : "_tmpdir/dlists/al-1.4.0_x86_64.dlist"
+}

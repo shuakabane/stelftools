@@ -1,0 +1,8 @@
+{
+  "name" : "al-1.2.1_powerpc",
+  "arch" : "powerpc",
+  "yara_path" : "yara-patterns/al-1.2.1_powerpc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/al-1.2.1_powerpc.alist",
+  "dependency_list_path" : "_tmpdir/dlists/al-1.2.1_powerpc.dlist"
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "al-1.1.1_i686",
+  "arch" : "i686",
+  "yara_path" : "yara-patterns/al-1.1.1_i686.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/al-1.1.1_i686.alist",
+  "dependency_list_path" : "_tmpdir/dlists/al-1.1.1_i686.dlist"
+}

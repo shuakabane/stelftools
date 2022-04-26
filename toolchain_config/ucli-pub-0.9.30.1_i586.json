@@ -1,9 +1,8 @@
 {
-  "name" : "ucli-put-0.9.30.1_i586",
+  "name" : "ucli-pub-0.9.30.1_i586",
   "arch" : "i586",
   "yara_path" : "yara-patterns/ucli-pub-0.9.30.1_i586.yara",
-  "compiler_path" : "/path_to_firmware_linux-0.9.6_cross-compiler",
+  "compiler_path" : "",
   "alias_list_path" : "_tmpdir/alias_list/ucli-pub-0.9.30.1_i586.alist",
-  "dependency_list_path" : "_tmpdir/dlists/ucli-pub-0.9.30.1_i586.dlist",
-  "dummy" : ""
+  "dependency_list_path" : "_tmpdir/dlists/ucli-pub-0.9.30.1_i586.dlist"
 }

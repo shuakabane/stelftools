@@ -1,0 +1,8 @@
+{
+  "name" : "bl-musl-stable-2018.11-1_x86_64",
+  "arch" : "x86_64",
+  "yara_path" : "yara-patterns/bl-musl-stable-2018.11-1_x86_64.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-musl-stable-2018.11-1_x86_64.alist",
+  "dependency_list_path" : ""
+}

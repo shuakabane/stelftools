@@ -1,0 +1,8 @@
+{
+  "name" : "x86_64_glibc",
+  "arch" : "x86_64",
+  "yara_path" : "yara-patterns/x86_64_glibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

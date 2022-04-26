@@ -1,0 +1,8 @@
+{
+  "name" : "sparc_uclibc",
+  "arch" : "sparc",
+  "yara_path" : "yara-patterns/sparc_uclibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

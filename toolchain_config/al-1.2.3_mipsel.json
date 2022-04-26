@@ -1,0 +1,8 @@
+{
+  "name" : "al-1.2.3_mipsel",
+  "arch" : "mipsel",
+  "yara_path" : "yara-patterns/al-1.2.3_mipsel.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/al-1.2.3_mipsel.alist",
+  "dependency_list_path" : "_tmpdir/dlists/al-1.2.3_mipsel.dlist"
+}

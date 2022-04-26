@@ -1,0 +1,8 @@
+{
+  "name" : "bootlin_powerpc-440fp--glibc--stable-2020.08-2",
+  "arch" : "ppc--glibc--stable-2020.08-2",
+  "yara_path" : "yara-patterns/bootlin_powerpc-440fp--glibc--stable-2020.08-2.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

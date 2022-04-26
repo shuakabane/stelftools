@@ -1,0 +1,8 @@
+{
+  "name" : "al-1.4.5_powerpc-440fp",
+  "arch" : "ppc",
+  "yara_path" : "yara-patterns/al-1.4.5_powerpc-440fp.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/al-1.4.5_powerpc-440fp.alist",
+  "dependency_list_path" : "_tmpdir/dlists/al-1.4.5_powerpc-440fp.dlist"
+}

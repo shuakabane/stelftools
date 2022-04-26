@@ -1,0 +1,8 @@
+{
+  "name" : "fl-0.9.8_mips",
+  "arch" : "mips",
+  "yara_path" : "yara-patterns/fl-0.9.8_mips.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/fl-0.9.8_mips.alist",
+  "dependency_list_path" : "_tmpdir/dlists/fl-0.9.8_mips.dlist"
+}

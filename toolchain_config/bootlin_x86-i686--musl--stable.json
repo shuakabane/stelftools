@@ -1,0 +1,8 @@
+{
+  "name" : "bootlin_x86-i686--musl--stable",
+  "arch" : "x86-i686--musl--stable",
+  "yara_path" : "yara-patterns/bootlin_x86-i686--musl--stable.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

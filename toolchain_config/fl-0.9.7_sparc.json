@@ -1,0 +1,8 @@
+{
+  "name" : "fl-0.9.7_sparc",
+  "arch" : "sparc",
+  "yara_path" : "yara-patterns/fl-0.9.7_sparc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/fl-0.9.7_sparc.alist",
+  "dependency_list_path" : "_tmpdir/dlists/fl-0.9.7_sparc.dlist"
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "mips_musl",
+  "arch" : "mips",
+  "yara_path" : "yara-patterns/mips_musl.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

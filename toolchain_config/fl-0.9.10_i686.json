@@ -1,0 +1,8 @@
+{
+  "name" : "fl-0.9.10_i686",
+  "arch" : "i686",
+  "yara_path" : "yara-patterns/fl-0.9.10_i686.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/fl-0.9.10_i686.alist",
+  "dependency_list_path" : "_tmpdir/dlists/fl-0.9.10_i686.dlist"
+}

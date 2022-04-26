@@ -1,0 +1,8 @@
+{
+  "name" : "ppc64_glibc",
+  "arch" : "ppc64",
+  "yara_path" : "yara-patterns/ppc64_glibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "mips64_glibc",
+  "arch" : "mips64",
+  "yara_path" : "yara-patterns/mips64_glibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}

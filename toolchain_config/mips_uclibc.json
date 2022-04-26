@@ -1,0 +1,8 @@
+{
+  "name" : "mips_uclibc",
+  "arch" : "mips",
+  "yara_path" : "yara-patterns/mips_uclibc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "",
+  "dependency_list_path" : ""
+}
