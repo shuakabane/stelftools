@@ -50,8 +50,14 @@ def get_static_lib_file_list(tc_path):
             or obj_file.endswith('.os') \
             or obj_file.endswith('.lo') \
             )]
-    #for static_lib_file in static_lib_file_list:
-    #    print(static_lib_file)
+    # exclude symbolic link
+    exclude_file_list = []
+    for static_lib_file in static_lib_file_list:
+        if static_lib_file != os.path.realpath(static_lib_file):
+            exclude_file_list.append(static_lib_file)
+    static_lib_file_list = sorted(set(static_lib_file_list) ^ set(exclude_file_list))
+    #for l in static_lib_file_list:
+    #    print(l)
     return static_lib_file_list
 
 ## mkrule
@@ -73,7 +79,11 @@ def mkrule(tc_path, tc_name):
         if filename.split('/')[-1] in EXCLUDE_OBJ_FILES:
             #print(filename.split('/')[-1])
             continue
-
+        # c-lang only fast mode
+        #skip c++ objfile (libstdc++)
+        cpp_obj_list = ['libstdc++.a']
+        if filename.split('/')[-1] in cpp_obj_list:
+            continue
         #print('%s' % filename, flush=True)
         try:
             ftype = magic.from_file(filename, mime = True)
@@ -160,6 +170,11 @@ def mkother(tc_path, tc_name):
     # make depend_list
     depend_list = {}
     for filename in static_lib_file_list:
+        # c-lang only fast mode
+        #skip c++ objfile (libstdc++)
+        cpp_obj_list = ['libstdc++.a']
+        if filename.split('/')[-1] in cpp_obj_list:
+            continue
         #print(filename) # debug
         try:
             ftype = magic.from_file(filename, mime = True)
@@ -184,17 +199,31 @@ def mkother(tc_path, tc_name):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog = sys.argv[0])
     parser.add_argument('-name', help = 'Toolchain name')
+    parser.add_argument('--toolchain_path', '-tp', help = 'Toolchain path')
     parser.add_argument('--compiler_path', '-cp', help = 'Toolchain compiler path')
     parser.add_argument('-arch', help = 'arch')
     args = parser.parse_args()
 
     tc_name = args.name
-    tc_path = "/".join(args.compiler_path.split('/')[0:(len(args.compiler_path.split('/'))-2)])
     tc_compiler_path = args.compiler_path
+    if args.toolchain_path:
+        tc_path = args.toolchain_path
+    else:
+        tc_path = "/".join(args.compiler_path.split('/')[0:(len(args.compiler_path.split('/'))-2)])
     arch = args.arch
 
+    # create yara rule
     yara_rule_path = mkrule(tc_path, tc_name)
+    # output log
+    if os.path.exists(yara_rule_path):
+        print('[successfully created] yara rule : %s' % yara_rule_path)
+    # create dependency list and alias list
     depend_list_path, alias_list_path = mkother(tc_path, tc_name)
+    # output log
+    if os.path.exists(depend_list_path):
+        print('[successfully created] dependency list : %s' % depend_list_path)
+    if os.path.exists(alias_list_path):
+        print('[successfully created] alias list : %s' % alias_list_path)
 
     create_toolchain_cfg_file( \
             tc_name, \

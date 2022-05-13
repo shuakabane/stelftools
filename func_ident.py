@@ -136,14 +136,17 @@ def output(target_info, target_path, output_mode):
                 if libc_area_bot != 0 and addr > libc_area_bot:
                     continue
             matched_func_addrs.append(addr)
-            match_func = '_OR_'.join([x for x in sorted(target_info['functions'][addr]['names'])])
+            if output_mode == 'compare':
+                match_func = ','.join([x for x in sorted(target_info['functions'][addr]['names'])])
+            elif output_mode == 'ida':
+                match_func = '_OR_'.join([x for x in sorted(target_info['functions'][addr]['names'])])
             #if len(set(target_info['functions'][addr]['names']) \
             #        & set(INIT_CRT_FUNC_LIST+FINI_CRT_FUNC_LIST)) >= 1:
             #    print(hex(addr), ': crt tp :', match_func, target_info['functions'][addr]['size'])
             if addr >= libc_area_top:
                 if target_info['functions'][addr]['names'] != ['']:
 
-                    #print(hex(addr) + ':' + match_func)
+                    print(hex(addr) + ':' + match_func)
                     match_info[addr] = {'names' : match_func}
         return match_info
     elif output_mode in ['default', 'check']:
@@ -160,6 +163,8 @@ def output(target_info, target_path, output_mode):
             matched_func_addrs.append(addr)
             match_func = ', '.join([x for x in sorted(target_info['functions'][addr]['names'])])
             if output_mode == 'default':
+                if target_info['functions'][addr]['names'] == ['']:
+                    continue
                 # crt function
                 if len(set(target_info['functions'][addr]['names']) \
                         & set(INIT_CRT_FUNC_LIST+FINI_CRT_FUNC_LIST)) >= 1:
@@ -795,6 +800,14 @@ def del_alias(functions, alias_list):
         #print(hex(_addr), functions[_addr]['names'])
     return functions
 
+def _match_array_index_list(_list, func_name_list):
+    index_list= []
+    for func_name in func_name_list:
+        index_list.extend(_match_array_index(_list, func_name))
+    return sorted(set(index_list))
+def _match_array_index(_list, func_name):
+    return sorted(set([index for index, _func_name in enumerate(_list) if _func_name == func_name]))
+
 def link_order_base_identificate(functions, alias_list, func_link_order_list):
     #SEARCH_DEPTH = 10
     SEARCH_DEPTH = 5
@@ -814,14 +827,6 @@ def link_order_base_identificate(functions, alias_list, func_link_order_list):
 
     #print('\n-----------\n')
     for multi_func_addr in multi_libfunc_addr_list:
-        def _match_array_index_list(_list, func_name_list):
-            index_list= []
-            for func_name in func_name_list:
-                index_list.extend(_match_array_index(_list, func_name))
-            return sorted(set(index_list))
-        def _match_array_index(_list, func_name):
-            return sorted(set([index for index, _func_name in enumerate(_list) if _func_name == func_name]))
-
         match_func_list = []
         #print('---')
         #print('main ->' ,hex(multi_func_addr), functions[multi_func_addr])
@@ -905,9 +910,9 @@ def link_order_base_identificate(functions, alias_list, func_link_order_list):
         if len(match_func_list) > 0 and len(functions[multi_func_addr]['names']) > len(match_func_list):
             #print('-')
             #print(func_link_order_list[link_order_top_func_index])
-            #print('matched ! %x : %s -> %s ' % \
-            #        (multi_func_addr, functions[multi_func_addr]['names'], match_func_list) \
-            #        ) # dbg
+            # print('[matched : func link order] : 0x%x : %s -> %s ' % \
+            #         (multi_func_addr, functions[multi_func_addr]['names'], match_func_list) \
+            #         ) # dbg
             #print(func_link_order_list[link_order_bot_func_index])
             #functions[multi_func_addr]['names'] = match_func_list
             if multi_func_addr in matched_func_dict.keys():
@@ -1033,7 +1038,7 @@ def id_func_name_for_linkorder(functions, target_path, toolchain_path, alias_lis
             functions, mf_num = link_order_base_identificate(functions, alias_list, func_link_order_list)
             if mf_num == 0:
                 break
-    return functions, id_l_num
+    return functions, id_l_num, func_link_order_list
 
 def get_func_name_list_alias_list(multi_func_name_list, alias_list):
     func_name_alias_list = []
@@ -1041,7 +1046,9 @@ def get_func_name_list_alias_list(multi_func_name_list, alias_list):
         for alias in alias_list:
             if multi_func_name in alias:
                 func_name_alias_list.extend(alias)
-    return sorted(set(func_name_alias_list)) 
+    if func_name_alias_list == []:
+        func_name_alias_list = multi_func_name_list
+    return sorted(set(func_name_alias_list))
 
 def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
     def get_depend_list(d_list_path):
@@ -1084,7 +1091,8 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                             if len(set(value['names']) & set(caller_alias)) == _caller_func_len \
                                     or _caller_func_len == 1 and value['names'][0] == caller_alias[0]:
                                 try:
-                                    functions_callee = functions[int(operand_callee_addr, 16)]['names']
+                                    functions_callee = functions[operand_callee_addr]['names']
+                                    #print('dbg :', functions[operand_callee_addr['names'])
                                 except: # case of init function
                                     continue
                                 call_offset_start = opecode_addr - key
@@ -1094,13 +1102,13 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                                     functions_callee_aliases = get_func_name_list_alias_list(functions_callee, alias_list)
                                     #if callee in functions_callee and len(functions_callee) > 1:
                                     if callee in functions_callee_aliases and len(functions_callee) > 1:
-                                        print('matched! (%s) : %s => %s' % \
-                                                ( \
-                                                hex(int(operand_callee_addr, 16)), \
-                                                functions[int(operand_callee_addr, 16)]['names'], \
-                                                [calle] \
-                                                )) # dbg
-                                        functions[int(operand_callee_addr, 16)]['names'] = [callee]
+                                        # print('[matched : caller base] (%s) : %s => %s' % \
+                                        #         ( \
+                                        #         hex(operand_callee_addr), \
+                                        #         functions[operand_callee_addr]['names'], \
+                                        #         [callee] \
+                                        #         )) # dbg
+                                        functions[operand_callee_addr]['names'] = [callee]
                                         matched_func_num = matched_func_num + 1
         return functions, matched_func_num
     #def caller_base_name_filter(functions, call_map, depend_list, alias_list):
@@ -1197,7 +1205,7 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                         for alias in alias_list:
                             if len(matched_func_list) ==  len(set(matched_func_list) & set(alias)):
                                 matched_func_list = [min(alias, key=len)]
-                    #print('matched (%s) : %s -> %s' % (hex(multi_addr), functions[multi_addr]['names'], matched_func_list))
+                    #print('[matched : callee base] (%s) : %s -> %s' % (hex(multi_addr), functions[multi_addr]['names'], matched_func_list))
                     functions[multi_addr]['names'] = matched_func_list
         return functions, matched_func_num
 
@@ -1212,27 +1220,88 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
             id_d_num += 1
     return functions, id_d_num
 
+def multiple_consecutive_candidate_filt(functions, link_order_list, alias_list):
+    #for l in link_order_list:
+    #    print(l)
+    #exit(-1)
+    libfunc_addr_list = []
+    multi_libfunc_addr_list = []
+    for addr, funcs in functions.items():
+        if funcs['detected'] == True:
+            libfunc_addr_list.append(addr)
+            if len(funcs['names']) > 1:
+                multi_libfunc_addr_list.append(addr)
+    libfunc_addr_list = sorted(libfunc_addr_list)
+    multi_libfunc_addr_list = sorted(multi_libfunc_addr_list)
+
+    consective_multi_funcname_addr_dict = {}
+    for i in range(len(libfunc_addr_list)):
+        if libfunc_addr_list[i] in multi_libfunc_addr_list:
+            #print('---')
+            s_multi_func_name_addr = libfunc_addr_list[i]
+            #print('s', hex(libfunc_addr_list[i]), functions[libfunc_addr_list[i]]['names'])
+            s_multi_func_name_alias_list = get_func_name_list_alias_list(functions[libfunc_addr_list[i]]['names'], alias_list)
+            #print(s_multi_func_name_alias_list)
+            for s_multi_func_name_alias in s_multi_func_name_alias_list:
+                s_multi_func_name_alias_index_list = _match_array_index(link_order_list, s_multi_func_name_alias)
+                for s_multi_func_name_alias_index in s_multi_func_name_alias_index_list:
+                    # check
+                    if len(set(functions[s_multi_func_name_addr]['names']) & set([link_order_list[s_multi_func_name_alias_index-1]])) \
+                            or len(set(functions[s_multi_func_name_addr]['names']) & set([link_order_list[s_multi_func_name_alias_index-2]])):
+                        continue
+                    #print('-')
+                    next_i = 0
+                    consective_addr_list = []
+                    while True:
+                        if len(libfunc_addr_list) <= i+next_i:
+                            break
+                        candidate_func_name_list = functions[libfunc_addr_list[i+next_i]]['names']
+                        candidate_func_name_alias_list = \
+                                get_func_name_list_alias_list(candidate_func_name_list, alias_list)
+                        #print(hex(libfunc_addr_list[i+next_i]), candidate_func_name_alias_list, '-', \
+                        #        link_order_list[s_multi_func_name_alias_index+next_i], s_multi_func_name_alias_index+next_i)
+                        if not link_order_list[s_multi_func_name_alias_index+next_i] in candidate_func_name_alias_list:
+                            #print('b', link_order_list[s_multi_func_name_alias_index+next_i])
+                            break
+                        next_i+=1
+                    if next_i >= 3:
+                        for count_i in range(next_i):
+                            if len(functions[libfunc_addr_list[i+count_i]]['names']) == 1:
+                                continue
+                            # print('[matched : additional func link order] (%s) %s -> %s' % ( \
+                            #         hex(libfunc_addr_list[i+count_i]), \
+                            #         functions[libfunc_addr_list[i+count_i]]['names'], \
+                            #         link_order_list[s_multi_func_name_alias_index+count_i]))
+                            functions[libfunc_addr_list[i+count_i]]['names'] = [link_order_list[s_multi_func_name_alias_index+count_i]]
+    return functions
+
+
 def arch_pattern_length(arch):
     length = 0
     if arch in ['aarch64']:
         length = 9
-    elif arch in ['arm']:
+    elif arch in ['arm', \
+            'armv4eb', 'armv4l', 'armv4tl', \
+            'armv5-eabi', 'armv5l', \
+            'armv6-eabihf', 'armv6l', \
+            'armv7-eabihf', 'armv7l', 'armv7m' \
+            ]:
         length = 8
-    elif arch in ['x86', 'i386', 'i486', 'i586', 'i686']:
+    elif arch in ['x86', 'x86-i686', 'i386', 'i486', 'i586', 'i686']:
         length = 8
     elif arch in ['mips', 'mips32', 'mipsel', 'mips32el']:
         length = 9
     elif arch in ['mips64', 'mips64el']:
         length = 9
-    elif arch in ['ppc']:
+    elif arch in ['ppc', 'powerpc', 'powerpc-440fp', 'powerpc-e300c3', 'powerpc-e500mc']:
         length = 8
-    elif arch in ['ppc64']:
+    elif arch in ['ppc64', 'powerpc64']:
         length = 16
     elif arch in ['risc-v-32', 'risc-v-64']:
         length = 9
     elif arch in ['sparc', 'sparc64']:
         length = 9
-    elif arch in ['x86_64']:
+    elif arch in ['x86_64', 'x86-core2']:
         length = 8
     return length
 
@@ -1335,11 +1404,12 @@ if __name__ == '__main__':
     #identifying the function name
     id_loop_count = 0
     exclude_func_list = []
+    # identifying the function name
     while True:
         # identifying the function name based on the link order
         id_l_num = 0
         if link_order_flag == True:
-            functions, id_l_num = id_func_name_for_linkorder(\
+            functions, id_l_num, link_order_list = id_func_name_for_linkorder(\
                     functions, target_path, compiler_path, \
                     alias_list, call_map, id_loop_count, exclude_func_list \
                     )
@@ -1352,13 +1422,13 @@ if __name__ == '__main__':
         if id_l_num == id_d_num == 0:
             break
         id_loop_count += 1
-    else:
-        print("cannot access the compiler for the given toolchain : %s" % compiler_path, file=sys.stderr)
+    if link_order_flag == True and alias_flag == True:
+        functions = multiple_consecutive_candidate_filt(functions, link_order_list, alias_list)
     # save checked target dump info
     targets_info = {'name' : target_path, \
             'functions' : functions, \
             'size' : target_size, \
             'base_vaddr' : base_vaddr, \
             }
-    output(targets_info, target_path, 'default') # output result
+    output(targets_info, target_path, args.output_style) # output result
 

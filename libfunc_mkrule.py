@@ -3,8 +3,8 @@
 # mkrule.py - yara rule generator
 #
 # Usage: ./mkrule.py archive_files
-# - e.g., ./mkrule.py /opt/cross-compilter/i586/lib/lib*.a
-# - e.g., ./mkrule.py $(find /opt/cross-compiler/i586/ -type f -name '*.[a|o]')
+# - e.g., ./libfunc_mkrule.py /opt/cross-compilter/i586/lib/lib*.a
+# - e.g., ./libfunc_mkrule.py $(find /opt/cross-compiler/i586/ -type f -name '*.[a|o]')
 #
 # Output: patterns.yara
 #
@@ -13,7 +13,7 @@
 # - capstone: disassembler
 # - arpy
 # Changes:
-# - genptn.py -> mkrule.py
+# - genptn.py -> mkrule.py -> libfunc_mkrule.py
 
 import os
 import re
@@ -274,7 +274,7 @@ def fetch_opecodes(f, arfile = '', exapis = []):
                     None
                 elif rtype in [0x101, 0x102, 0x103, 0x104, 0x105, 0x106, 0x107, 0x108, 0x109, \
                         0x10a, 0x10b, 0x10c, 0x10d, 0x10e, 0x10f, 0x113, 0x115, 0x116, 0x118, 0x11a, 0x11b, 0x11c, 0x11d, 0x11e, \
-                        0x137, 0x138, 0x139, 0x21d, 0x21e, 0x225, 0x227, 0x232, 0x233, 0x234, 0x239]:
+                        0x137, 0x138, 0x139, 0x12b, 0x21d, 0x21e, 0x225, 0x227, 0x232, 0x233, 0x234, 0x239]:
                     textsec[name][offset:offset+4] = ['??', '??', '??', '??']
                 else :
                     logging.warning('Not implemented: unknown relocation type (0x%X) at 0x%X in %s', rtype, offset, fname)
@@ -1100,9 +1100,15 @@ if __name__ == '__main__':
         if filename.split('/')[-1] in EXCLUDE_OBJ_FILES:
             #print(filename.split('/')[-1])
             continue
+        # c-lang only fast mode
+        #skip c++ objfile (libstdc++)
+        cpp_obj_list = ['libstdc++.a']
+        if filename.split('/')[-1] in cpp_obj_list:
+            continue
 
         #print('%s' % filename, flush=True)
         ftype = magic.from_file(filename, mime = True)
+
         if ftype == 'application/x-archive': #filename[-2:] == '.a':
             newtab, new_crt_tab = fetch_opecodes_from_arfile(filename)
         elif ftype == 'application/x-object': #filename[-2:] == '.o':

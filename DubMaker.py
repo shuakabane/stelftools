@@ -130,11 +130,15 @@ def build_source(toolchain_path, c_source_list, dummy_bin_name, exclude_error_fu
         if not bool(len(compile_stderr)):
             break
         c_stderr_list = compile_stderr.splitlines()
-    
+
         #print('---')
         #for c_stderr in c_stderr_list:
         #    print(c_stderr)
         #print('---')
+
+        if 'Value too large for defined data type' in c_stderr_list[0]:
+            print('[DubMaker] error : Value too large for defined data type : %s' % toolchain_path , file=sys.stderr)
+            exit(-1)
 
         # warning only check
         if 'main' in c_stderr_list[0]:
@@ -297,9 +301,9 @@ def get_order_list(func_list, toolchain_path, dummy_bin_name):
 if __name__ == '__main__':
     args = arg_parser()
     func_list = get_funclist(args.funclist_path)
-    include_list, macro_list, no_man_func_list = get_func_include_and_macro(func_list)
+    include_list, macro_list, no_man_func_list, exclude_error_func_list = get_func_include_and_macro(func_list)
     c_source_list = make_source_list(include_list, macro_list, func_list, no_man_func_list)
-    if build_source(args.toolchain_path, c_source_list, 'debug-test') == True:
+    if build_source(args.toolchain_path, c_source_list, 'debug-test', exclude_error_func_list) == True:
         func_order_list = get_func_order_list('debug-test')
     if not args.debug:
         for func_order in func_order_list:
