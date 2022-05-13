@@ -53,7 +53,7 @@ The below table shows the result of the comparision. As you can see, `stelftools
 
 | `stelftools` | IDA FLIRT | BinDiff | rizzo  |
 | ------------ | ----------| --------| -------|
-| 92.27%       | 86.59%    | 72.80%  | 80.35% |
+| 96.65%       | 90.59%    | 73.21%  | 85.25% |
 
 ## Requirement
 ### python3 package
