@@ -20,11 +20,13 @@ stelftools can be executed in three ways.
 #### Generate YARA rules and other rules used for matching
 ```bash
 python3 ./libfunc_info_create.py -name {toolchain name} -cp {toolchain compiler path} -arch {toolchain archtecture} 
+  or 
+python3 ./libfunc_info_create.py -name {toolchain name} -tp {toolchain directory path} -cp {toolchain compiler path} -arch {toolchain archtecture} 
 ```
-- -name: the name of toolchain  
-- -tp: the path of the toolchain directory (additional)  
-- -cp: the path of the compiler of a toolchain  
-- -arch: the architecture of a toolchain  
+- -name: the name of toolchain
+- -tp: the path of the toolchain directory (additional)
+- -cp: the path of the compiler of a toolchain
+- -arch: the architecture of a toolchain
 #### Identification of library functions
 ```bash
 python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target /path/to/target
@@ -40,25 +42,17 @@ python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target
 - -target: the binary path to be analyzed
 
 ## IDA plugin mode
-#### Generate YARA rules, etc. to be used for matching
+##### Library Function Identification
+1. **File** → **Load file** → **Stelftools toolchain config file...**  
+2. open toolchain config file  
+<img src="images/ida_func_ident.gif" width="90%">
+
+##### YARA Rules Generation
 1. **File** → **Produce file** → **Stelftools toolchain config file...**   
-![ida_01.png](images/ida_mk_01.png "01")  
-2. Input toolchain name  
-![ida_02.png](images/ida_mk_02.png "02")  
-3. Specifying the compiler of the toolchain  
-![ida_03.png](images/ida_mk_03.png "03")  
-4. Identification of library functions  
-![ida_04.png](images/ida_mk_04.png "04")  
-#### Identification of library functions  
-1. Open the binary for identification of library functions in IDA Pro    
-![ida_01.png](images/usage_ida_01.png "")  
-2. **File** → **Load file** → **Stelftools toolchain config file...**  
-![ida_02.png](images/usage_ida_02.png "")  
-![ida_03.png](images/usage_ida_03.png "")  
-Select toolchain config file in json format  
-3. completed  
-![ida_04.png](images/usage_ida_04.png "")  
-update function name  
+2. input toolchain name  
+3. choose toolchain compiler path  
+4. input toolchain architecture  
+<img src="images/ida_gen_rule.gif" width="90%">
 
 ## Ghidra plugin mode  
 TBA
