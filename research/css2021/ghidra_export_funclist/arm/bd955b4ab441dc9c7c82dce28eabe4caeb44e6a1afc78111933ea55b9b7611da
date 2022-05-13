@@ -1,0 +1,11 @@
+syscall 8598 f
+__errno_location 85c8 f
+execvp 85d4 f
+execve 87a8 f
+memcpy 87e0 f
+strlen 87f0 f
+index 8850 f
+strchrnul 8958 f
+getenv 8a58 f
+_memcpy 8ad0 f
+bcmp 8f60 f
