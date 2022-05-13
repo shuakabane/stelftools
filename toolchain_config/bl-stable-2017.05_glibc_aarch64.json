@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2017.05_glibc_aarch64",
+  "arch" : "aarch64",
+  "yara_path" : "yara-patterns/bl-stable-2017.05_glibc_aarch64.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2017.05_glibc_aarch64.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2017.05_glibc_aarch64.dlist"
+}

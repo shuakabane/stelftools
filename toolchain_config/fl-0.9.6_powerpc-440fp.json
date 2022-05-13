@@ -1,6 +1,6 @@
 {
   "name" : "fl-0.9.6_powerpc-440fp",
-  "arch" : "ppc",
+  "arch" : "powerpc-440fp",
   "yara_path" : "yara-patterns/fl-0.9.6_powerpc-440fp.yara",
   "compiler_path" : "",
   "alias_list_path" : "_tmpdir/alias_list/fl-0.9.6_powerpc-440fp.alist",

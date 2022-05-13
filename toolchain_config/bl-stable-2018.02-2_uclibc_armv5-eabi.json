@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2018.02-2_uclibc_armv5-eabi",
+  "arch" : "armv5-eabi",
+  "yara_path" : "yara-patterns/bl-stable-2018.02-2_uclibc_armv5-eabi.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2018.02-2_uclibc_armv5-eabi.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2018.02-2_uclibc_armv5-eabi.dlist"
+}

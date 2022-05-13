@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_armv5-eabi--uclibc--stable-2020.02-1",
-  "arch" : "armabi--uclibc--stable-2020.02-1",
-  "yara_path" : "yara-patterns/bootlin_armv5-eabi--uclibc--stable-2020.02-1.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

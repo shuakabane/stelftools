@@ -1,8 +1,0 @@
-{
-  "name" : "synopsys-bl-uclibc-2017.09-arc700_arc",
-  "arch" : "arc",
-  "yara_path" : "yara-patterns/synopsys-bl-uclibc-2017.09-arc700_arc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "_tmpdir/alias_list/synopsys-bl-uclibc-2017.09-arc700_arc.alist",
-  "dependency_list_path" : ""
-}

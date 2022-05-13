@@ -1,8 +1,0 @@
-{
-  "name" : "mips64el_musl",
-  "arch" : "mips64el",
-  "yara_path" : "yara-patterns/mips64el_musl.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

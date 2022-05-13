@@ -1,8 +1,0 @@
-{
-  "name" : "risc-v-64_musl",
-  "arch" : "musl",
-  "yara_path" : "yara-patterns/risc-v-64_musl.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

@@ -1,6 +1,6 @@
 {
   "name" : "al-1.0.2_armv4tl",
-  "arch" : "arm",
+  "arch" : "armv4tl",
   "yara_path" : "yara-patterns/al-1.0.2_armv4tl.yara",
   "compiler_path" : "",
   "alias_list_path" : "_tmpdir/alias_list/al-1.0.2_armv4tl.alist",

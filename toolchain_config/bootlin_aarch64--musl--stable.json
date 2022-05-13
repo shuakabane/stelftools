@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_aarch64--musl--stable",
-  "arch" : "aarch64--musl--stable",
-  "yara_path" : "yara-patterns/bootlin_aarch64--musl--stable.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

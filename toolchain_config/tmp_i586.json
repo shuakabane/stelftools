@@ -1,8 +1,0 @@
-{
-  "name" : "tmp_i586",
-  "arch" : "i586",
-  "yara_path" : "yara-patterns/tmp_i586.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "_tmpdir/alias_list/tmp_i586.alist",
-  "dependency_list_path" : "_tmpdir/dlists/tmp_i586.dlist"
-}

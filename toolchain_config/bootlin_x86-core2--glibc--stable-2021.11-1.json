@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_x86-core2--glibc--stable-2021.11-1",
-  "arch" : "x86-core2--glibc--stable-2021.11-1",
-  "yara_path" : "yara-patterns/bootlin_x86-core2--glibc--stable-2021.11-1.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

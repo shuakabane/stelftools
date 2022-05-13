@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_armv5-eabi--musl--stable",
-  "arch" : "armabi--musl--stable",
-  "yara_path" : "yara-patterns/bootlin_armv5-eabi--musl--stable.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

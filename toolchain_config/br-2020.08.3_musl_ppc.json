@@ -1,0 +1,8 @@
+{
+  "name" : "br-2020.08.3_musl_ppc",
+  "arch" : "ppc",
+  "yara_path" : "yara-patterns/br-2020.08.3_musl_ppc.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/br-2020.08.3_musl_ppc.alist",
+  "dependency_list_path" : "_tmpdir/dlists/br-2020.08.3_musl_ppc.dlist"
+}

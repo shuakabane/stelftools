@@ -1,6 +1,6 @@
 {
   "name" : "fl-0.9.10_armv4eb",
-  "arch" : "arm",
+  "arch" : "armv4eb",
   "yara_path" : "yara-patterns/fl-0.9.10_armv4eb.yara",
   "compiler_path" : "",
   "alias_list_path" : "_tmpdir/alias_list/fl-0.9.10_armv4eb.alist",

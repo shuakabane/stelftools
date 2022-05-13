@@ -1,8 +1,0 @@
-{
-  "name" : "ppc_musl",
-  "arch" : "ppc",
-  "yara_path" : "yara-patterns/ppc_musl.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

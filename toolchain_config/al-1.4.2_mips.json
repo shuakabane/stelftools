@@ -1,8 +1,0 @@
-{
-  "name" : "al-1.4.2_mips",
-  "arch" : "mips",
-  "yara_path" : "yara-patterns/al-1.4.2_mips.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "_tmpdir/alias_list/al-1.4.2_mips.alist",
-  "dependency_list_path" : "_tmpdir/dlists/al-1.4.2_mips.dlist"
-}

@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_x86-i686--musl--stable-2020.02-2",
-  "arch" : "x86-i686--musl--stable-2020.02-2",
-  "yara_path" : "yara-patterns/bootlin_x86-i686--musl--stable-2020.02-2.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

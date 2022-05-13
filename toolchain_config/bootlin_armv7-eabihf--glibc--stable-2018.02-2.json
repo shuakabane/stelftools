@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_armv7-eabihf--glibc--stable-2018.02-2",
-  "arch" : "armabihf--glibc--stable-2018.02-2",
-  "yara_path" : "yara-patterns/bootlin_armv7-eabihf--glibc--stable-2018.02-2.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

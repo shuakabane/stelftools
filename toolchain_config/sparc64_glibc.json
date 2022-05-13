@@ -1,8 +1,0 @@
-{
-  "name" : "sparc64_glibc",
-  "arch" : "sparc64",
-  "yara_path" : "yara-patterns/sparc64_glibc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

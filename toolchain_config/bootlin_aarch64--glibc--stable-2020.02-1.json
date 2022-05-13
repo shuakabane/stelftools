@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_aarch64--glibc--stable-2020.02-1",
-  "arch" : "aarch64--glibc--stable-2020.02-1",
-  "yara_path" : "yara-patterns/bootlin_aarch64--glibc--stable-2020.02-1.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

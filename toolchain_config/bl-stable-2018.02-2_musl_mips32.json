@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2018.02-2_musl_mips32",
+  "arch" : "mips32",
+  "yara_path" : "yara-patterns/bl-stable-2018.02-2_musl_mips32.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2018.02-2_musl_mips32.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2018.02-2_musl_mips32.dlist"
+}

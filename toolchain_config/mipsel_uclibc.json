@@ -1,8 +1,0 @@
-{
-  "name" : "mipsel_uclibc",
-  "arch" : "mipsel",
-  "yara_path" : "yara-patterns/mipsel_uclibc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

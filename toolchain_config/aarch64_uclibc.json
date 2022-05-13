@@ -1,8 +1,0 @@
-{
-  "name" : "aarch64_uclibc",
-  "arch" : "aarch64",
-  "yara_path" : "yara-patterns/aarch64_uclibc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

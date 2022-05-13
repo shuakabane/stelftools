@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2018.02-2_glibc_armv6-eabihf",
+  "arch" : "armv6-eabihf",
+  "yara_path" : "yara-patterns/bl-stable-2018.02-2_glibc_armv6-eabihf.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2018.02-2_glibc_armv6-eabihf.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2018.02-2_glibc_armv6-eabihf.dlist"
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2020.08-1_musl_mips32el",
+  "arch" : "mips32el",
+  "yara_path" : "yara-patterns/bl-stable-2020.08-1_musl_mips32el.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2020.08-1_musl_mips32el.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2020.08-1_musl_mips32el.dlist"
+}

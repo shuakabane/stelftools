@@ -1,8 +1,0 @@
-{
-  "name" : "mips_glibc",
-  "arch" : "mips",
-  "yara_path" : "yara-patterns/mips_glibc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

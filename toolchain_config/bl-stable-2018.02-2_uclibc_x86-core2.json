@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2018.02-2_uclibc_x86-core2",
+  "arch" : "x86-core2",
+  "yara_path" : "yara-patterns/bl-stable-2018.02-2_uclibc_x86-core2.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2018.02-2_uclibc_x86-core2.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2018.02-2_uclibc_x86-core2.dlist"
+}

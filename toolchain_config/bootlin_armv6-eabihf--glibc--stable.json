@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_armv6-eabihf--glibc--stable",
-  "arch" : "armabihf--glibc--stable",
-  "yara_path" : "yara-patterns/bootlin_armv6-eabihf--glibc--stable.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

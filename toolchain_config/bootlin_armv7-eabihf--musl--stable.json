@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_armv7-eabihf--musl--stable",
-  "arch" : "armabihf--musl--stable",
-  "yara_path" : "yara-patterns/bootlin_armv7-eabihf--musl--stable.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_powerpc-e300c3--glibc--stable-2020.08-1",
-  "arch" : "powerpc-e300c3--glibc--stable-2020.08-1",
-  "yara_path" : "yara-patterns/bootlin_powerpc-e300c3--glibc--stable-2020.08-1.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

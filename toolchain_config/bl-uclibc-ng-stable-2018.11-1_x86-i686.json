@@ -1,8 +1,0 @@
-{
-  "name" : "bl-uclibc-ng-stable-2018.11-1_x86-i686",
-  "arch" : "x86-i686",
-  "yara_path" : "yara-patterns/bl-uclibc-ng-stable-2018.11-1_x86-i686.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "_tmpdir/alias_list/bl-uclibc-ng-stable-2018.11-1_x86-i686.alist",
-  "dependency_list_path" : ""
-}

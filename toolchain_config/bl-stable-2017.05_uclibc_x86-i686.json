@@ -1,0 +1,8 @@
+{
+  "name" : "bl-stable-2017.05_uclibc_x86-i686",
+  "arch" : "x86-i686",
+  "yara_path" : "yara-patterns/bl-stable-2017.05_uclibc_x86-i686.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/bl-stable-2017.05_uclibc_x86-i686.alist",
+  "dependency_list_path" : "_tmpdir/dlists/bl-stable-2017.05_uclibc_x86-i686.dlist"
+}

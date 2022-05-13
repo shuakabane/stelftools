@@ -1,8 +1,0 @@
-{
-  "name" : "bootlin_x86-i686--uclibc--stable",
-  "arch" : "x86-i686--uclibc--stable",
-  "yara_path" : "yara-patterns/bootlin_x86-i686--uclibc--stable.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

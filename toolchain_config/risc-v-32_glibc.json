@@ -1,8 +1,0 @@
-{
-  "name" : "risc-v-32_glibc",
-  "arch" : "risc-v-32",
-  "yara_path" : "yara-patterns/risc-v-32_glibc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

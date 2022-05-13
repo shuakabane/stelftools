@@ -1,8 +1,0 @@
-{
-  "name" : "i686_uclibc",
-  "arch" : "i686",
-  "yara_path" : "yara-patterns/i686_uclibc.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

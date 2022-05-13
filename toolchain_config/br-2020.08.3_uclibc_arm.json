@@ -1,0 +1,8 @@
+{
+  "name" : "br-2020.08.3_uclibc_arm",
+  "arch" : "arm",
+  "yara_path" : "yara-patterns/br-2020.08.3_uclibc_arm.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/br-2020.08.3_uclibc_arm.alist",
+  "dependency_list_path" : "_tmpdir/dlists/br-2020.08.3_uclibc_arm.dlist"
+}

@@ -1,8 +1,0 @@
-{
-  "name" : "i686_ct-ng_gcc-8.2.0_binutils-2.30_musl-1.1.19",
-  "arch" : "musl-1.1.19",
-  "yara_path" : "yara-patterns/i686_ct-ng_gcc-8.2.0_binutils-2.30_musl-1.1.19.yara",
-  "compiler_path" : "",
-  "alias_list_path" : "",
-  "dependency_list_path" : ""
-}

@@ -1,0 +1,8 @@
+{
+  "name" : "al-1.4.5_sh2elf",
+  "arch" : "sh2elf",
+  "yara_path" : "yara-patterns/al-1.4.5_sh2elf.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/al-1.4.5_sh2elf.alist",
+  "dependency_list_path" : "_tmpdir/dlists/al-1.4.5_sh2elf.dlist"
+}

@@ -1,0 +1,8 @@
+{
+  "name" : "br-2020.08.3_glibc_ppc64",
+  "arch" : "ppc64",
+  "yara_path" : "yara-patterns/br-2020.08.3_glibc_ppc64.yara",
+  "compiler_path" : "",
+  "alias_list_path" : "_tmpdir/alias_list/br-2020.08.3_glibc_ppc64.alist",
+  "dependency_list_path" : "_tmpdir/dlists/br-2020.08.3_glibc_ppc64.dlist"
+}
