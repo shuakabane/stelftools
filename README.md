@@ -6,7 +6,7 @@
 The figure below shows that `stelftools`(IDA plugin mode) recognizes many functions and turns their names, which are started with "sub_", into their symbol name, highlighted by green. 
 
 <div align="center">
-<img src="images/func_ident_result.png" width="80%" title="Identification of functions by stelftools for IDA Plugin">
+<img src="document/images/func_ident_result.png" width="80%" title="Identification of functions by stelftools for IDA Plugin">
 </div>
 
 `stelftools` comprises a matching tool and a set of Yara signatures supporting the following 17 architectures and 637 toolchains. We can cover almost all types of toolchains we can see in current IoT malware with these signatures. Specifically, we could identify the all toolchain of 3,991 IoT malware that we had collected using our IoT honeypots. Additionally, we provide a tool for generating a Yara signature from a given toolchain just in the case when malware is built with a toolchain that is not covered by these signatures. 
@@ -175,8 +175,11 @@ First of all, you have to prepare a compiled toolchain and then run the followin
 
 ```bash
 python3 ./libfunc_info_create.py -name {toolchain name} -cp {toolchain compiler path} -arch {toolchain archtecture} 
+  or 
+python3 ./libfunc_info_create.py -name {toolchain name} -tp {toolchain directory path} -cp {toolchain compiler path} -arch {toolchain archtecture} 
 ```
 - -name: the name of toolchain
+- -tp: the path of the toolchain directory (additional)
 - -cp: the path of the compiler of a toolchain
 - -arch: the architecture of a toolchain
 
@@ -185,14 +188,14 @@ python3 ./libfunc_info_create.py -name {toolchain name} -cp {toolchain compiler 
 ##### Library Function Identification
 1. **File** → **Load file** → **Stelftools toolchain config file...**  
 2. open toolchain config file 
-<img src="images/ida_func_ident.gif" width="90%">
+<img src="document/images/ida_func_ident.gif" width="90%">
 
 ##### YARA Rules Generation
 1. **File** → **Produce file** → **Stelftools toolchain config file...**   
 2. input toolchain name    
 3. choose toolchain compiler path  
 4. input toolchain architecture  
-<img src="images/ida_gen_rule.gif" width="90%">
+<img src="document/images/ida_gen_rule.gif" width="90%">
 
 
 #### Ghidra plugin mode  
