@@ -1,4 +1,4 @@
-#@category func_ident.stelftools.Python
+#@category stelftools.Python
 #!/usr/bin/env python3
 
 from ghidra.program.flatapi import FlatProgramAPI
