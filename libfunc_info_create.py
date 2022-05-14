@@ -22,7 +22,7 @@ from elftools.elf.sections import SymbolTableSection
 import libfunc_mkrule # make lib func rule script
 import libfunc_deparse # parse lib func dependency script
 
-STELFTOOLS_PATH="/path/to/stelftools/"
+STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
 
 MINIMUM_PATTERN_LENGTH = 0
 MAXIMUM_PATTERN_LENGTH=15000
@@ -217,6 +217,9 @@ if __name__ == '__main__':
     # output log
     if os.path.exists(yara_rule_path):
         print('[successfully created] yara rule : %s' % yara_rule_path)
+    # set compiler path
+    if os.path.exists(tc_compiler_path):
+        print('[successfully checked] toolchain compiler path : %s' % tc_compiler_path)
     # create dependency list and alias list
     depend_list_path, alias_list_path = mkother(tc_path, tc_name)
     # output log

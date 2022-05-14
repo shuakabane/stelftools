@@ -7,7 +7,7 @@ import sys
 import subprocess
 import argparse
 
-STELFTOOLS_PATH="/path/to/stelftools/"
+STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
 
 def get_funclist(funclist_path):
     with open(funclist_path, 'r') as f:

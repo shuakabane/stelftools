@@ -17,7 +17,7 @@ from elftools.common import exceptions
 
 import DubMaker
 
-STELFTOOLS_PATH="/path/to/stelftools/"
+STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
 
 INIT_CRT_FUNC_LIST = ['__init', '_init', '.init', \
         '_start', '_start_c', '__start', 'hlt', '__gmon_start__', 'set_fast_math', \
@@ -124,7 +124,7 @@ def output(target_info, target_path, output_mode):
     if output_mode in ['no']:
         None
     # default output mode
-    elif output_mode in ['compare', 'ida']:
+    elif output_mode in ['compare', 'ida', 'ghidra']:
         match_info = {}
         matched_func_addrs = []
         for addr in sorted(target_info['functions'].keys()):
@@ -138,7 +138,7 @@ def output(target_info, target_path, output_mode):
             matched_func_addrs.append(addr)
             if output_mode == 'compare':
                 match_func = ','.join([x for x in sorted(target_info['functions'][addr]['names'])])
-            elif output_mode == 'ida':
+            elif output_mode in ['ida', 'ghidra']:
                 match_func = '_OR_'.join([x for x in sorted(target_info['functions'][addr]['names'])])
             #if len(set(target_info['functions'][addr]['names']) \
             #        & set(INIT_CRT_FUNC_LIST+FINI_CRT_FUNC_LIST)) >= 1:
