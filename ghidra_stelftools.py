@@ -13,7 +13,7 @@ import subprocess
 STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
 
 currentProgram = state.getCurrentProgram()
-location = currentProgram.getExecutablePath()
+location = str(currentProgram.getExecutablePath())
 
 def func_ident():
     # init
@@ -22,7 +22,6 @@ def func_ident():
     # ask toolchain config path
     tc_cfg_path = askFile("FILE", "Select toolchain cfg file:")
     tc_cfg_path = str(tc_cfg_path)
-    location = str(location)
     # set running command
     run_cmd = [ \
             "python3", STELFTOOLS_PATH + 'func_ident.py', \
