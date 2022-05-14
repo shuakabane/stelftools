@@ -17,7 +17,7 @@ from elftools.common import exceptions
 
 import DubMaker
 
-STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
+STELFTOOLS_PATH="/path/to/stelftools/"
 
 INIT_CRT_FUNC_LIST = ['__init', '_init', '.init', \
         '_start', '_start_c', '__start', 'hlt', '__gmon_start__', 'set_fast_math', \

@@ -22,7 +22,7 @@ from elftools.elf.sections import SymbolTableSection
 import libfunc_mkrule # make lib func rule script
 import libfunc_deparse # parse lib func dependency script
 
-STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
+STELFTOOLS_PATH="/path/to/stelftools/"
 
 MINIMUM_PATTERN_LENGTH = 0
 MAXIMUM_PATTERN_LENGTH=15000

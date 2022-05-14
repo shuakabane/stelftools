@@ -10,7 +10,7 @@ import json
 import time
 import subprocess
 
-STELFTOOLS_PATH="/home/akabane/research/en/stelftools/"
+STELFTOOLS_PATH="/path/to/stelftools/"
 
 currentProgram = state.getCurrentProgram()
 location = str(currentProgram.getExecutablePath())
