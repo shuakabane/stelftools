@@ -9,7 +9,7 @@ The figure below shows that `stelftools`(IDA plugin mode) recognizes many functi
 <img src="document/images/func_ident_result.png" width="80%" title="Identification of functions by stelftools for IDA Plugin">
 </div>
 
-`stelftools` comprises a matching tool and a set of Yara signatures supporting the following 17 architectures and 637 toolchains. We can cover almost all types of toolchains we can see in current IoT malware with these signatures. Specifically, we could identify the all toolchain of 3,991 IoT malware that we had collected using our IoT honeypots. Additionally, we provide a tool for generating a Yara signature from a given toolchain just in the case when malware is built with a toolchain that is not covered by these signatures. 
+`stelftools` comprises a matching tool and a set of Yara signatures supporting the following 17 architectures and 717 toolchains. We can cover almost all types of toolchains we can see in current IoT malware with these signatures. Specifically, we could identify the all toolchain of 3,991 IoT malware that we had collected using our IoT honeypots. Additionally, we provide a tool for generating a Yara signature from a given toolchain just in the case when malware is built with a toolchain that is not covered by these signatures. 
 
 - Supported Architecture
   - ARC
@@ -185,21 +185,32 @@ python3 ./libfunc_info_create.py -name {toolchain name} -tp {toolchain directory
 
 #### IDA plugin mode  
 
-##### Library Function Identification
+##### Library Function Identification  
 1. **File** → **Load file** → **Stelftools toolchain config file...**  
 2. open toolchain config file 
 <img src="document/images/ida_func_ident.gif" width="90%">
 
-##### YARA Rules Generation
+##### YARA Rules Generation  
 1. **File** → **Produce file** → **Stelftools toolchain config file...**   
-2. input toolchain name    
+2. input toolchain name  
 3. choose toolchain compiler path  
 4. input toolchain architecture  
 <img src="document/images/ida_gen_rule.gif" width="90%">
 
 
 #### Ghidra plugin mode  
-See the following link. https://github.com/shuakabane/stelftools
+
+##### Library Function Identification  
+0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **func_ident**  
+1. select toolchain json file (toolchain_name.json)  
+
+##### YARA Rules Generation  
+0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **make_rules**  
+1. type toolchain name  
+2. select toolchain directory
+3. select a compiler for the toolchain (additional option)
+4. type architecture
+
 
 ## License 
 MIT License
