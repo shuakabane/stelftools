@@ -203,6 +203,7 @@ python3 ./libfunc_info_create.py -name {toolchain name} -tp {toolchain directory
 ##### Library Function Identification  
 0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **func_ident**  
 1. select toolchain json file (toolchain_name.json)  
+<img src="document/images/ghidra_func_ident.gif" width="90%">
 
 ##### YARA Rules Generation  
 0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **make_rules**  
@@ -210,7 +211,7 @@ python3 ./libfunc_info_create.py -name {toolchain name} -tp {toolchain directory
 2. select toolchain directory
 3. select a compiler for the toolchain (additional option)
 4. type architecture
-
+<img src="document/images/ghidra_makes.gif" width="90%">
 
 ## License 
 MIT License
