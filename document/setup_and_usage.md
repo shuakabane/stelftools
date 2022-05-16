@@ -6,13 +6,15 @@ Install the python3 package used by stelftools and update the paths in scripts.
 ./setup/init.sh
 ```
 ## IDA Pro plugin setup
-### Install stelftools IDA Plugin
 Create a symbolic link to stelftools in the IDA plugin directory.  
 ```bash
 ./setup/ida_setup.sh {path to IDA Pro install directory}
 ```
-## Ghidra plugin setup
-TBA  
+## Ghidra plugin setup  
+Create a symbolic link to stelftools in the ghidra script directory.  
+```bash
+./setup/ghidra_setup.sh {path to ghidra install directory}
+```
 
 # How to Use
 stelftools can be executed in three ways.  
@@ -54,5 +56,18 @@ python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target
 4. input toolchain architecture  
 <img src="images/ida_gen_rule.gif" width="90%">
 
-## Ghidra plugin mode  
-TBA
+
+### Ghidra plugin mode  
+
+##### Library Function Identification  
+0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **func_ident**  
+1. select toolchain json file (toolchain_name.json)  
+<img src="images/ghidra_func_ident.gif" width="90%">
+
+##### YARA Rules Generation  
+0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **make_rules**  
+1. type toolchain name  
+2. select toolchain directory
+3. select a compiler for the toolchain (additional option)
+4. type architecture
+<img src="images/ghidra_makes.gif" width="90%">
