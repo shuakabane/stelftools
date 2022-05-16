@@ -51,13 +51,13 @@ python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target
 ライブラリ関数の特定に使用するYARAルール類が作成される  
 
 
-### Ghidra plugin mode  
-##### Library Function Identification  
+## Ghidra plugin mode
+##### Library Function Identification
 0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **func_ident**  
 1. ツールチェインのコンフィグファイルを選択する  
 <img src="images/ghidra_func_ident.gif" width="90%">  
 
-##### YARA Rules Generation  
+##### YARA Rules Generation
 0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → **make_rules**を選択  
 1. ツールチェイン名を入力  
 2. ツールチェインのディレクトリを選択  

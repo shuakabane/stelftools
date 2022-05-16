@@ -57,8 +57,7 @@ python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target
 <img src="images/ida_gen_rule.gif" width="90%">
 
 
-### Ghidra plugin mode  
-
+## Ghidra plugin mode
 ##### Library Function Identification  
 0. **Script Manager** → Scripts/stelftools/python/**ghidra_stelftools.py** → select **func_ident**  
 1. select toolchain json file (toolchain_name.json)  
