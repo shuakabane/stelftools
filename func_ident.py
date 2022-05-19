@@ -8,8 +8,8 @@ import struct
 import yara
 import argparse
 import json
-
 import hashlib
+import subprocess
 
 from capstone import *
 from elftools.elf.elffile import ELFFile
@@ -321,7 +321,7 @@ def get_inst_area(target, base_vaddr, t_bit):
     #exit(-1)
     return top_inst_addr, bot_inst_addr
 
-def disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
+def capstone_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
     target_inst = {}
     # set capstone md
     if t_arch in ['EM_AARCH64']:
@@ -369,9 +369,6 @@ def disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
         md = Cs(CS_ARCH_SPARC, CS_MODE_BIG_ENDIAN)
     elif t_arch in ['EM_SPARCV9']:
         md = Cs(CS_ARCH_SPARC, CS_MODE_BIG_ENDIAN + CS_MODE_V9)
-    elif t_arch in ['EM_ARC_COMPACT', 'EM_SH']:
-        print("Capstone does not support t_architecture : %s" % t_arch, file = sys.stderr)
-        exit(-1)
     else:
         print("[disasm/capstone] Not support arch : %s " % t_arch, file = sys.stderr)
         exit(-1)
@@ -384,6 +381,30 @@ def disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
             target_inst[i.address] = i
         elif bot_inst_addr != 0 and i.address > bot_inst_addr:
             break
+    return target_inst
+
+def objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
+    target_inst = {}
+    target_path = target.name
+    # objdump path
+    if t_arch in ['EM_ARC_COMPACT']:
+        OBJDUMP_PATH = \
+                "/path/to/arc-support objdump/"
+    elif t_arch in ['EM_SH']:
+        OBJDUMP_PATH = \
+                "/path/to/sh4-support objdump/"
+    objdump_res = subprocess.run([OBJDUMP_PATH, '-d', target_path], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    for d_line in objdump_res.stdout.split('\n'):
+        # del blank line
+        if d_line == '':
+            continue
+        if re.search("^[ ]+[0-9a-fA-F]+", d_line) == None:
+            continue
+        _addr = int(re.sub('[\s+|:]', '', d_line.split('\t')[0]), 16)
+        _hex = [_h for _h in (d_line.split('\t')[1].split(' ')) if _h != '']
+        _inst = ' '.join([_i for _i in (d_line.split('\t')[2:]) if _i != ''])
+        #print(hex(_addr), _hex, _inst)
+        target_inst[_addr] = {'bytecode': _hex, 'inst': _inst}
     return target_inst
 
 def parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
@@ -401,7 +422,8 @@ def parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, 
         for readelf_got in readelf_got_list:
             readelf_got_map.append(readelf_got.split())
 
-    inst_addrs = sorted([k for k, v in target_inst.items()])
+    #inst_addrs = sorted([k for k, v in target_inst.items()])
+    inst_addrs = sorted(target_inst.keys())
     for addr in inst_addrs:
         i = target_inst[addr]
         if t_arch in ['EM_AARCH64', 'EM_ARM']: # aarch64
@@ -478,6 +500,25 @@ def parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, 
                     call_addr = addr + int(i.op_str, 16)
                     if call_addr >= top_inst_addr and call_addr <= bot_inst_addr:
                         func_addr.append(call_addr)
+        elif t_arch in ['EM_ARC_COMPACT']:
+            i_mnemonic = i['inst'].split(' ')[0]
+            if i_mnemonic in ['b', 'b.d', 'bl', 'bl.d', 'breq', 'beq.d'] and '+0x' not in i['inst']:
+                size = int(len("".join(i['bytecode']))/2)
+                call_addr = int(i['inst'].split(';')[1].split(' ')[0], 16)
+                func_addr.append(call_addr)
+                call_map.append([addr, size, call_addr])
+                #print(hex(addr), size, i['inst'], hex(call_addr))
+        elif t_arch in ['EM_SH']:
+            i_mnemonic = i['inst'].split(' ')[0]
+            if i_mnemonic in ['mov.l'] and '!' in i['inst']:
+                size = int(len("".join(i['bytecode']))/2)
+                call_addr = int(i['inst'].split(' ')[1].split(',')[0], 16)
+                func_addr.append(call_addr)
+                call_map.append([addr, size, call_addr])
+                #print(hex(addr), size, i['inst'], hex(call_addr))
+        else:
+            print("[disasm/capstone] Not support arch : %s " % t_arch, file = sys.stderr)
+            exit(-1)
     for _idx in range(len(call_map)):
         call_map[_idx][0] += base_vaddr
         call_map[_idx][2] += base_vaddr
@@ -491,13 +532,17 @@ def get_func_addr(target, base_vaddr):
     top_inst_addr, bot_inst_addr = get_inst_area(target, base_vaddr, t_bit)
     #print('->', hex(top_inst_addr), hex(bot_inst_addr))
     # # get instruction
-    target_inst = disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
+    if not t_arch in ['EM_ARC_COMPACT', 'EM_SH']:
+        target_inst = capstone_disasm_bin (target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
+    else:
+        target_inst = objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
+    #exit(-1)
     # get function address
     call_map = parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
-    #print('---')
-    #for cm1, cm2, cm3 in sorted(call_map):
-    #    print(hex(cm1), cm2, hex(cm3))
-    #exit(-1)
+    # print('---')
+    # for cm1, cm2, cm3 in sorted(call_map):
+    #     print(hex(cm1), cm2, hex(cm3))
+    # exit(-1)
     return call_map, top_inst_addr, bot_inst_addr
 
 def get_symtab_info(target):
@@ -1303,6 +1348,12 @@ def arch_pattern_length(arch):
         length = 9
     elif arch in ['x86_64', 'x86-core2']:
         length = 8
+    elif arch in ['arc']:
+        length = 6
+    elif arch in ['sh4']:
+        length = 4
+    elif arch in ['m68k', 'm68000']:
+        length = 4
     return length
 
 def get_target_list(targets, lm_flag):
@@ -1376,6 +1427,7 @@ if __name__ == '__main__':
     # get target file size
     target_size = int(target.seek(0, os.SEEK_END))
     # do matching
+    #print(start_rule_length)
     for _length in range(start_rule_length, 0, -1):
         yara_rules, risc_v_flag = get_yara_rule(yara_path, 'func', _length) # rule
         # matching
