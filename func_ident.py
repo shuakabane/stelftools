@@ -35,6 +35,7 @@ TOP_LIBC_FUNC_LIST = set(['puts', 'fcntl', 'fcntl64', 'close', 'fork', 'vfork', 
         '__aeabi_uidivmod', '__divsi3', '__aeabi_idivmod', '__div0', 'memset', \
         'generic_start_main', '__libc_start_main', 'check_one_fd', '__libc_check_standard_fds', \
         '__libc_setup_tls', '__tls_get_addr', '__libc_csu_init', '__libc_csu_fini'])
+
 GLIBC_BOT_LIBC_FUNC_LIST = ['free_mem']
 MAX_PATTERN_LENGTH = 15000
 
@@ -173,34 +174,6 @@ def output(target_info, target_path, output_mode):
                     print(hex(addr), ': lib tp :', match_func, target_info['functions'][addr]['size'])
                 else:
                     print(hex(addr), ': lib fn :', match_func, target_info['functions'][addr]['size'])
-            #print('%s : %d' % (target_info['name'], func_num))
-        # # check
-        # bin_to_libc_ratio, target_area = calc_libc_to_data_ratio(target_info, \
-        #         libc_area_top, libc_area_bot, skip_func_addr)
-        # _offset = 0
-        # nm_max_size = 0
-        # _max_size = 0
-        # for idx, libc_area_hex in enumerate(target_area[libc_area_top:libc_area_bot+1]):
-        #     #print(idx, libc_area_hex)
-        #     if libc_area_hex == 0:
-        #         _max_size += 1
-        #         if _max_size > nm_max_size:
-        #             nm_max_size = _max_size
-        #             _offset = idx
-        #     else:
-        #         _max_size = 0
-        # print('%s : %d : %s : %s-%s' % ( \
-        #         target_path, \
-        #         len(matched_func_addrs), \
-        #         '{:.2%}'.format(bin_to_libc_ratio), \
-        #         hex(libc_area_top), hex(libc_area_bot), \
-        #         ))
-        # # print('%s : %d : %s : %d : %s-%s' % ( \
-        # #         target_path, \
-        # #         len(target_info['functions'].keys()), \
-        # #         '{:.2%}'.format(bin_to_libc_ratio), \
-        # #         nm_max_size, hex(libc_area_top), hex(libc_area_bot), \
-        # #         ))
     elif output_mode in ['count', 'mn', 'mn2']:
         print('%s : %d' % ( \
                 target_path, \
@@ -290,7 +263,6 @@ def get_inst_area(target, base_vaddr, t_bit):
         #exit(-1)
     except exceptions.ELFParseError as e:
         None
-
     if top_inst_addr == bot_inst_addr == 0:
         if t_bit == 32:
              _load_addr = os.popen('LANG=CC llvm-readelf-13 -l ' + target.name + \
@@ -479,13 +451,13 @@ def parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, 
                             ])
             except ValueError:
                 continue
-            for inst_addr, inst_size, ref_got_offset in list(map(list, set(map(tuple, got_addr_resolve_map)))):
-                for got_addr, got_offset, callee_addr in readelf_got_map:
-                    if ref_got_offset == int(got_offset):
-                        if not [inst_addr, inst_size, int(callee_addr, 16)] in call_map:
-                            #print([hex(inst_addr), inst_size, hex(int(callee_addr, 16))])
-                            call_map.append([inst_addr, inst_size, int(callee_addr, 16)])
-                            func_addr.append(callee_addr)
+            # for inst_addr, inst_size, ref_got_offset in list(map(list, set(map(tuple, got_addr_resolve_map)))):
+            #     for got_addr, got_offset, callee_addr in readelf_got_map:
+            #         if ref_got_offset == int(got_offset):
+            #             if not [inst_addr, inst_size, int(callee_addr, 16)] in call_map:
+            #                 #print([hex(inst_addr), inst_size, hex(int(callee_addr, 16))])
+            #                 call_map.append([inst_addr, inst_size, int(callee_addr, 16)])
+            #                 func_addr.append(callee_addr)
         elif t_arch in ['EM_PPC', 'EM_PPC64']: # powerpc, powerpc64
             #print(i)
             if i.mnemonic == 'bl': # or i.mnemonic == 'b':
@@ -509,19 +481,36 @@ def parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, 
                 call_map.append([addr, size, call_addr])
                 #print(hex(addr), size, i['inst'], hex(call_addr))
         elif t_arch in ['EM_SH']:
+            #print(hex(addr), i)
             i_mnemonic = i['inst'].split(' ')[0]
             if i_mnemonic in ['mov.l'] and '!' in i['inst']:
                 size = int(len("".join(i['bytecode']))/2)
-                call_addr = int(i['inst'].split(' ')[1].split(',')[0], 16)
+                call_addr = int(i['inst'].split('!')[1].split(' ')[1], 16)
                 func_addr.append(call_addr)
                 call_map.append([addr, size, call_addr])
                 #print(hex(addr), size, i['inst'], hex(call_addr))
         else:
             print("[disasm/capstone] Not support arch : %s " % t_arch, file = sys.stderr)
             exit(-1)
-    for _idx in range(len(call_map)):
-        call_map[_idx][0] += base_vaddr
-        call_map[_idx][2] += base_vaddr
+
+    if t_arch in ['EM_MIPS']: # mips, mipsel, mips64, mips64el
+        for inst_addr, inst_size, ref_got_offset in list(map(list, set(map(tuple, got_addr_resolve_map)))):
+            for got_addr, got_offset, callee_addr in readelf_got_map:
+                if ref_got_offset == int(got_offset):
+                    if not [inst_addr, inst_size, int(callee_addr, 16)] in call_map:
+                        #print([hex(inst_addr), inst_size, hex(int(callee_addr, 16))])
+                        call_map.append([inst_addr, inst_size, int(callee_addr, 16)])
+                        func_addr.append(callee_addr)
+        # fmt call instruction address
+        for _idx in range(len(call_map)):
+            call_map[_idx][0] += base_vaddr
+    elif t_arch in ['EM_SH']:
+        None
+    else:
+        for _idx in range(len(call_map)):
+            # fmt call instruction address
+            call_map[_idx][0] += base_vaddr
+            call_map[_idx][2] += base_vaddr
     return call_map
 
 def get_func_addr(target, base_vaddr):
@@ -539,10 +528,10 @@ def get_func_addr(target, base_vaddr):
     #exit(-1)
     # get function address
     call_map = parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
-    # print('---')
-    # for cm1, cm2, cm3 in sorted(call_map):
-    #     print(hex(cm1), cm2, hex(cm3))
-    # exit(-1)
+    #print('---')
+    #for cm1, cm2, cm3 in sorted(call_map):
+    #    print(hex(cm1), cm2, hex(cm3))
+    #exit(-1)
     return call_map, top_inst_addr, bot_inst_addr
 
 def get_symtab_info(target):
@@ -1011,7 +1000,7 @@ def id_func_name_for_linkorder(functions, target_path, toolchain_path, alias_lis
         for call_inst_addr, callee_addr in fmt_call_map:
             try:
                 if entry_libfunc_addr > call_inst_addr and functions[callee_addr]['detected'] == True:
-                    #print(functions[callee_addr]['names'])
+                    #print(hex(call_inst_addr), '-', hex(callee_addr), ':', functions[callee_addr]['names'])
                     userfunc_callee_addr_list.append(callee_addr)
             except KeyError:
                 continue
@@ -1423,7 +1412,7 @@ if __name__ == '__main__':
     symtab_info = get_symtab_info(target_path) # get vaddr
     base_vaddr = symtab_info[0][2]
     # get function call information
-    call_map, top_inst_addr, bot_inst_addr  = get_func_addr(target, base_vaddr)
+    call_map, top_inst_addr, bot_inst_addr = get_func_addr(target, base_vaddr)
     # get target file size
     target_size = int(target.seek(0, os.SEEK_END))
     # do matching
@@ -1482,5 +1471,5 @@ if __name__ == '__main__':
             'size' : target_size, \
             'base_vaddr' : base_vaddr, \
             }
-    output(targets_info, target_path, args.output_style) # output result
 
+    output(targets_info, target_path, args.output_style) # output result
