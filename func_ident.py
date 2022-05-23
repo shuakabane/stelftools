@@ -1362,7 +1362,7 @@ def set_args():
     # old
     parser.add_argument('--yara', help = 'yara rule path')
     parser.add_argument('--arch', help = 'yara rule path')
-    parser.add_argument('--pattern_length', '-pl', default = 8, type = int)
+    #parser.add_argument('--pattern_length', '-pl', default = 8, type = int)
     parser.add_argument('--output_style', '-o', default='default', help = 'output style')
     parser.add_argument('--virtual_addr', '-va', action='store_true', help = 'output virtual address')
     parser.add_argument('--list_mode', '-lm', action='store_true', help = 'list mode')
@@ -1388,7 +1388,7 @@ if __name__ == '__main__':
         depend_list_path = STELFTOOLS_PATH + cfg_info['dependency_list_path']
         # set flag
         alias_list_flag = False
-        linkorder_flag = False
+        link_order_flag = False
         depend_flag = False
         if os.path.exists(alias_list_path) == True:
             alias_flag = True
