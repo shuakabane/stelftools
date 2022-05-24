@@ -43,7 +43,8 @@ def get_top_addr(functions, skip_libc_func):
     top_addr = 0
     for _addr in sorted(functions.keys()):
         if len(set(functions[_addr]['names']) & set(INIT_CRT_FUNC_LIST)) == 0 \
-                and len(set(functions[_addr]['names']) & set(skip_libc_func)) == 0:
+                and len(set(functions[_addr]['names']) & set(skip_libc_func)) == 0 \
+                and len(set(functions[_addr]['names']) & set(TOP_LIBC_FUNC_LIST)) >= 1:
             top_addr = _addr
             break
     return top_addr
@@ -116,7 +117,6 @@ def output(target_info, target_path, output_mode):
     libc_area_top = get_top_addr(target_info['functions'], skip_libc_func)
     libc_area_bot = get_bot_addr(target_info['functions'])
     skip_func_addr = libc_func_in_crt_area(target_info['functions'], libc_area_top, skip_libc_func)
-    # print('start :', hex(libc_area_top), '- end : ', hex(libc_area_bot))
     # print('skip -->')
     # for sf_addr in skip_func_addr:
     #     print(hex(sf_addr))
@@ -795,6 +795,11 @@ def del_mismatch(functions):
             #print('del(d-0) :', hex(_del_addr), functions[_del_addr])
             del functions[_del_addr]
         return functions
+
+    # delete unmatch address
+    for _addr in sorted(functions.keys()):
+        if functions[_addr]['category'] == 'unmatch':
+            del functions[_addr]
 
     # delete mismatched patterns outside the libc range
     #functions = del_outside_the_libc_area(functions, top_inst_addr, bot_inst_addr)
