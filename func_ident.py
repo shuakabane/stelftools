@@ -17,7 +17,7 @@ from elftools.common import exceptions
 
 import DubMaker
 
-STELFTOOLS_PATH="/path/to/stelftools/"
+STELFTOOLS_PATH="/home/akabane/research/stelftools/"
 
 INIT_CRT_FUNC_LIST = ['__init', '_init', '.init', \
         '_start', '_start_c', '__start', 'hlt', '__gmon_start__', 'set_fast_math', \
@@ -44,7 +44,8 @@ def get_top_addr(functions, skip_libc_func):
     for _addr in sorted(functions.keys()):
         if len(set(functions[_addr]['names']) & set(INIT_CRT_FUNC_LIST)) == 0 \
                 and len(set(functions[_addr]['names']) & set(skip_libc_func)) == 0 \
-                and len(set(functions[_addr]['names']) & set(TOP_LIBC_FUNC_LIST)) >= 1:
+                and len(set(functions[_addr]['names']) & set(TOP_LIBC_FUNC_LIST)) >= 1 \
+                and functions[_addr]['size'] >= 10:
             top_addr = _addr
             break
     return top_addr
