@@ -17,7 +17,7 @@ from elftools.common import exceptions
 
 import DubMaker
 
-STELFTOOLS_PATH="/path/to/stelftools/"
+STELFTOOLS_PATH="/home/akabane/research/stelftools/"
 
 INIT_CRT_FUNC_LIST = ['__init', '_init', '.init', \
         '_start', '_start_c', '__start', 'hlt', '__gmon_start__', 'set_fast_math', \
@@ -118,10 +118,7 @@ def output(target_info, target_path, output_mode):
     libc_area_top = get_top_addr(target_info['functions'], skip_libc_func)
     libc_area_bot = get_bot_addr(target_info['functions'])
     skip_func_addr = libc_func_in_crt_area(target_info['functions'], libc_area_top, skip_libc_func)
-    # print('skip -->')
-    # for sf_addr in skip_func_addr:
-    #     print(hex(sf_addr))
-    # print('<--')
+    #print("area :", hex(libc_area_top), '-', hex(libc_area_bot))
 
     if output_mode in ['no']:
         None
@@ -535,7 +532,29 @@ def get_func_addr(target, base_vaddr):
     #exit(-1)
     return call_map, top_inst_addr, bot_inst_addr
 
-def get_symtab_info(target):
+def get_symtab_info_by_capstone(target):
+    symtab_info = []
+    offset = 0
+    size = 0
+    vaddr = 0
+    PH_EXEC = 0x1
+    PH_WRITE = 0x2
+    PH_READ = 0x4
+    with open(target, 'rb') as f:
+        e = ELFFile(f)
+        for s in e.iter_segments():
+            if s.header['p_type'] != 'PT_LOAD':
+                continue
+            # exclude other section
+            if s.header['p_flags'] & PH_EXEC == 0 or s.header['p_flags'] & PH_READ == 0:
+                continue
+            offset = s.header['p_offset']
+            size   = s.header['p_filesz']
+            vaddr  = s.header['p_vaddr']
+    symtab_info.append((offset, offset + size, vaddr - offset))
+    return symtab_info
+
+def get_symtab_info_by_reaelf(target):
     symtab_info = []
     arch = os.popen('LANG=CC readelf -h ' + target + ' 2> /dev/null | grep Machine | tr -s " " | cut -f2 -d:').read().strip() # TODO: do not use readelf
     bit = os.popen('LANG=CC readelf -h ' + target + ' 2> /dev/null | grep Class | tr -s " " | cut -f2 -d:').read().strip() # TODO: do not use readelf
@@ -551,12 +570,12 @@ def get_symtab_info(target):
     elif bit == 'ELF64':
         seginfo_lines = os.popen('LANG=CC readelf -l ' + target + ' 2> /dev/null | grep -A 1 -n LOAD | cut -d":" -f2- | cut -d"-" -f2- | tr -s " " | cut -c2-  | tr -s "\n" " " ').read().split('LOAD')[1:]
         for seginfo in seginfo_lines:
-            #print(seginfo.split(' '))
-            info = seginfo.split(' ')
-            offset = int(info[1], 16)
-            size = int(info[4], 16)
-            vaddr = int(info[2], 16)
-            symtab_info.append((offset, offset + size, vaddr))
+            if 'R' in seginfo and 'E' in seginfo or 'RE' in seginfo:
+                info = seginfo.split(' ')
+                offset = int(info[1], 16)
+                size = int(info[4], 16)
+                vaddr = int(info[2], 16)
+                symtab_info.append((offset, offset + size, vaddr - offset))
     return symtab_info
 
 def format_match_res(match_res, symtab_info, risc_v_flag):
@@ -1415,7 +1434,10 @@ if __name__ == '__main__':
     target = get_target_fp(target_path) # target
     bin_target = target.read()
     # get symbol table information
-    symtab_info = get_symtab_info(target_path) # get vaddr
+    try:
+        symtab_info = get_symtab_info_by_capstone(target_path) # get vaddr
+    except exceptions.ELFParseError as e:
+        symtab_info = get_symtab_info_by_reaelf(target_path) # get vaddr
     base_vaddr = symtab_info[0][2]
     # get function call information
     call_map, top_inst_addr, bot_inst_addr = get_func_addr(target, base_vaddr)
