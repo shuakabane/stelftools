@@ -148,7 +148,7 @@ def output(target_info, target_path, output_mode):
                     print(hex(addr) + ':' + match_func)
                     match_info[addr] = {'names' : match_func}
         return match_info
-    elif output_mode in ['default', 'check']:
+    elif output_mode in ['default']:
         #print(hex(libc_area_top), '-', hex(libc_area_bot))
         matched_func_addrs = []
         for addr in sorted(target_info['functions'].keys()):
@@ -159,20 +159,12 @@ def output(target_info, target_path, output_mode):
                     continue
                 if libc_area_bot != 0 and addr > libc_area_bot:
                     continue
+            if target_info['functions'][addr]['names'] == ['']:
+                continue
             matched_func_addrs.append(addr)
-            match_func = ', '.join([x for x in sorted(target_info['functions'][addr]['names'])])
-            if output_mode == 'default':
-                if target_info['functions'][addr]['names'] == ['']:
-                    continue
-                # crt function
-                if len(set(target_info['functions'][addr]['names']) \
-                        & set(INIT_CRT_FUNC_LIST+FINI_CRT_FUNC_LIST)) >= 1:
-                    print(hex(addr), ': crt tp :', match_func, target_info['functions'][addr]['size'])
-                elif target_info['functions'][addr]['names'] != ['']:
-                    print(hex(addr), ': lib tp :', match_func, target_info['functions'][addr]['size'])
-                else:
-                    print(hex(addr), ': lib fn :', match_func, target_info['functions'][addr]['size'])
-    elif output_mode in ['count', 'mn', 'mn2']:
+            match_func = ','.join([x for x in sorted(target_info['functions'][addr]['names'])])
+            print(hex(addr), match_func)
+    elif output_mode in ['count']:
         print('%s : %d' % ( \
                 target_path, \
                 len(target_info['functions'].keys())
@@ -359,10 +351,10 @@ def objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_
     # objdump path
     if t_arch in ['EM_ARC_COMPACT']:
         OBJDUMP_PATH = \
-                "/path/to/arc-support objdump/"
+                "/path/to/arc objdump"
     elif t_arch in ['EM_SH']:
         OBJDUMP_PATH = \
-                "/path/to/sh4-support objdump/"
+                "/path/to/sh4 objdump"
     objdump_res = subprocess.run([OBJDUMP_PATH, '-d', target_path], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     for d_line in objdump_res.stdout.split('\n'):
         # del blank line
@@ -377,7 +369,7 @@ def objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_
         target_inst[_addr] = {'bytecode': _hex, 'inst': _inst}
     return target_inst
 
-def parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
+def parse_inst(target, target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr):
     func_addr = []
     call_map = []
 
@@ -525,7 +517,7 @@ def get_func_addr(target, base_vaddr):
         target_inst = objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
     #exit(-1)
     # get function address
-    call_map = parse_inst(target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
+    call_map = parse_inst(target, target_inst, base_vaddr, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_addr)
     #print('---')
     #for cm1, cm2, cm3 in sorted(call_map):
     #    print(hex(cm1), cm2, hex(cm3))
@@ -1421,13 +1413,16 @@ if __name__ == '__main__':
             link_order_flag = True
         if os.path.exists(depend_list_path) == True:
             dependency_flag = True
-    else:
+    elif args.yara != None:
         target_path = args.target
         target_arch = args.arch
         yara_path = args.yara
         compiler_path = args.id_linkorder
         alias_list_path = args.alias_list
         depend_list_path = args.id_depend
+    else:
+      print("[ERROR] wrong argument")
+      exit(-1)
 
     start_rule_length = arch_pattern_length(target_arch)
 
