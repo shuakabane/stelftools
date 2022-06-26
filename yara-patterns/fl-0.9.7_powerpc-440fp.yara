@@ -3,10 +3,10 @@
 
 rule yn_05110418acfe5266c349929a07d5343c {
 	meta:
-		aliases = "__GI_acos, __GI_acosh, __GI_asin, __GI_atan2, __GI_atanh, __GI_cosh, __GI_exp, __GI_fmod, __GI_hypot, __GI_log, __GI_log10, __GI_nearbyint, __GI_pow, __GI_remainder, __GI_setmntent, __GI_sinh, __GI_sqrt, __GI_xdr_enum, __GI_xdr_int, __GI_xdr_u_int, __decode_packet, __ieee754_gamma_r, acos, acosh, asin, atan2, atanh, cosh, drem, exp, fmod, hypot, ilogbf, j0, j1, jn, lgamma_r, llrintf, llroundf, log, log10, log2, lrintf, lroundf, nearbyint, pow, rand, remainder, scalb, setmntent, sinh, sqrt, suspend, vfork, xdr_enum, xdr_int, xdr_longlong_t, xdr_u_int, xdr_u_longlong_t, y0, y1, yn"
+		aliases = "__decode_packet, __ieee754_gamma_r, acos, acosh, asin, atan2, atanh, cosh, drem, exp, fmod, hypot, ilogbf, j0, j1, jn, lgamma_r, llrintf, llroundf, log, log10, log2, lrintf, lroundf, nearbyint, pow, rand, remainder, scalb, setmntent, sinh, sqrt, suspend, vfork, xdr_enum, xdr_int, xdr_longlong_t, xdr_u_int, xdr_u_longlong_t, y0, y1, yn"
 		type = "func"
 		size = "4"
-		objfiles = "w_log2@libm.a, w_jn@libm.a, s_nearbyint@libm.a, w_sqrt@libm.a, w_j1@libm.a"
+		objfiles = "w_pow@libm.a, w_cosh@libm.a, w_remainder@libm.a, w_log2@libm.a, w_scalb@libm.a"
 	strings:
 		$pattern = { ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -87,7 +87,7 @@ rule wctob_5fc56da824b4727ef0eeaa95b7243f9d {
 
 rule iswctype_9b8426731ff5e8f92441be5c2b844059 {
 	meta:
-		aliases = "__GI_iswctype, iswctype"
+		aliases = "iswctype"
 		type = "func"
 		size = "64"
 		objfiles = "iswctype@libc.a"
@@ -99,7 +99,7 @@ rule iswctype_9b8426731ff5e8f92441be5c2b844059 {
 
 rule btowc_011fde7c7d5a029a6d73244a5b38eb8d {
 	meta:
-		aliases = "__GI_btowc, btowc"
+		aliases = "btowc"
 		type = "func"
 		size = "16"
 		objfiles = "btowc@libc.a"
@@ -111,7 +111,7 @@ rule btowc_011fde7c7d5a029a6d73244a5b38eb8d {
 
 rule towupper_b3c12ccfb44438605de4b42f4eb77d84 {
 	meta:
-		aliases = "__GI_towlower, __GI_towupper, towlower, towupper"
+		aliases = "towlower, towupper"
 		type = "func"
 		size = "28"
 		objfiles = "towlower@libc.a, towupper@libc.a"
@@ -135,7 +135,7 @@ rule pthread_getspecific_5a4297cbe315a5a6adc3e156a83e6ceb {
 
 rule pthread_rwlockattr_setkind_np_7333ba40ab9cc930a760e9c10ce2d2ca {
 	meta:
-		aliases = "__GI_pthread_attr_setdetachstate, pthread_attr_setdetachstate, pthread_rwlockattr_setkind_np"
+		aliases = "pthread_attr_setdetachstate, pthread_rwlockattr_setkind_np"
 		type = "func"
 		size = "28"
 		objfiles = "rwlock@libpthread.a, attr@libpthread.a"
@@ -159,7 +159,7 @@ rule pthread_rwlockattr_setpshared_ff329364b21b3c9fe9e91534534f8e97 {
 
 rule pthread_attr_setinheritsched_d948d6a530415fe4d786511add8b4f7e {
 	meta:
-		aliases = "__GI_pthread_attr_setinheritsched, pthread_attr_setinheritsched"
+		aliases = "pthread_attr_setinheritsched"
 		type = "func"
 		size = "28"
 		objfiles = "attr@libpthread.a"
@@ -171,10 +171,10 @@ rule pthread_attr_setinheritsched_d948d6a530415fe4d786511add8b4f7e {
 
 rule pthread_mutexattr_setpshared_9c9034b35201a4237f8150293737563b {
 	meta:
-		aliases = "__pthread_mutexattr_setpshared, pthread_condattr_setpshared, pthread_mutexattr_setpshared"
+		aliases = "pthread_condattr_setpshared, pthread_mutexattr_setpshared"
 		type = "func"
 		size = "32"
-		objfiles = "mutex@libpthread.a, condvar@libpthread.a"
+		objfiles = "condvar@libpthread.a, mutex@libpthread.a"
 	strings:
 		$pattern = { 2B 84 00 01 38 60 00 16 4D BD 00 20 30 04 FF FF 7C 00 01 10 7C 03 00 F8 70 63 00 26 4E 80 00 20 }
 	condition:
@@ -183,7 +183,7 @@ rule pthread_mutexattr_setpshared_9c9034b35201a4237f8150293737563b {
 
 rule pthread_attr_setschedpolicy_d94e04cb382449db9a113fb13c9ae6b3 {
 	meta:
-		aliases = "__GI_pthread_attr_setschedpolicy, pthread_attr_setschedpolicy"
+		aliases = "pthread_attr_setschedpolicy"
 		type = "func"
 		size = "28"
 		objfiles = "attr@libpthread.a"
@@ -195,7 +195,7 @@ rule pthread_attr_setschedpolicy_d94e04cb382449db9a113fb13c9ae6b3 {
 
 rule pthread_mutexattr_settype_fcda46ec75f16eb086a8b5725be49d84 {
 	meta:
-		aliases = "__pthread_mutexattr_setkind_np, __pthread_mutexattr_settype, pthread_mutexattr_setkind_np, pthread_mutexattr_settype"
+		aliases = "pthread_mutexattr_settype"
 		type = "func"
 		size = "28"
 		objfiles = "mutex@libpthread.a"
@@ -207,7 +207,7 @@ rule pthread_mutexattr_settype_fcda46ec75f16eb086a8b5725be49d84 {
 
 rule inet_makeaddr_e19f1d83d8f17007accbc48b0a454a79 {
 	meta:
-		aliases = "__GI_inet_makeaddr, inet_makeaddr"
+		aliases = "inet_makeaddr"
 		type = "func"
 		size = "104"
 		objfiles = "inet_addr@libc.a"
@@ -219,7 +219,7 @@ rule inet_makeaddr_e19f1d83d8f17007accbc48b0a454a79 {
 
 rule pthread_attr_setstacksize_85cc0e97835940761d8a01057387eae3 {
 	meta:
-		aliases = "__pthread_attr_setstacksize, pthread_attr_setstacksize"
+		aliases = "pthread_attr_setstacksize"
 		type = "func"
 		size = "28"
 		objfiles = "attr@libpthread.a"
@@ -231,7 +231,7 @@ rule pthread_attr_setstacksize_85cc0e97835940761d8a01057387eae3 {
 
 rule strncpy_ad84f6a88d209e8436e0c5fe76a60ff1 {
 	meta:
-		aliases = "__GI_strncpy, strncpy"
+		aliases = "strncpy"
 		type = "func"
 		size = "188"
 		objfiles = "strncpy@libc.a"
@@ -243,7 +243,7 @@ rule strncpy_ad84f6a88d209e8436e0c5fe76a60ff1 {
 
 rule strncmp_5f420455756d4818a8a7db0319c0c383 {
 	meta:
-		aliases = "__GI_strncmp, strncmp"
+		aliases = "strncmp"
 		type = "func"
 		size = "236"
 		objfiles = "strncmp@libc.a"
@@ -375,7 +375,7 @@ rule clone_aa67e83edab0b2d0f893708d6ba0d38b {
 
 rule pthread_mutex_init_9a07ec41297fb77043c4acf63d984be2 {
 	meta:
-		aliases = "__pthread_mutex_init, pthread_mutex_init"
+		aliases = "pthread_mutex_init"
 		type = "func"
 		size = "52"
 		objfiles = "mutex@libpthread.a"
@@ -399,7 +399,7 @@ rule pthread_rwlock_init_91cbb038680554d2cb4af1f30115aaca {
 
 rule pthread_attr_setscope_8b27401f1ee23a57114627738456090f {
 	meta:
-		aliases = "__GI_pthread_attr_setscope, pthread_attr_setscope"
+		aliases = "pthread_attr_setscope"
 		type = "func"
 		size = "56"
 		objfiles = "attr@libpthread.a"
@@ -435,7 +435,7 @@ rule pthread_insert_list_3fa115bc4f2f040cc33bcbad77ddf03c {
 
 rule strnlen_af84ff60ba4c34c6240b8d2fed3c5cfc {
 	meta:
-		aliases = "__GI_strnlen, strnlen"
+		aliases = "strnlen"
 		type = "func"
 		size = "236"
 		objfiles = "strnlen@libc.a"
@@ -447,7 +447,7 @@ rule strnlen_af84ff60ba4c34c6240b8d2fed3c5cfc {
 
 rule __fsetlocking_e6dab3974ff3543f6088e6212b9fc50e {
 	meta:
-		aliases = "__GI___fsetlocking, __fsetlocking"
+		aliases = "__fsetlocking"
 		type = "func"
 		size = "48"
 		objfiles = "__fsetlocking@libc.a"
@@ -471,7 +471,7 @@ rule __heap_link_free_area_after_3ff15cffe8b2b1dcc14cc60b48cc672f {
 
 rule re_set_registers_f49be4caf94766d9379512a7857c23d9 {
 	meta:
-		aliases = "__re_set_registers, re_set_registers"
+		aliases = "re_set_registers"
 		type = "func"
 		size = "64"
 		objfiles = "regex_old@libc.a"
@@ -483,7 +483,7 @@ rule re_set_registers_f49be4caf94766d9379512a7857c23d9 {
 
 rule strxfrm_f3301abcad4fad1faec684980d2baaa5 {
 	meta:
-		aliases = "__GI_strlcpy, __GI_strxfrm, strlcpy, strxfrm"
+		aliases = "strxfrm"
 		type = "func"
 		size = "88"
 		objfiles = "strlcpy@libc.a"
@@ -495,7 +495,7 @@ rule strxfrm_f3301abcad4fad1faec684980d2baaa5 {
 
 rule wcsxfrm_266b2da69d796a527fb8cbaa0d0a72c0 {
 	meta:
-		aliases = "__wcslcpy, wcsxfrm"
+		aliases = "wcsxfrm"
 		type = "func"
 		size = "92"
 		objfiles = "wcslcpy@libc.a"
@@ -543,7 +543,7 @@ rule __ashldi3_0270a41f8409cadc8662fe83412543aa {
 
 rule glob_pattern_p_78bd7226ad8c7d619e6a4bbd6d8f17d3 {
 	meta:
-		aliases = "__GI_glob_pattern_p, glob_pattern_p"
+		aliases = "glob_pattern_p"
 		type = "func"
 		size = "144"
 		objfiles = "glob@libc.a"
@@ -579,7 +579,7 @@ rule wctomb_26898a333f8a93beb6215144a3cfc088 {
 
 rule tdestroy_b1dc78477f35a352ecd7166b669fca51 {
 	meta:
-		aliases = "__GI_tdestroy, tdestroy"
+		aliases = "tdestroy"
 		type = "func"
 		size = "12"
 		objfiles = "tdestroy@libc.a"
@@ -615,7 +615,7 @@ rule __libc_sa_len_3212ac99b8ac22e790a9a6f6304664ec {
 
 rule wcswidth_50ca0cb2914fe83a120629d86e88e456 {
 	meta:
-		aliases = "__GI_wcswidth, wcswidth"
+		aliases = "wcswidth"
 		type = "func"
 		size = "156"
 		objfiles = "wcswidth@libc.a"
@@ -627,7 +627,7 @@ rule wcswidth_50ca0cb2914fe83a120629d86e88e456 {
 
 rule xdrrec_endofrecord_b62f31f440bf8d9f5cea5a78f5f8f972 {
 	meta:
-		aliases = "__GI_xdrrec_endofrecord, xdrrec_endofrecord"
+		aliases = "xdrrec_endofrecord"
 		type = "func"
 		size = "108"
 		objfiles = "xdr_rec@libc.a"
@@ -675,7 +675,7 @@ rule _store_inttype_347b2a09912e8313cc2ff66d717d63bb {
 
 rule strlcat_dc2b9e232b1fc0b0737c3f366eeddfc4 {
 	meta:
-		aliases = "__GI_strlcat, strlcat"
+		aliases = "strlcat"
 		type = "func"
 		size = "120"
 		objfiles = "strlcat@libc.a"
@@ -807,10 +807,10 @@ rule splay_tree_compare_pointers_16602d4d059f5e33a2000748bf76986f {
 
 rule pthread_mutexattr_getpshared_26ffc3f5796f8ad261f285b2ffe80e70 {
 	meta:
-		aliases = "__pthread_mutexattr_getpshared, pthread_condattr_getpshared, pthread_mutexattr_getpshared"
+		aliases = "pthread_condattr_getpshared, pthread_mutexattr_getpshared"
 		type = "func"
 		size = "16"
-		objfiles = "mutex@libpthread.a, condvar@libpthread.a"
+		objfiles = "condvar@libpthread.a, mutex@libpthread.a"
 	strings:
 		$pattern = { 38 00 00 00 38 60 00 00 90 04 00 00 4E 80 00 20 }
 	condition:
@@ -843,7 +843,7 @@ rule pthread_rwlockattr_init_e9710991492167504878ddadbef216a3 {
 
 rule pthread_cond_init_b1385dd070ebc5d8738959edc9ada3b3 {
 	meta:
-		aliases = "__GI_pthread_cond_init, pthread_cond_init"
+		aliases = "pthread_cond_init"
 		type = "func"
 		size = "24"
 		objfiles = "condvar@libpthread.a"
@@ -867,7 +867,7 @@ rule __init_scan_cookie_44b239be3a57135031180af51be429d4 {
 
 rule srand48_r_d17e918cb5e3cca09cda00cd1ff321fa {
 	meta:
-		aliases = "__GI_srand48_r, srand48_r"
+		aliases = "srand48_r"
 		type = "func"
 		size = "64"
 		objfiles = "srand48_r@libc.a"
@@ -879,7 +879,7 @@ rule srand48_r_d17e918cb5e3cca09cda00cd1ff321fa {
 
 rule pthread_attr_setstackaddr_3fad520ffe8bebf3e84f673bc45466b1 {
 	meta:
-		aliases = "__pthread_attr_setstackaddr, pthread_attr_setstackaddr"
+		aliases = "pthread_attr_setstackaddr"
 		type = "func"
 		size = "20"
 		objfiles = "attr@libpthread.a"
@@ -891,7 +891,7 @@ rule pthread_attr_setstackaddr_3fad520ffe8bebf3e84f673bc45466b1 {
 
 rule pthread_mutexattr_init_9d1f80df8baff4653c25b5fc1931fccb {
 	meta:
-		aliases = "__pthread_mutexattr_init, pthread_mutexattr_init"
+		aliases = "pthread_mutexattr_init"
 		type = "func"
 		size = "16"
 		objfiles = "mutex@libpthread.a"
@@ -915,7 +915,7 @@ rule a64l_9312057f926e481006ad749d8be8d196 {
 
 rule ether_aton_r_da15e611cd80f7be5e1a8f2614400b32 {
 	meta:
-		aliases = "__GI_ether_aton_r, ether_aton_r"
+		aliases = "ether_aton_r"
 		type = "func"
 		size = "300"
 		objfiles = "ether_addr@libc.a"
@@ -939,7 +939,7 @@ rule gai_strerror_aac7d507ed1a56aa146e470c162a05b7 {
 
 rule clnt_sperrno_479af1aecd2abe21b5580e6b6dc8b216 {
 	meta:
-		aliases = "__GI_clnt_sperrno, clnt_sperrno"
+		aliases = "clnt_sperrno"
 		type = "func"
 		size = "80"
 		objfiles = "clnt_perror@libc.a"
@@ -987,7 +987,7 @@ rule sigorset_49a478e16d28d406cea5b25676b62e5e {
 
 rule vfork_a59417b9e2c5283501021e829ab83829 {
 	meta:
-		aliases = "__GI_vfork, __vfork, vfork"
+		aliases = "vfork"
 		type = "func"
 		size = "16"
 		objfiles = "vfork@libc.a"
@@ -999,10 +999,10 @@ rule vfork_a59417b9e2c5283501021e829ab83829 {
 
 rule toupper_8bf5f0435cc79cd2dda01c4592b40645 {
 	meta:
-		aliases = "__GI_tolower, __GI_toupper, tolower, toupper"
+		aliases = "tolower, toupper"
 		type = "func"
 		size = "32"
-		objfiles = "toupper@libc.a, tolower@libc.a"
+		objfiles = "tolower@libc.a, toupper@libc.a"
 	strings:
 		$pattern = { 38 03 00 80 2B 80 01 7F 4D 9D 00 20 3D 20 ?? ?? 54 60 08 3C 81 29 ?? ?? 7C 69 02 AE 4E 80 00 20 }
 	condition:
@@ -1035,7 +1035,7 @@ rule clntudp_control_e8258b3a0b212889bb96a08942fbfd98 {
 
 rule memchr_b0061673e16ea2bf3758794daff01fb9 {
 	meta:
-		aliases = "__GI_memchr, memchr"
+		aliases = "memchr"
 		type = "func"
 		size = "264"
 		objfiles = "memchr@libc.a"
@@ -1047,7 +1047,7 @@ rule memchr_b0061673e16ea2bf3758794daff01fb9 {
 
 rule memrchr_891954c0c3f1fa462762a1765af11020 {
 	meta:
-		aliases = "__GI_memrchr, memrchr"
+		aliases = "memrchr"
 		type = "func"
 		size = "244"
 		objfiles = "memrchr@libc.a"
@@ -1095,10 +1095,10 @@ rule setpgrp_8be948e97fb849a85a66c6cff5582838 {
 
 rule xdrstdio_inline_a8562040803f61a8345115bdd6887a32 {
 	meta:
-		aliases = "__GI_pthread_attr_destroy, __GI_pthread_condattr_destroy, __GI_pthread_condattr_init, __GI_wcsftime, __pthread_mutex_init, __pthread_mutex_lock, __pthread_mutex_trylock, __pthread_mutex_unlock, __pthread_mutexattr_destroy, __pthread_return_0, _svcauth_null, authnone_refresh, clntraw_control, grantpt, pthread_attr_destroy, pthread_condattr_destroy, pthread_condattr_init, pthread_mutexattr_destroy, pthread_rwlockattr_destroy, wcsftime, xdrstdio_inline"
+		aliases = "__pthread_return_0, _svcauth_null, authnone_refresh, clntraw_control, grantpt, pthread_attr_destroy, pthread_condattr_destroy, pthread_condattr_init, pthread_mutexattr_destroy, pthread_rwlockattr_destroy, wcsftime, xdrstdio_inline"
 		type = "func"
 		size = "8"
-		objfiles = "rwlock@libpthread.a, attr@libpthread.a, grantpt@libc.a, svc_auth@libc.a, mutex@libpthread.a"
+		objfiles = "__uClibc_main@libc.a, mutex@libpthread.a, wcsftime@libc.a, rwlock@libpthread.a, grantpt@libc.a"
 	strings:
 		$pattern = { 38 60 00 00 4E 80 00 20 }
 	condition:
@@ -1107,10 +1107,10 @@ rule xdrstdio_inline_a8562040803f61a8345115bdd6887a32 {
 
 rule xdr_void_62ed7efbd3e4ab5decfe90b959523cd1 {
 	meta:
-		aliases = "__GI__stdlib_mb_cur_max, __GI_xdr_void, _stdlib_mb_cur_max, authnone_validate, old_sem_extricate_func, xdr_void"
+		aliases = "_stdlib_mb_cur_max, authnone_validate, old_sem_extricate_func, xdr_void"
 		type = "func"
 		size = "8"
-		objfiles = "oldsemaphore@libpthread.a, auth_none@libc.a, _stdlib_mb_cur_max@libc.a, xdr@libc.a"
+		objfiles = "_stdlib_mb_cur_max@libc.a, oldsemaphore@libpthread.a, auth_none@libc.a, xdr@libc.a"
 	strings:
 		$pattern = { 38 60 00 01 4E 80 00 20 }
 	condition:
@@ -1122,7 +1122,7 @@ rule svcudp_stat_a6d441de0ac0659d23443baab96d0ba8 {
 		aliases = "_svcauth_short, rendezvous_stat, svcraw_stat, svcudp_stat"
 		type = "func"
 		size = "8"
-		objfiles = "svc_raw@libc.a, svc_unix@libc.a, svc_authux@libc.a, svc_tcp@libc.a, svc_udp@libc.a"
+		objfiles = "svc_authux@libc.a, svc_raw@libc.a, svc_udp@libc.a, svc_unix@libc.a, svc_tcp@libc.a"
 	strings:
 		$pattern = { 38 60 00 02 4E 80 00 20 }
 	condition:
@@ -1143,7 +1143,7 @@ rule isdigit_388f71a9ac4b64ff038f027db6152c37 {
 
 rule wcschrnul_bed1c29c2f4b7aee7aeb3fbe1f52b83b {
 	meta:
-		aliases = "__GI_wcschrnul, wcschrnul"
+		aliases = "wcschrnul"
 		type = "func"
 		size = "28"
 		objfiles = "wcschrnul@libc.a"
@@ -1155,10 +1155,10 @@ rule wcschrnul_bed1c29c2f4b7aee7aeb3fbe1f52b83b {
 
 rule sigpause_981d273e42aa1d3356f401cd165621e0 {
 	meta:
-		aliases = "__GI_sigpause, _setjmp, atof, mkstemp, sigpause"
+		aliases = "_setjmp, atof, mkstemp, sigpause"
 		type = "func"
 		size = "8"
-		objfiles = "atof@libc.a, bsd__setjmp@libc.a, mkstemp@libc.a, sigpause@libc.a"
+		objfiles = "mkstemp@libc.a, atof@libc.a, bsd__setjmp@libc.a, sigpause@libc.a"
 	strings:
 		$pattern = { 38 80 00 00 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1179,22 +1179,22 @@ rule setlinebuf_8d595230d6ca8204e9b8c93200f6e3a4 {
 
 rule atoll_8350a767d54e2c1f87d03b6fb168178f {
 	meta:
-		aliases = "__GI_atoi, __GI_atol, atoi, atol, atoll"
+		aliases = "atoi, atoll"
 		type = "func"
 		size = "12"
-		objfiles = "atoll@libc.a, atol@libc.a"
+		objfiles = "atol@libc.a, atoll@libc.a"
 	strings:
 		$pattern = { 38 80 00 00 38 A0 00 0A ( 4? | 3? ) ?? ?? ?? }
 	condition:
 		$pattern
 }
 
-rule timelocal_d0e23f803a7f75921ca13327f3dab783 {
+rule setjmp_d0e23f803a7f75921ca13327f3dab783 {
 	meta:
-		aliases = "__GI_iswalnum, __setjmp, iswalnum, mkstemp64, mktime, setjmp, timelocal"
+		aliases = "iswalnum, mkstemp64, mktime, setjmp"
 		type = "func"
 		size = "8"
-		objfiles = "bsd_setjmp@libc.a, mktime@libc.a, iswalnum@libc.a, mkstemp64@libc.a"
+		objfiles = "iswalnum@libc.a, mkstemp64@libc.a, bsd_setjmp@libc.a, mktime@libc.a"
 	strings:
 		$pattern = { 38 80 00 01 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1215,7 +1215,7 @@ rule dlclose_0b00ad280a665e804bf3fb83d3deea89 {
 
 rule iswalpha_fb3e5e2b88e7d3ece948895e3ee896f3 {
 	meta:
-		aliases = "__GI_iswalpha, iswalpha"
+		aliases = "iswalpha"
 		type = "func"
 		size = "8"
 		objfiles = "iswalpha@libc.a"
@@ -1227,7 +1227,7 @@ rule iswalpha_fb3e5e2b88e7d3ece948895e3ee896f3 {
 
 rule iswblank_be355bbb64ce0eefea316d3790191319 {
 	meta:
-		aliases = "__GI_iswblank, iswblank"
+		aliases = "iswblank"
 		type = "func"
 		size = "8"
 		objfiles = "iswblank@libc.a"
@@ -1239,7 +1239,7 @@ rule iswblank_be355bbb64ce0eefea316d3790191319 {
 
 rule iswcntrl_b03cff83a7119ba96fe47d36696a2e25 {
 	meta:
-		aliases = "__GI_iswcntrl, iswcntrl"
+		aliases = "iswcntrl"
 		type = "func"
 		size = "8"
 		objfiles = "iswcntrl@libc.a"
@@ -1251,10 +1251,10 @@ rule iswcntrl_b03cff83a7119ba96fe47d36696a2e25 {
 
 rule svcerr_weakauth_19ae26e10ea8f6e4acdd05e5f87cdb9f {
 	meta:
-		aliases = "__GI_iswdigit, iswdigit, svcerr_weakauth"
+		aliases = "iswdigit, svcerr_weakauth"
 		type = "func"
 		size = "8"
-		objfiles = "svc@libc.a, iswdigit@libc.a"
+		objfiles = "iswdigit@libc.a, svc@libc.a"
 	strings:
 		$pattern = { 38 80 00 05 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1263,7 +1263,7 @@ rule svcerr_weakauth_19ae26e10ea8f6e4acdd05e5f87cdb9f {
 
 rule iswgraph_dbd10c6dd4448a0b5d465bd2e9a3042b {
 	meta:
-		aliases = "__GI_iswgraph, iswgraph"
+		aliases = "iswgraph"
 		type = "func"
 		size = "8"
 		objfiles = "iswgraph@libc.a"
@@ -1275,7 +1275,7 @@ rule iswgraph_dbd10c6dd4448a0b5d465bd2e9a3042b {
 
 rule iswlower_4683ddb583aea209a38fd9b60d5546b3 {
 	meta:
-		aliases = "__GI_iswlower, iswlower"
+		aliases = "iswlower"
 		type = "func"
 		size = "8"
 		objfiles = "iswlower@libc.a"
@@ -1287,7 +1287,7 @@ rule iswlower_4683ddb583aea209a38fd9b60d5546b3 {
 
 rule iswprint_4a81fad4a8d41d050d2a2b0d4940bc01 {
 	meta:
-		aliases = "__GI_iswprint, iswprint"
+		aliases = "iswprint"
 		type = "func"
 		size = "8"
 		objfiles = "iswprint@libc.a"
@@ -1299,7 +1299,7 @@ rule iswprint_4a81fad4a8d41d050d2a2b0d4940bc01 {
 
 rule iswpunct_8caf63605c8c869669b15456c3692d64 {
 	meta:
-		aliases = "__GI_iswpunct, iswpunct"
+		aliases = "iswpunct"
 		type = "func"
 		size = "8"
 		objfiles = "iswpunct@libc.a"
@@ -1311,7 +1311,7 @@ rule iswpunct_8caf63605c8c869669b15456c3692d64 {
 
 rule iswspace_a79c71600f4429e0a28f374e37b26369 {
 	meta:
-		aliases = "__GI_iswspace, iswspace"
+		aliases = "iswspace"
 		type = "func"
 		size = "8"
 		objfiles = "iswspace@libc.a"
@@ -1323,7 +1323,7 @@ rule iswspace_a79c71600f4429e0a28f374e37b26369 {
 
 rule iswupper_d727bc5bcc642d05936ca8494456ee72 {
 	meta:
-		aliases = "__GI_iswupper, iswupper"
+		aliases = "iswupper"
 		type = "func"
 		size = "8"
 		objfiles = "iswupper@libc.a"
@@ -1335,7 +1335,7 @@ rule iswupper_d727bc5bcc642d05936ca8494456ee72 {
 
 rule iswxdigit_ba6b94134321c304b359effdd9de1983 {
 	meta:
-		aliases = "__GI_iswxdigit, iswxdigit"
+		aliases = "iswxdigit"
 		type = "func"
 		size = "8"
 		objfiles = "iswxdigit@libc.a"
@@ -1347,7 +1347,7 @@ rule iswxdigit_ba6b94134321c304b359effdd9de1983 {
 
 rule svcudp_create_4e9bc6f2fb36eb7f40607f02f8e1d561 {
 	meta:
-		aliases = "__GI_svcudp_create, svcudp_create"
+		aliases = "svcudp_create"
 		type = "func"
 		size = "12"
 		objfiles = "svc_udp@libc.a"
@@ -1359,7 +1359,7 @@ rule svcudp_create_4e9bc6f2fb36eb7f40607f02f8e1d561 {
 
 rule wcsnlen_43c3b00779d7a6f6d7d282aa00ede5ab {
 	meta:
-		aliases = "__GI_wcsnlen, wcsnlen"
+		aliases = "wcsnlen"
 		type = "func"
 		size = "48"
 		objfiles = "wcsnlen@libc.a"
@@ -1371,7 +1371,7 @@ rule wcsnlen_43c3b00779d7a6f6d7d282aa00ede5ab {
 
 rule memcpy_6d9b5cfb8df6158add7b4739c083741a {
 	meta:
-		aliases = "__GI_memcpy, memcpy"
+		aliases = "memcpy"
 		type = "func"
 		size = "156"
 		objfiles = "memcpy@libc.a"
@@ -1419,7 +1419,7 @@ rule __sigismember_46c2b9e0f172b2a3e417434601e22c51 {
 
 rule wcstold_05e09c870c72712d3d4cb7e92680b7b6 {
 	meta:
-		aliases = "__GI_strtold, __GI_wcstold, strtold, wcstold"
+		aliases = "strtold, wcstold"
 		type = "func"
 		size = "8"
 		objfiles = "strtold@libc.a, wcstold@libc.a"
@@ -1431,7 +1431,7 @@ rule wcstold_05e09c870c72712d3d4cb7e92680b7b6 {
 
 rule sigwaitinfo_d7be414dd0f2bdccd6cefe14aceb5952 {
 	meta:
-		aliases = "__GI_sigwaitinfo, sigwaitinfo"
+		aliases = "sigwaitinfo"
 		type = "func"
 		size = "12"
 		objfiles = "__rt_sigtimedwait@libc.a"
@@ -1443,7 +1443,7 @@ rule sigwaitinfo_d7be414dd0f2bdccd6cefe14aceb5952 {
 
 rule fopen64_785fa35dad532cac85462bfeba6e6b56 {
 	meta:
-		aliases = "__GI_fopen64, fopen64"
+		aliases = "fopen64"
 		type = "func"
 		size = "12"
 		objfiles = "fopen64@libc.a"
@@ -1455,7 +1455,7 @@ rule fopen64_785fa35dad532cac85462bfeba6e6b56 {
 
 rule fopen_f3be13ae87dcb6d2989b70c0000a4af3 {
 	meta:
-		aliases = "__GI_fopen, fopen"
+		aliases = "fopen"
 		type = "func"
 		size = "12"
 		objfiles = "fopen@libc.a"
@@ -1467,7 +1467,7 @@ rule fopen_f3be13ae87dcb6d2989b70c0000a4af3 {
 
 rule vwarnx_8f584298e789ca243475430a1cfec70f {
 	meta:
-		aliases = "__GI_vwarnx, vwarnx"
+		aliases = "vwarnx"
 		type = "func"
 		size = "8"
 		objfiles = "err@libc.a"
@@ -1479,7 +1479,7 @@ rule vwarnx_8f584298e789ca243475430a1cfec70f {
 
 rule vwarn_fe448c7b26e02544f97eb33a6a761bc8 {
 	meta:
-		aliases = "__GI_vwarn, vwarn"
+		aliases = "vwarn"
 		type = "func"
 		size = "8"
 		objfiles = "err@libc.a"
@@ -1503,7 +1503,7 @@ rule xdr_des_block_b29a256ccb0c7f6e3471821e8e7164da {
 
 rule strncasecmp_d3f280a3b76678eb37a7584b34d53966 {
 	meta:
-		aliases = "__GI_strncasecmp, strncasecmp"
+		aliases = "strncasecmp"
 		type = "func"
 		size = "92"
 		objfiles = "strncasecmp@libc.a"
@@ -1539,7 +1539,7 @@ rule wmemset_e38839f9495925aa8083725ac60f0772 {
 
 rule wmemcpy_0bba01c780563c8775fc38774df43d6d {
 	meta:
-		aliases = "__GI_wmemcpy, wmemcpy"
+		aliases = "wmemcpy"
 		type = "func"
 		size = "40"
 		objfiles = "wmemcpy@libc.a"
@@ -1563,7 +1563,7 @@ rule wcsncpy_96562305d4c592eff9480869da3bbd8d {
 
 rule stpncpy_85e029c819716aba0f33c75a44d180b2 {
 	meta:
-		aliases = "__GI_stpncpy, stpncpy"
+		aliases = "stpncpy"
 		type = "func"
 		size = "64"
 		objfiles = "stpncpy@libc.a"
@@ -1599,7 +1599,7 @@ rule wmemcmp_e285ce176234ddd00b92070e9e5b98ea {
 
 rule wmemchr_3c7b66e69ad608299e6a398b79df5c09 {
 	meta:
-		aliases = "__GI_wmemchr, wmemchr"
+		aliases = "wmemchr"
 		type = "func"
 		size = "40"
 		objfiles = "wmemchr@libc.a"
@@ -1611,7 +1611,7 @@ rule wmemchr_3c7b66e69ad608299e6a398b79df5c09 {
 
 rule wmempcpy_3be322b80c811c865c2113c493028caf {
 	meta:
-		aliases = "__GI_wmempcpy, wmempcpy"
+		aliases = "wmempcpy"
 		type = "func"
 		size = "36"
 		objfiles = "wmempcpy@libc.a"
@@ -1623,10 +1623,10 @@ rule wmempcpy_3be322b80c811c865c2113c493028caf {
 
 rule wcstouq_7d85920b59bc843dd4900908f57e6c73 {
 	meta:
-		aliases = "__GI_strtoul, __GI_strtoull, __GI_waitpid, __GI_wcstoul, __GI_wcstoull, __libc_waitpid, strtoul, strtoull, strtoumax, strtouq, waitpid, wcstoul, wcstoull, wcstoumax, wcstouq"
+		aliases = "strtoul, strtouq, waitpid, wcstoul, wcstouq"
 		type = "func"
 		size = "8"
-		objfiles = "wcstoull@libc.a, waitpid@libc.a, strtoull@libc.a, strtoul@libc.a, wcstoul@libc.a"
+		objfiles = "strtoull@libc.a, wcstoul@libc.a, waitpid@libc.a, wcstoull@libc.a, strtoul@libc.a"
 	strings:
 		$pattern = { 38 C0 00 00 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1647,10 +1647,10 @@ rule getopt_ff157081fc8a2167a9e278df841ac85f {
 
 rule wcstoq_1c848aa6faf7ec75b0bf402dd40172b8 {
 	meta:
-		aliases = "__GI_strtol, __GI_strtoll, __GI_wcstol, __GI_wcstoll, strtoimax, strtol, strtoll, strtoq, wcstoimax, wcstol, wcstoll, wcstoq"
+		aliases = "strtol, strtoq, wcstol, wcstoq"
 		type = "func"
 		size = "8"
-		objfiles = "strtol@libc.a, wcstoll@libc.a, strtoll@libc.a, wcstol@libc.a"
+		objfiles = "wcstoll@libc.a, wcstol@libc.a, strtoll@libc.a, strtol@libc.a"
 	strings:
 		$pattern = { 38 C0 00 01 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1659,7 +1659,7 @@ rule wcstoq_1c848aa6faf7ec75b0bf402dd40172b8 {
 
 rule sigtimedwait_d97bff0f22fa68b21f495848df4d49ee {
 	meta:
-		aliases = "__GI_sigtimedwait, sigtimedwait"
+		aliases = "sigtimedwait"
 		type = "func"
 		size = "8"
 		objfiles = "__rt_sigtimedwait@libc.a"
@@ -1671,7 +1671,7 @@ rule sigtimedwait_d97bff0f22fa68b21f495848df4d49ee {
 
 rule memccpy_6821293b258b3d1d584bad042dfe3c0c {
 	meta:
-		aliases = "__GI_memccpy, memccpy"
+		aliases = "memccpy"
 		type = "func"
 		size = "52"
 		objfiles = "memccpy@libc.a"
@@ -1683,7 +1683,7 @@ rule memccpy_6821293b258b3d1d584bad042dfe3c0c {
 
 rule pread_79096e6fa93306fc7737a4952828c91f {
 	meta:
-		aliases = "__libc_pread, pread"
+		aliases = "pread"
 		type = "func"
 		size = "8"
 		objfiles = "pread_write@libc.a"
@@ -1695,7 +1695,7 @@ rule pread_79096e6fa93306fc7737a4952828c91f {
 
 rule pwrite_85a9becf9dc6cf782305b5b71992b26a {
 	meta:
-		aliases = "__libc_pwrite, pwrite"
+		aliases = "pwrite"
 		type = "func"
 		size = "8"
 		objfiles = "pread_write@libc.a"
@@ -1743,7 +1743,7 @@ rule getopt_long_only_89987becf516ebdfaab22a3763b18c50 {
 
 rule strcasecmp_8913cde39cb57d2d2de986cb9e7ac9b4 {
 	meta:
-		aliases = "__GI_strcasecmp, strcasecmp"
+		aliases = "strcasecmp"
 		type = "func"
 		size = "80"
 		objfiles = "strcasecmp@libc.a"
@@ -1755,7 +1755,7 @@ rule strcasecmp_8913cde39cb57d2d2de986cb9e7ac9b4 {
 
 rule pread64_913a3a6a30230d27004be703b3abc89d {
 	meta:
-		aliases = "__libc_pread64, pread64"
+		aliases = "pread64"
 		type = "func"
 		size = "8"
 		objfiles = "pread_write@libc.a"
@@ -1779,7 +1779,7 @@ rule wcsrchr_81a1003b60f8ab058c4e66a5a45fa7da {
 
 rule pwrite64_0ee068b656f51346315f98b6c1edcfbf {
 	meta:
-		aliases = "__libc_pwrite64, pwrite64"
+		aliases = "pwrite64"
 		type = "func"
 		size = "8"
 		objfiles = "pread_write@libc.a"
@@ -1803,7 +1803,7 @@ rule rexec_e1631fd6d5e252e4d9da804f98cf5616 {
 
 rule strspn_4ff34ae70c05a08f94a0bdd787ceff13 {
 	meta:
-		aliases = "__GI_strspn, strspn"
+		aliases = "strspn"
 		type = "func"
 		size = "72"
 		objfiles = "strspn@libc.a"
@@ -1815,10 +1815,10 @@ rule strspn_4ff34ae70c05a08f94a0bdd787ceff13 {
 
 rule lgamma_d4d5116072f3a6b3c0be7d842c698de0 {
 	meta:
-		aliases = "__GI_getlogin, __GI_lgamma, __ieee754_gamma, __ieee754_lgamma, __pthread_once_fork_parent, __pthread_once_fork_prepare, _flushlbf, gamma, getlogin, hdestroy, lgamma"
+		aliases = "__ieee754_gamma, __ieee754_lgamma, __pthread_once_fork_parent, __pthread_once_fork_prepare, _flushlbf, gamma, getlogin, hdestroy, lgamma"
 		type = "func"
 		size = "12"
-		objfiles = "w_lgamma@libm.a, e_lgamma@libm.a, hsearch@libc.a, mutex@libpthread.a, w_gamma@libm.a"
+		objfiles = "mutex@libpthread.a, e_lgamma@libm.a, _flushlbf@libc.a, hsearch@libc.a, getlogin@libc.a"
 	strings:
 		$pattern = { 3C 60 ?? ?? 38 63 ?? ?? ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1827,10 +1827,10 @@ rule lgamma_d4d5116072f3a6b3c0be7d842c698de0 {
 
 rule __libc_pthread_init_e2670b17b5dcb771727e427dc7490716 {
 	meta:
-		aliases = "__GI___errno_location, __GI___h_errno_location, __errno_location, __h_errno_location, __libc_pthread_init"
+		aliases = "__errno_location, __h_errno_location, __libc_pthread_init"
 		type = "func"
 		size = "12"
-		objfiles = "__h_errno_location@libc.a, libc_pthread_init@libc.a, __errno_location@libc.a"
+		objfiles = "__h_errno_location@libc.a, __errno_location@libc.a, libc_pthread_init@libc.a"
 	strings:
 		$pattern = { 3C 60 ?? ?? 38 63 ?? ?? 4E 80 00 20 }
 	condition:
@@ -1839,7 +1839,7 @@ rule __libc_pthread_init_e2670b17b5dcb771727e427dc7490716 {
 
 rule tcdrain_e06462d04dc8be8dad7e813c2bed6f80 {
 	meta:
-		aliases = "__libc_tcdrain, tcdrain"
+		aliases = "tcdrain"
 		type = "func"
 		size = "20"
 		objfiles = "tcdrain@libc.a"
@@ -1851,10 +1851,10 @@ rule tcdrain_e06462d04dc8be8dad7e813c2bed6f80 {
 
 rule srand48_1a098ec71b69a7f0593bb5078fe57766 {
 	meta:
-		aliases = "__GI_asctime, asctime, ether_aton, hcreate, srand48"
+		aliases = "asctime, ether_aton, hcreate, srand48"
 		type = "func"
 		size = "12"
-		objfiles = "srand48@libc.a, asctime@libc.a, hsearch@libc.a, ether_addr@libc.a"
+		objfiles = "hsearch@libc.a, srand48@libc.a, asctime@libc.a, ether_addr@libc.a"
 	strings:
 		$pattern = { 3C 80 ?? ?? 38 84 ?? ?? ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -1887,7 +1887,7 @@ rule __stdio_init_mutex_45ed3084772ccaa90477730bb6d5bf98 {
 
 rule strtok_4f459daccbbf3ecae3aaaeb6a970f799 {
 	meta:
-		aliases = "__GI_strtok, strtok"
+		aliases = "strtok"
 		type = "func"
 		size = "12"
 		objfiles = "strtok@libc.a"
@@ -1971,7 +1971,7 @@ rule xdrstdio_create_228578c8164d8ae47b7161fc2e43b40e {
 
 rule getpagesize_b3987747257b2eab578daae35a1ac624 {
 	meta:
-		aliases = "__GI_getpagesize, __getpagesize, getpagesize"
+		aliases = "getpagesize"
 		type = "func"
 		size = "28"
 		objfiles = "getpagesize@libc.a"
@@ -2019,7 +2019,7 @@ rule setup_salt_9f5fc40f151b7d0bef83ea45a906bf74 {
 
 rule localeconv_aa65c0be59abdd9a002bed79952aec50 {
 	meta:
-		aliases = "__GI_localeconv, localeconv"
+		aliases = "localeconv"
 		type = "func"
 		size = "80"
 		objfiles = "localeconv@libc.a"
@@ -2175,10 +2175,10 @@ rule isctype_9e106ce87578911532f9cac491f226ca {
 
 rule vwscanf_ae057d82842864397ccad95d35a1db1d {
 	meta:
-		aliases = "__GI_vscanf, vprintf, vscanf, vwprintf, vwscanf"
+		aliases = "vprintf, vscanf, vwprintf, vwscanf"
 		type = "func"
 		size = "24"
-		objfiles = "vscanf@libc.a, vwscanf@libc.a, vwprintf@libc.a, vprintf@libc.a"
+		objfiles = "vprintf@libc.a, vscanf@libc.a, vwscanf@libc.a, vwprintf@libc.a"
 	strings:
 		$pattern = { 3D 20 ?? ?? 7C 60 1B 78 80 69 ?? ?? 7C 85 23 78 7C 04 03 78 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -2187,7 +2187,7 @@ rule vwscanf_ae057d82842864397ccad95d35a1db1d {
 
 rule re_set_syntax_a886dfb695f74bc0f1a6502a1005ea5d {
 	meta:
-		aliases = "__re_set_syntax, re_set_syntax"
+		aliases = "re_set_syntax"
 		type = "func"
 		size = "20"
 		objfiles = "regex_old@libc.a"
@@ -2202,7 +2202,7 @@ rule getwchar_unlocked_4243c392ad3baa1a4ddbe11dee89057e {
 		aliases = "_dl_app_fini_array, _dl_app_init_array, getwchar, getwchar_unlocked"
 		type = "func"
 		size = "12"
-		objfiles = "getwchar_unlocked@libc.a, libdl@libdl.a, getwchar@libc.a"
+		objfiles = "libdl@libdl.a, getwchar_unlocked@libc.a, getwchar@libc.a"
 	strings:
 		$pattern = { 3D 20 ?? ?? 80 69 ?? ?? ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -2211,10 +2211,10 @@ rule getwchar_unlocked_4243c392ad3baa1a4ddbe11dee89057e {
 
 rule pthread_getconcurrency_80187c1a0c307747f62463ca51a61e0e {
 	meta:
-		aliases = "__libc_current_sigrtmax, __libc_current_sigrtmin, __pthread_getconcurrency, pthread_getconcurrency"
+		aliases = "__libc_current_sigrtmax, __libc_current_sigrtmin, pthread_getconcurrency"
 		type = "func"
 		size = "12"
-		objfiles = "allocrtsig@libc.a, pthread@libpthread.a"
+		objfiles = "pthread@libpthread.a, allocrtsig@libc.a"
 	strings:
 		$pattern = { 3D 20 ?? ?? 80 69 ?? ?? 4E 80 00 20 }
 	condition:
@@ -2259,7 +2259,7 @@ rule putchar_unlocked_1fadb481e1b744b6ecff1c3f09271490 {
 
 rule execv_f5a7397dbeb7b14dbcb1d09f608c5a63 {
 	meta:
-		aliases = "__GI_execv, execv"
+		aliases = "execv"
 		type = "func"
 		size = "12"
 		objfiles = "execv@libc.a"
@@ -2271,7 +2271,7 @@ rule execv_f5a7397dbeb7b14dbcb1d09f608c5a63 {
 
 rule getchar_unlocked_4489727b165133351b166487e011e343 {
 	meta:
-		aliases = "__GI_getchar_unlocked, getchar_unlocked"
+		aliases = "getchar_unlocked"
 		type = "func"
 		size = "48"
 		objfiles = "getchar_unlocked@libc.a"
@@ -2283,7 +2283,7 @@ rule getchar_unlocked_4489727b165133351b166487e011e343 {
 
 rule pthread_setconcurrency_c2e212358d9195b40178fc16b1a12a6a {
 	meta:
-		aliases = "__pthread_setconcurrency, pthread_setconcurrency"
+		aliases = "pthread_setconcurrency"
 		type = "func"
 		size = "16"
 		objfiles = "pthread@libpthread.a"
@@ -2295,7 +2295,7 @@ rule pthread_setconcurrency_c2e212358d9195b40178fc16b1a12a6a {
 
 rule xdrmem_create_85705f1a3027ea9881d934fc690fa1e5 {
 	meta:
-		aliases = "__GI_xdrmem_create, xdrmem_create"
+		aliases = "xdrmem_create"
 		type = "func"
 		size = "32"
 		objfiles = "xdr_mem@libc.a"
@@ -2307,7 +2307,7 @@ rule xdrmem_create_85705f1a3027ea9881d934fc690fa1e5 {
 
 rule fflush_unlocked_7e3159b69aa6576d086f02aefe9a44ff {
 	meta:
-		aliases = "__GI_fflush_unlocked, fflush_unlocked"
+		aliases = "fflush_unlocked"
 		type = "func"
 		size = "432"
 		objfiles = "fflush_unlocked@libc.a"
@@ -2406,7 +2406,7 @@ rule __libc_allocate_rtsig_d84b875acba587bb2e4e17cf85c461cd {
 		aliases = "__libc_allocate_rtsig"
 		type = "func"
 		size = "80"
-		objfiles = "allocrtsig@libc.a, pthread@libpthread.a"
+		objfiles = "pthread@libpthread.a, allocrtsig@libc.a"
 	strings:
 		$pattern = { 3D 40 ?? ?? 81 6A ?? ?? 39 0A ?? ?? 2F 8B FF FF 41 BE 00 34 81 28 00 04 7F 8B 48 00 41 9D 00 28 2F 83 00 00 41 9E 00 10 38 0B 00 01 90 0A ?? ?? 48 00 00 18 38 09 FF FF 7D 2B 4B 78 90 08 00 04 48 00 00 08 39 60 FF FF 7D 63 5B 78 4E 80 00 20 }
 	condition:
@@ -3925,9 +3925,9 @@ rule get_field_4d24178cfc31940072453d2d7ac264b6 {
 		$pattern
 }
 
-rule wcscoll_3e1b2d9c0a4eea7260db749bcd8b5f6d {
+rule wcscmp_3e1b2d9c0a4eea7260db749bcd8b5f6d {
 	meta:
-		aliases = "__GI_wcscmp, __GI_wcscoll, wcscmp, wcscoll"
+		aliases = "wcscmp"
 		type = "func"
 		size = "60"
 		objfiles = "wcscmp@libc.a"
@@ -3939,7 +3939,7 @@ rule wcscoll_3e1b2d9c0a4eea7260db749bcd8b5f6d {
 
 rule wcspbrk_d8dda0801b9be015016cf3ee04208cde {
 	meta:
-		aliases = "__GI_wcspbrk, wcspbrk"
+		aliases = "wcspbrk"
 		type = "func"
 		size = "60"
 		objfiles = "wcspbrk@libc.a"
@@ -3951,10 +3951,10 @@ rule wcspbrk_d8dda0801b9be015016cf3ee04208cde {
 
 rule strpbrk_2d524206f6ee4aad7ec5aeedf14361ef {
 	meta:
-		aliases = "__GI_strpbrk, any, strpbrk"
+		aliases = "any, strpbrk"
 		type = "func"
 		size = "60"
-		objfiles = "getnetent@libc.a, strpbrk@libc.a"
+		objfiles = "strpbrk@libc.a, getnetent@libc.a"
 	strings:
 		$pattern = { 48 00 00 20 4D 9A 00 20 88 09 00 00 39 29 00 01 2F 80 00 00 7F 00 58 00 40 9E FF EC 38 63 00 01 89 63 00 00 2F 8B 00 00 41 9E 00 0C 7C 89 23 78 4B FF FF D8 38 60 00 00 4E 80 00 20 }
 	condition:
@@ -4659,7 +4659,7 @@ rule byte_compile_range_e11cbea11eb640c737e76815ebc4eb1d {
 
 rule re_match_2_9362b5ddc736cb38b7ba74c5d0a0b5f4 {
 	meta:
-		aliases = "__re_match_2, re_match_2"
+		aliases = "re_match_2"
 		type = "func"
 		size = "4"
 		objfiles = "regex_old@libc.a"
@@ -4671,7 +4671,7 @@ rule re_match_2_9362b5ddc736cb38b7ba74c5d0a0b5f4 {
 
 rule re_compile_fastmap_1e4132d0db1eaa94b99f47e7b16512ab {
 	meta:
-		aliases = "__re_compile_fastmap, re_compile_fastmap"
+		aliases = "re_compile_fastmap"
 		type = "func"
 		size = "4"
 		objfiles = "regex_old@libc.a"
@@ -4719,10 +4719,10 @@ rule get_count_eeef0b3d8c16892a993d8de52f17498c {
 
 rule xdrmem_destroy_119084dc20944a70b659f9f16a4090b6 {
 	meta:
-		aliases = "__cyg_profile_func_enter, __cyg_profile_func_exit, __linuxthreads_create_event, __linuxthreads_death_event, __linuxthreads_reap_event, __pthread_return_void, __stub1, __stub2, _pthread_cleanup_pop_restore, _pthread_cleanup_push_defer, authnone_destroy, authnone_verf, authunix_nextverf, clntraw_abort, clntraw_destroy, clntraw_geterr, clnttcp_abort, clntudp_abort, clntunix_abort, htonl, htons, noop_handler, ntohl, ntohs, pthread_handle_sigdebug, pthread_null_sighandler, svcraw_destroy, xdrmem_destroy"
+		aliases = "__cyg_profile_func_exit, __linuxthreads_create_event, __linuxthreads_death_event, __linuxthreads_reap_event, __pthread_return_void, __stub1, __stub2, authnone_destroy, authnone_verf, authunix_nextverf, clntraw_abort, clntraw_destroy, clntraw_geterr, clnttcp_abort, clntudp_abort, clntunix_abort, htonl, htons, noop_handler, ntohl, ntohs, pthread_handle_sigdebug, pthread_null_sighandler, svcraw_destroy, xdrmem_destroy"
 		type = "func"
 		size = "4"
-		objfiles = "resolv@libresolv.a, signals@libpthread.a, clnt_udp@libc.a, clnt_unix@libc.a, auth_unix@libc.a"
+		objfiles = "pthread@libpthread.a, __uClibc_main@libc.a, clnt_tcp@libc.a, xdr_mem@libc.a, svc_raw@libc.a"
 	strings:
 		$pattern = { 4E 80 00 20 }
 	condition:
@@ -5019,7 +5019,7 @@ rule isascii_facdde4d293ddbb93f45e5953a23fc13 {
 
 rule ffs_30fbf4e9158e11f7fdcc9a35eb4ec82f {
 	meta:
-		aliases = "__GI_ffs, ffs"
+		aliases = "ffs"
 		type = "func"
 		size = "120"
 		objfiles = "ffs@libc.a"
@@ -5091,7 +5091,7 @@ rule __pthread_internal_tsd_set_4fa369be5b2e6807975fe94fa7184555 {
 
 rule rawmemchr_5ea728313bb4d530b5b6cc006ec76652 {
 	meta:
-		aliases = "__GI_rawmemchr, rawmemchr"
+		aliases = "rawmemchr"
 		type = "func"
 		size = "184"
 		objfiles = "rawmemchr@libc.a"
@@ -5101,9 +5101,9 @@ rule rawmemchr_5ea728313bb4d530b5b6cc006ec76652 {
 		$pattern
 }
 
-rule strchr_d73eb402eaa7256da8e493c993a9932d {
+rule index_d73eb402eaa7256da8e493c993a9932d {
 	meta:
-		aliases = "__GI_strchr, index, strchr"
+		aliases = "index"
 		type = "func"
 		size = "256"
 		objfiles = "strchr@libc.a"
@@ -5115,7 +5115,7 @@ rule strchr_d73eb402eaa7256da8e493c993a9932d {
 
 rule strchrnul_0d17ea378cd3e03a4de4f4461c224da6 {
 	meta:
-		aliases = "__GI_strchrnul, strchrnul"
+		aliases = "strchrnul"
 		type = "func"
 		size = "248"
 		objfiles = "strchrnul@libc.a"
@@ -5761,9 +5761,9 @@ rule syscall_84527a29bdaaa94a77640fb3c7190875 {
 		$pattern
 }
 
-rule labs_2a518721ea7164099bad65c2f7a88910 {
+rule abs_2a518721ea7164099bad65c2f7a88910 {
 	meta:
-		aliases = "abs, labs"
+		aliases = "abs"
 		type = "func"
 		size = "16"
 		objfiles = "labs@libc.a"
@@ -5775,7 +5775,7 @@ rule labs_2a518721ea7164099bad65c2f7a88910 {
 
 rule pthread_equal_da4c3fb78bde77ef4b8564a231095c4d {
 	meta:
-		aliases = "__GI_pthread_equal, pthread_equal"
+		aliases = "pthread_equal"
 		type = "func"
 		size = "16"
 		objfiles = "pthread@libpthread.a"
@@ -5787,7 +5787,7 @@ rule pthread_equal_da4c3fb78bde77ef4b8564a231095c4d {
 
 rule wait_8d357083710a844c9cf265353424992f {
 	meta:
-		aliases = "__libc_wait, wait"
+		aliases = "wait"
 		type = "func"
 		size = "20"
 		objfiles = "wait@libc.a"
@@ -5799,7 +5799,7 @@ rule wait_8d357083710a844c9cf265353424992f {
 
 rule posix_openpt_1202287460807fa366ad5bb55162d3cc {
 	meta:
-		aliases = "__GI_posix_openpt, posix_openpt"
+		aliases = "posix_openpt"
 		type = "func"
 		size = "20"
 		objfiles = "getpt@libc.a"
@@ -5823,7 +5823,7 @@ rule __paritydi2_ffc58018283b4132c45f5ecd59af8f10 {
 
 rule perror_45dc38ddbc26938d6f286c046e9086b5 {
 	meta:
-		aliases = "__GI_perror, perror"
+		aliases = "perror"
 		type = "func"
 		size = "68"
 		objfiles = "perror@libc.a"
@@ -5847,7 +5847,7 @@ rule shmdt_9e4f18104e158713bc4ad3ebbbd746f0 {
 
 rule strcasestr_5f4f03ac537cd1dff811aa43534ad803 {
 	meta:
-		aliases = "__GI_strcasestr, strcasestr"
+		aliases = "strcasestr"
 		type = "func"
 		size = "100"
 		objfiles = "strcasestr@libc.a"
@@ -5859,7 +5859,7 @@ rule strcasestr_5f4f03ac537cd1dff811aa43534ad803 {
 
 rule wcslen_1380433c3aeffb518872267512d0c41f {
 	meta:
-		aliases = "__GI_wcslen, wcslen"
+		aliases = "wcslen"
 		type = "func"
 		size = "36"
 		objfiles = "wcslen@libc.a"
@@ -5871,7 +5871,7 @@ rule wcslen_1380433c3aeffb518872267512d0c41f {
 
 rule basename_31e41c67355e593ab586df03ea5b3562 {
 	meta:
-		aliases = "__GI_basename, basename"
+		aliases = "basename"
 		type = "func"
 		size = "40"
 		objfiles = "basename@libc.a"
@@ -5883,7 +5883,7 @@ rule basename_31e41c67355e593ab586df03ea5b3562 {
 
 rule wcscpy_cbadc6e2aeae2d6089f6f8e7053d7ef9 {
 	meta:
-		aliases = "__GI_wcscpy, wcscpy"
+		aliases = "wcscpy"
 		type = "func"
 		size = "32"
 		objfiles = "wcscpy@libc.a"
@@ -5907,7 +5907,7 @@ rule wcsncat_a4a0454058da54f14cf65f3bee8a8034 {
 
 rule wcscat_973edea53c1a700720e88c9972f66a46 {
 	meta:
-		aliases = "__GI_wcscat, wcscat"
+		aliases = "wcscat"
 		type = "func"
 		size = "52"
 		objfiles = "wcscat@libc.a"
@@ -5919,7 +5919,7 @@ rule wcscat_973edea53c1a700720e88c9972f66a46 {
 
 rule strcat_18a9565eea5b49118e8e0fb937a4fdb9 {
 	meta:
-		aliases = "__GI_strcat, strcat"
+		aliases = "strcat"
 		type = "func"
 		size = "48"
 		objfiles = "strcat@libc.a"
@@ -5929,9 +5929,9 @@ rule strcat_18a9565eea5b49118e8e0fb937a4fdb9 {
 		$pattern
 }
 
-rule strcoll_947fa54e5e832fa122377b1780ff7279 {
+rule strcmp_947fa54e5e832fa122377b1780ff7279 {
 	meta:
-		aliases = "__GI_strcmp, __GI_strcoll, strcmp, strcoll"
+		aliases = "strcmp"
 		type = "func"
 		size = "52"
 		objfiles = "strcmp@libc.a"
@@ -5943,7 +5943,7 @@ rule strcoll_947fa54e5e832fa122377b1780ff7279 {
 
 rule mbsinit_6c882779daa05f1adc07d41f29cc0e85 {
 	meta:
-		aliases = "__GI_mbsinit, mbsinit"
+		aliases = "mbsinit"
 		type = "func"
 		size = "28"
 		objfiles = "mbsinit@libc.a"
@@ -5955,7 +5955,7 @@ rule mbsinit_6c882779daa05f1adc07d41f29cc0e85 {
 
 rule llabs_453b7d335072e5a4bde8a975c0cbf05c {
 	meta:
-		aliases = "imaxabs, llabs"
+		aliases = "llabs"
 		type = "func"
 		size = "28"
 		objfiles = "llabs@libc.a"
@@ -5979,7 +5979,7 @@ rule skip_e50339e70b66fc937cb46e84d141e6b2 {
 
 rule wcsspn_71aab0d69e19d746202ebf3848e0a1d7 {
 	meta:
-		aliases = "__GI_wcsspn, wcsspn"
+		aliases = "wcsspn"
 		type = "func"
 		size = "56"
 		objfiles = "wcsspn@libc.a"
@@ -5991,7 +5991,7 @@ rule wcsspn_71aab0d69e19d746202ebf3848e0a1d7 {
 
 rule strlen_b37b17eaa877e2bfb4a4ca3f8a927956 {
 	meta:
-		aliases = "__GI_strlen, strlen"
+		aliases = "strlen"
 		type = "func"
 		size = "160"
 		objfiles = "strlen@libc.a"
@@ -6027,7 +6027,7 @@ rule rand_r_63ec7dd96b1eaf138781a4b295a6b9de {
 
 rule wcswcs_7901b1708697ed9210bb83b17272839c {
 	meta:
-		aliases = "wcsstr, wcswcs"
+		aliases = "wcswcs"
 		type = "func"
 		size = "68"
 		objfiles = "wcsstr@libc.a"
@@ -6039,7 +6039,7 @@ rule wcswcs_7901b1708697ed9210bb83b17272839c {
 
 rule strncat_9448791ecf02b16200dc19fe1cc2cdd9 {
 	meta:
-		aliases = "__GI_strncat, strncat"
+		aliases = "strncat"
 		type = "func"
 		size = "208"
 		objfiles = "strncat@libc.a"
@@ -6063,7 +6063,7 @@ rule __length_dotted_c2fce68e19bfde14aefa9f83f9521a22 {
 
 rule nl_langinfo_fd51c7d53128d86c7fc08860319f018f {
 	meta:
-		aliases = "__GI_nl_langinfo, nl_langinfo"
+		aliases = "nl_langinfo"
 		type = "func"
 		size = "88"
 		objfiles = "nl_langinfo@libc.a"
@@ -6162,7 +6162,7 @@ rule mq_getattr_11587fd03652a5f5b7800621fc89192e {
 		aliases = "bzero, gmtime_r, mq_getattr"
 		type = "func"
 		size = "12"
-		objfiles = "mq_getsetattr@librt.a, bzero@libc.a, gmtime_r@libc.a"
+		objfiles = "bzero@libc.a, mq_getsetattr@librt.a, gmtime_r@libc.a"
 	strings:
 		$pattern = { 7C 85 23 78 38 80 00 00 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -6171,7 +6171,7 @@ rule mq_getattr_11587fd03652a5f5b7800621fc89192e {
 
 rule creat64_bf7ba069a66b127cedc26a7aa711c4b8 {
 	meta:
-		aliases = "__libc_creat, __libc_creat64, creat, creat64"
+		aliases = "creat, creat64"
 		type = "func"
 		size = "16"
 		objfiles = "open@libc.a, creat64@libc.a"
@@ -6231,10 +6231,10 @@ rule tcflush_9083b1dbeab30a7002e6567066c8deee {
 
 rule mrand48_r_4789d87c43dafbd857b2866ebc9614ee {
 	meta:
-		aliases = "__GI_lrand48_r, drand48_r, lrand48_r, mrand48_r"
+		aliases = "drand48_r, lrand48_r, mrand48_r"
 		type = "func"
 		size = "12"
-		objfiles = "mrand48_r@libc.a, lrand48_r@libc.a, drand48_r@libc.a"
+		objfiles = "mrand48_r@libc.a, drand48_r@libc.a, lrand48_r@libc.a"
 	strings:
 		$pattern = { 7C 85 23 78 7C 64 1B 78 ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -6279,7 +6279,7 @@ rule semtimedop_fe577c3d2be0570d230d4431fe756da5 {
 
 rule memset_92bcf38b13cc88bb15161dfc13915a1b {
 	meta:
-		aliases = "__GI_memset, memset"
+		aliases = "memset"
 		type = "func"
 		size = "144"
 		objfiles = "memset@libc.a"
@@ -6315,7 +6315,7 @@ rule __muldi3_b22ddc6d49ad74d449ff55d83fdbdb5a {
 
 rule setenv_13d910dbf645e923076eaf359af1c4e7 {
 	meta:
-		aliases = "__GI_setenv, setenv"
+		aliases = "setenv"
 		type = "func"
 		size = "12"
 		objfiles = "setenv@libc.a"
@@ -6327,7 +6327,7 @@ rule setenv_13d910dbf645e923076eaf359af1c4e7 {
 
 rule getline_d0686110f2a5a668d2df4c38ca9030fc {
 	meta:
-		aliases = "__GI_getline, getline"
+		aliases = "getline"
 		type = "func"
 		size = "12"
 		objfiles = "getline@libc.a"
@@ -6351,7 +6351,7 @@ rule vsprintf_139167d54aca972b7241c4ce1ea97e45 {
 
 rule mbrlen_4c956d91c759896d493a6d6d8145a2d1 {
 	meta:
-		aliases = "__GI_mbrlen, mbrlen"
+		aliases = "mbrlen"
 		type = "func"
 		size = "32"
 		objfiles = "mbrlen@libc.a"
@@ -6385,9 +6385,9 @@ rule shmctl_a6d71a2767af9e01b3d016d948b1510e {
 		$pattern
 }
 
-rule fseeko_1b9d69db484283119f41ccdcf773c966 {
+rule fseek_1b9d69db484283119f41ccdcf773c966 {
 	meta:
-		aliases = "__GI_fseek, fseek, fseeko"
+		aliases = "fseek"
 		type = "func"
 		size = "16"
 		objfiles = "fseeko@libc.a"
@@ -6411,7 +6411,7 @@ rule byte_store_op2_feb99171b03792231535ce189add0e40 {
 
 rule wcsrtombs_f8cfc2cc3fd9ef575393ff97e01520b1 {
 	meta:
-		aliases = "__GI_wcsrtombs, wcsrtombs"
+		aliases = "wcsrtombs"
 		type = "func"
 		size = "16"
 		objfiles = "wcsrtombs@libc.a"
@@ -6423,7 +6423,7 @@ rule wcsrtombs_f8cfc2cc3fd9ef575393ff97e01520b1 {
 
 rule mbsrtowcs_2047b9a3ebc7680bf945d2f6811cf720 {
 	meta:
-		aliases = "__GI_mbsrtowcs, mbsrtowcs"
+		aliases = "mbsrtowcs"
 		type = "func"
 		size = "28"
 		objfiles = "mbsrtowcs@libc.a"
@@ -6435,7 +6435,7 @@ rule mbsrtowcs_2047b9a3ebc7680bf945d2f6811cf720 {
 
 rule re_match_54b0040fb052bc55c641f26f57ad549e {
 	meta:
-		aliases = "__re_match, re_match"
+		aliases = "re_match"
 		type = "func"
 		size = "32"
 		objfiles = "regex_old@libc.a"
@@ -6447,7 +6447,7 @@ rule re_match_54b0040fb052bc55c641f26f57ad549e {
 
 rule strcpy_54041836c36084cf19feb0ea0708c9d3 {
 	meta:
-		aliases = "__GI_strcpy, strcpy"
+		aliases = "strcpy"
 		type = "func"
 		size = "32"
 		objfiles = "strcpy@libc.a"
@@ -6555,7 +6555,7 @@ rule wmemmove_b4ba741449b97b724fa973ea7312eeab {
 
 rule memmove_5968ba4178738e16a6a64153855cd50a {
 	meta:
-		aliases = "__GI_memmove, memmove"
+		aliases = "memmove"
 		type = "func"
 		size = "164"
 		objfiles = "memmove@libc.a"
@@ -6567,10 +6567,10 @@ rule memmove_5968ba4178738e16a6a64153855cd50a {
 
 rule pthread_rwlockattr_getkind_np_b402757614995844725e8b03f013f854 {
 	meta:
-		aliases = "__GI_pthread_attr_getdetachstate, __pthread_mutexattr_getkind_np, __pthread_mutexattr_gettype, pthread_attr_getdetachstate, pthread_mutexattr_getkind_np, pthread_mutexattr_gettype, pthread_rwlockattr_getkind_np"
+		aliases = "pthread_attr_getdetachstate, pthread_mutexattr_gettype, pthread_rwlockattr_getkind_np"
 		type = "func"
 		size = "16"
-		objfiles = "rwlock@libpthread.a, attr@libpthread.a, mutex@libpthread.a"
+		objfiles = "rwlock@libpthread.a, mutex@libpthread.a, attr@libpthread.a"
 	strings:
 		$pattern = { 80 03 00 00 38 60 00 00 90 04 00 00 4E 80 00 20 }
 	condition:
@@ -6615,7 +6615,7 @@ rule __old_sem_getvalue_939e8e7bf41783673ec78131e5c52816 {
 
 rule wcschr_6a52af07298270740f7c4a7550aaa6b1 {
 	meta:
-		aliases = "__GI_wcschr, wcschr"
+		aliases = "wcschr"
 		type = "func"
 		size = "32"
 		objfiles = "wcschr@libc.a"
@@ -6639,7 +6639,7 @@ rule xdrrec_inline_16064157752d4d8279a4f69573a607b5 {
 
 rule pthread_rwlockattr_getpshared_cbda169a68514a1f59943dad3cc1adfe {
 	meta:
-		aliases = "__GI_pthread_attr_getschedpolicy, pthread_attr_getschedpolicy, pthread_rwlockattr_getpshared"
+		aliases = "pthread_attr_getschedpolicy, pthread_rwlockattr_getpshared"
 		type = "func"
 		size = "16"
 		objfiles = "rwlock@libpthread.a, attr@libpthread.a"
@@ -6651,7 +6651,7 @@ rule pthread_rwlockattr_getpshared_cbda169a68514a1f59943dad3cc1adfe {
 
 rule pthread_cond_destroy_e117a3a932bd7341b1160a77d5e4c71e {
 	meta:
-		aliases = "__GI_pthread_cond_destroy, pthread_cond_destroy"
+		aliases = "pthread_cond_destroy"
 		type = "func"
 		size = "20"
 		objfiles = "condvar@libpthread.a"
@@ -6663,7 +6663,7 @@ rule pthread_cond_destroy_e117a3a932bd7341b1160a77d5e4c71e {
 
 rule sem_getvalue_a21713d777f06b9a3f4ab40fc3e52067 {
 	meta:
-		aliases = "__new_sem_getvalue, sem_getvalue"
+		aliases = "sem_getvalue"
 		type = "func"
 		size = "16"
 		objfiles = "semaphore@libpthread.a"
@@ -6687,7 +6687,7 @@ rule __fbufsize_4dcf3f268727b08110eb0506e61363ba {
 
 rule pthread_mutex_destroy_8cd5fda5be62551985086605cba3a768 {
 	meta:
-		aliases = "__pthread_mutex_destroy, pthread_mutex_destroy"
+		aliases = "pthread_mutex_destroy"
 		type = "func"
 		size = "80"
 		objfiles = "mutex@libpthread.a"
@@ -6699,7 +6699,7 @@ rule pthread_mutex_destroy_8cd5fda5be62551985086605cba3a768 {
 
 rule pthread_attr_getinheritsched_876a32d79f56daaa8938c7e9f7bebe7e {
 	meta:
-		aliases = "__GI_pthread_attr_getinheritsched, pthread_attr_getinheritsched"
+		aliases = "pthread_attr_getinheritsched"
 		type = "func"
 		size = "16"
 		objfiles = "attr@libpthread.a"
@@ -6723,7 +6723,7 @@ rule rwlock_can_rdlock_68724f1d758b70e34b9ea73ec0a87503 {
 
 rule random_r_ce1c7c7ba54e46f209aa93e967d2eecf {
 	meta:
-		aliases = "__GI_random_r, random_r"
+		aliases = "random_r"
 		type = "func"
 		size = "140"
 		objfiles = "random_r@libc.a"
@@ -6735,7 +6735,7 @@ rule random_r_ce1c7c7ba54e46f209aa93e967d2eecf {
 
 rule pthread_attr_getscope_2ac0f9d8d1a82a92f1d3151fbd33add1 {
 	meta:
-		aliases = "__GI_pthread_attr_getscope, pthread_attr_getscope"
+		aliases = "pthread_attr_getscope"
 		type = "func"
 		size = "16"
 		objfiles = "attr@libpthread.a"
@@ -6771,7 +6771,7 @@ rule xdrmem_getpos_dc78cca339da4c573a98d6bda3b11134 {
 
 rule pthread_attr_getguardsize_db37c99f5e32e39f73854414a984062e {
 	meta:
-		aliases = "__pthread_attr_getguardsize, pthread_attr_getguardsize"
+		aliases = "pthread_attr_getguardsize"
 		type = "func"
 		size = "16"
 		objfiles = "attr@libpthread.a"
@@ -6807,7 +6807,7 @@ rule _ppfs_setargs_101a179cfc7eac661cd4e52406c54c89 {
 
 rule pthread_attr_getstackaddr_ef73db50bb1e5bd38e1d9f7828ee9ede {
 	meta:
-		aliases = "__pthread_attr_getstackaddr, pthread_attr_getstackaddr"
+		aliases = "pthread_attr_getstackaddr"
 		type = "func"
 		size = "16"
 		objfiles = "attr@libpthread.a"
@@ -6831,7 +6831,7 @@ rule _dl_aux_init_d0ed3b2d20baa2b587a2408e10ead909 {
 
 rule pthread_attr_getstacksize_342f2b9e3f487a12e1a161dfacaae95b {
 	meta:
-		aliases = "__pthread_attr_getstacksize, pthread_attr_getstacksize"
+		aliases = "pthread_attr_getstacksize"
 		type = "func"
 		size = "16"
 		objfiles = "attr@libpthread.a"
@@ -6879,7 +6879,7 @@ rule _restfpr_31_x_bf6524ab173811726126e9f2f5574d04 {
 
 rule __longjmp_183fbe5ff4b50f73b0a0b8c99080a429 {
 	meta:
-		aliases = "__GI___longjmp, __longjmp"
+		aliases = "__longjmp"
 		type = "func"
 		size = "176"
 		objfiles = "__longjmp@libc.a"
@@ -6891,7 +6891,7 @@ rule __longjmp_183fbe5ff4b50f73b0a0b8c99080a429 {
 
 rule pthread_self_4011b5232eedc30217e0949793b0b104 {
 	meta:
-		aliases = "__GI_pthread_self, pthread_self"
+		aliases = "pthread_self"
 		type = "func"
 		size = "8"
 		objfiles = "pthread@libpthread.a"
@@ -6990,7 +6990,7 @@ rule xdrstdio_getpos_f9eabf2e333635a9a6d054796d96e4d5 {
 		aliases = "hasmntopt, xdrstdio_destroy, xdrstdio_getpos"
 		type = "func"
 		size = "8"
-		objfiles = "mntent@libc.a, xdr_stdio@libc.a"
+		objfiles = "xdr_stdio@libc.a, mntent@libc.a"
 	strings:
 		$pattern = { 80 63 00 0C ( 4? | 3? ) ?? ?? ?? }
 	condition:
@@ -7131,7 +7131,7 @@ rule xdrmem_getlong_9fa5df4d225f58ef1ae1e63e480a38da {
 
 rule __cmsg_nxthdr_202d55abeefe8aefff5a08d0d44a2917 {
 	meta:
-		aliases = "__GI___cmsg_nxthdr, __cmsg_nxthdr"
+		aliases = "__cmsg_nxthdr"
 		type = "func"
 		size = "80"
 		objfiles = "cmsg_nxthdr@libc.a"
@@ -7179,7 +7179,7 @@ rule insque_bc9abed83dac650ef3a8ad9d740e2baa {
 
 rule _seterr_reply_f3f1a5c1ea3bd7a469001c0aaef9e552 {
 	meta:
-		aliases = "__GI__seterr_reply, _seterr_reply"
+		aliases = "_seterr_reply"
 		type = "func"
 		size = "300"
 		objfiles = "rpc_prot@libc.a"
@@ -7203,7 +7203,7 @@ rule inet_lnaof_f3bb0312169ed17bab9fd47c0a4f4e1c {
 
 rule inet_netof_7d5764a2165946c3b721e5a7b807e80e {
 	meta:
-		aliases = "__GI_inet_netof, inet_netof"
+		aliases = "inet_netof"
 		type = "func"
 		size = "44"
 		objfiles = "inet_netof@libc.a"
@@ -7239,7 +7239,7 @@ rule _dl_run_fini_array_f5e09241629200e7eb504a837893caec {
 
 rule setstate_r_108594fdb2fbb5150ecc1435f6e29be6 {
 	meta:
-		aliases = "__GI_setstate_r, setstate_r"
+		aliases = "setstate_r"
 		type = "func"
 		size = "244"
 		objfiles = "random_r@libc.a"
@@ -7254,7 +7254,7 @@ rule enqueue_cf84a75ccfc061c084ceb806fecd203f {
 		aliases = "enqueue"
 		type = "func"
 		size = "52"
-		objfiles = "rwlock@libpthread.a, semaphore@libpthread.a, condvar@libpthread.a"
+		objfiles = "semaphore@libpthread.a, rwlock@libpthread.a, condvar@libpthread.a"
 	strings:
 		$pattern = { 81 64 00 18 48 00 00 1C 80 09 00 18 7F 8B 00 00 40 BD 00 0C 91 24 00 08 48 00 00 14 38 69 00 08 81 23 00 00 2F 89 00 00 40 9E FF E0 90 83 00 00 4E 80 00 20 }
 	condition:
@@ -7767,7 +7767,7 @@ rule __scan_ungetc_80c05be9f750000cb9d5c7c5fa8a7d37 {
 
 rule stpcpy_32dd06099a830d71b8d3d34fdc85026e {
 	meta:
-		aliases = "__GI_stpcpy, stpcpy"
+		aliases = "stpcpy"
 		type = "func"
 		size = "32"
 		objfiles = "stpcpy@libc.a"
@@ -7803,7 +7803,7 @@ rule cfgetospeed_5a9250825771bdeb96955c0507a73987 {
 
 rule strstr_66d748a0914f8232252f003fcb55ef49 {
 	meta:
-		aliases = "__GI_strstr, strstr"
+		aliases = "strstr"
 		type = "func"
 		size = "240"
 		objfiles = "strstr@libc.a"
@@ -7935,7 +7935,7 @@ rule _pthread_cleanup_push_5fb418372aa6da3c429d2e2ca6081cf0 {
 
 rule _pthread_cleanup_push_defer_c20243c3ff0691ca92f9dee72882efb1 {
 	meta:
-		aliases = "__pthread_cleanup_push_defer, _pthread_cleanup_push_defer"
+		aliases = "_pthread_cleanup_push_defer"
 		type = "func"
 		size = "68"
 		objfiles = "cancel@libpthread.a"
@@ -8247,7 +8247,7 @@ rule realpath_0ea14f9a62e2b1656eee4e4a6fa3ace6 {
 
 rule openpty_218721248d5db63915ceb9d881d165a5 {
 	meta:
-		aliases = "__GI_openpty, openpty"
+		aliases = "openpty"
 		type = "func"
 		size = "272"
 		objfiles = "openpty@libutil.a"
@@ -8257,9 +8257,9 @@ rule openpty_218721248d5db63915ceb9d881d165a5 {
 		$pattern
 }
 
-rule tmpfile64_9c35e8d20357c6c266dd792cc2269f88 {
+rule tmpfile_9c35e8d20357c6c266dd792cc2269f88 {
 	meta:
-		aliases = "tmpfile, tmpfile64"
+		aliases = "tmpfile"
 		type = "func"
 		size = "144"
 		objfiles = "tmpfile@libc.a"
@@ -8286,7 +8286,7 @@ rule statvfs64_9c3a7c65431f73c332716277938f84cf {
 		aliases = "fstatvfs64, statvfs64"
 		type = "func"
 		size = "788"
-		objfiles = "fstatvfs64@libc.a, statvfs64@libc.a"
+		objfiles = "statvfs64@libc.a, fstatvfs64@libc.a"
 	strings:
 		$pattern = { 94 21 FA 60 7C 08 02 A6 BE 21 05 64 7C 9F 23 78 38 81 00 28 90 01 05 A4 7C 7E 1B 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 38 60 FF FF 41 9C 02 D8 81 21 00 30 3B 80 00 00 81 41 00 34 81 61 00 38 81 81 00 3C 80 E1 00 40 81 01 00 44 80 A1 00 48 80 C1 00 4C 80 61 00 50 80 81 00 54 80 01 00 58 83 61 00 2C 83 A1 00 60 91 3F 00 08 91 5F 00 0C 91 7F 00 10 91 9F 00 14 90 FF 00 18 91 1F 00 1C 90 BF 00 20 38 A0 00 18 90 DF 00 24 90 7F 00 28 38 7F 00 48 90 9F 00 2C 38 80 00 00 90 1F 00 38 93 7F 00 04 93 BF 00 44 93 7F 00 00 93 9F 00 3C ( 4? | 3? ) ?? ?? ?? 81 3F 00 28 81 5F 00 2C 7F C3 F3 78 93 9F 00 40 38 81 00 80 91 3F 00 30 91 5F 00 34 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 38 60 00 00 41 9C 02 28 ( 4? | 3? ) ?? ?? ?? 3D 20 ?? ?? 7C 7A 1B 78 3B A9 ?? ?? 3C 60 ?? ?? 7F A4 EB 78 38 63 ?? ?? 83 3A 00 00 ( 4? | 3? ) ?? ?? ?? 7C 7C 1B 79 40 A2 00 18 3C 60 ?? ?? 7F A4 EB 78 38 63 ?? ?? ( 4? | 3? ) ?? ?? ?? 7C 7C 1B 78 2F 9C 00 00 40 BE 01 A4 48 00 01 D4 80 61 00 10 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 41 9C 01 9C 80 01 00 80 81 21 00 E8 7F 80 48 00 40 BE 01 8C 80 01 00 84 81 21 00 EC 7F 80 48 00 40 BE 01 7C 3D 20 ?? ?? 80 01 00 18 3A 29 ?? ?? 3D 20 ?? ?? 3A 49 ?? ?? 3D 20 ?? ?? 3A 69 ?? ?? 3D 20 ?? ?? 3A 89 ?? ?? 3D 20 ?? ?? 3A A9 ?? ?? 3D 20 ?? ?? 3A C9 ?? ?? 3D 20 ?? ?? 3A E9 ?? ?? 3D 20 ?? ?? 3B 09 ?? ?? 3D 20 ?? ?? 3B 69 ?? ?? 3B C1 00 08 90 01 00 08 48 00 01 00 7E 44 93 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 00 01 48 00 00 E0 7F A3 EB 78 7E 64 9B 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 00 02 48 00 00 C0 7F A3 EB 78 7E 84 A3 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 00 08 48 00 00 A0 7F A3 EB 78 7E A4 AB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 00 04 48 00 00 80 7F A3 EB 78 7E C4 B3 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 00 10 48 00 00 60 7F A3 EB 78 7E E4 BB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 00 40 48 00 00 40 7F A3 EB 78 7F 04 C3 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 04 00 48 00 00 20 7F A3 EB 78 7F 64 DB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 40 60 00 08 00 90 1F 00 40 7F C3 F3 78 7E 24 8B 78 ( 4? | 3? ) ?? ?? ?? 7C 7D 1B 79 40 82 FE F4 48 00 00 30 3B 61 00 0C 3B A1 01 50 3B C1 00 E8 7F 64 DB 78 7F A5 EB 78 38 C0 04 00 7F 83 E3 78 ( 4? | 3? ) ?? ?? ?? 7F C4 F3 78 2F 83 00 00 40 9E FE 3C 7F 83 E3 78 ( 4? | 3? ) ?? ?? ?? 93 3A 00 00 38 60 00 00 80 01 05 A4 BA 21 05 64 38 21 05 A0 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -8295,7 +8295,7 @@ rule statvfs64_9c3a7c65431f73c332716277938f84cf {
 
 rule vsyslog_f1d7cda9bf88556b9c95ed5ce5991bae {
 	meta:
-		aliases = "__GI_vsyslog, vsyslog"
+		aliases = "vsyslog"
 		type = "func"
 		size = "940"
 		objfiles = "syslog@libc.a"
@@ -8307,10 +8307,10 @@ rule vsyslog_f1d7cda9bf88556b9c95ed5ce5991bae {
 
 rule statvfs_a633b357768a9a5af96cbc297b62f7d4 {
 	meta:
-		aliases = "__GI_statvfs, fstatvfs, statvfs"
+		aliases = "fstatvfs, statvfs"
 		type = "func"
 		size = "740"
-		objfiles = "fstatvfs@libc.a, statvfs@libc.a"
+		objfiles = "statvfs@libc.a, fstatvfs@libc.a"
 	strings:
 		$pattern = { 94 21 FA A0 7C 08 02 A6 BE 21 05 24 7C 9F 23 78 38 81 00 24 90 01 05 64 7C 7E 1B 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 38 60 FF FF 41 9C 02 A8 80 A1 00 28 3B A0 00 00 80 01 00 2C 38 80 00 00 81 21 00 30 38 7F 00 30 81 61 00 34 81 41 00 38 81 01 00 3C 80 E1 00 40 80 C1 00 48 90 BF 00 04 90 1F 00 08 91 3F 00 0C 91 7F 00 10 91 5F 00 14 91 1F 00 18 90 FF 00 20 90 DF 00 2C 90 BF 00 00 38 A0 00 18 93 BF 00 24 ( 4? | 3? ) ?? ?? ?? 80 1F 00 18 93 BF 00 28 7F C3 F3 78 38 81 00 68 90 1F 00 1C ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 38 60 00 00 41 9C 02 28 ( 4? | 3? ) ?? ?? ?? 3D 20 ?? ?? 7C 7A 1B 78 3B A9 ?? ?? 3C 60 ?? ?? 7F A4 EB 78 38 63 ?? ?? 83 3A 00 00 ( 4? | 3? ) ?? ?? ?? 7C 7E 1B 79 40 A2 00 18 3C 60 ?? ?? 7F A4 EB 78 38 63 ?? ?? ( 4? | 3? ) ?? ?? ?? 7C 7E 1B 78 2F 9E 00 00 40 BE 01 A4 48 00 01 D4 80 61 00 10 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 41 9C 01 9C 80 01 00 68 81 21 00 C0 7F 80 48 00 40 BE 01 8C 80 01 00 6C 81 21 00 C4 7F 80 48 00 40 BE 01 7C 3D 20 ?? ?? 80 01 00 18 3A 29 ?? ?? 3D 20 ?? ?? 3A 49 ?? ?? 3D 20 ?? ?? 3A 69 ?? ?? 3D 20 ?? ?? 3A 89 ?? ?? 3D 20 ?? ?? 3A A9 ?? ?? 3D 20 ?? ?? 3A C9 ?? ?? 3D 20 ?? ?? 3A E9 ?? ?? 3D 20 ?? ?? 3B 09 ?? ?? 3D 20 ?? ?? 3B 69 ?? ?? 3B 81 00 08 90 01 00 08 48 00 01 00 7E 44 93 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 00 01 48 00 00 E0 7F A3 EB 78 7E 64 9B 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 00 02 48 00 00 C0 7F A3 EB 78 7E 84 A3 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 00 08 48 00 00 A0 7F A3 EB 78 7E A4 AB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 00 04 48 00 00 80 7F A3 EB 78 7E C4 B3 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 00 10 48 00 00 60 7F A3 EB 78 7E E4 BB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 00 40 48 00 00 40 7F A3 EB 78 7F 04 C3 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 04 00 48 00 00 20 7F A3 EB 78 7F 64 DB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 10 80 1F 00 28 60 00 08 00 90 1F 00 28 7F 83 E3 78 7E 24 8B 78 ( 4? | 3? ) ?? ?? ?? 7C 7D 1B 79 40 82 FE F4 48 00 00 30 3B 61 00 0C 3B 81 01 18 3B A1 00 C0 7F 64 DB 78 7F 85 E3 78 38 C0 04 00 7F C3 F3 78 ( 4? | 3? ) ?? ?? ?? 7F A4 EB 78 2F 83 00 00 40 9E FE 3C 7F C3 F3 78 ( 4? | 3? ) ?? ?? ?? 93 3A 00 00 38 60 00 00 80 01 05 64 BA 21 05 24 38 21 05 60 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -8319,7 +8319,7 @@ rule statvfs_a633b357768a9a5af96cbc297b62f7d4 {
 
 rule svc_getreq_common_c9a2e4a68ee5a4cf4077aa8a65e8a828 {
 	meta:
-		aliases = "__GI_svc_getreq_common, svc_getreq_common"
+		aliases = "svc_getreq_common"
 		type = "func"
 		size = "456"
 		objfiles = "svc@libc.a"
@@ -8331,7 +8331,7 @@ rule svc_getreq_common_c9a2e4a68ee5a4cf4077aa8a65e8a828 {
 
 rule ruserpass_1d18d6220afe132df6ba670f96b9b20f {
 	meta:
-		aliases = "__GI_ruserpass, ruserpass"
+		aliases = "ruserpass"
 		type = "func"
 		size = "900"
 		objfiles = "ruserpass@libc.a"
@@ -8343,7 +8343,7 @@ rule ruserpass_1d18d6220afe132df6ba670f96b9b20f {
 
 rule __res_querydomain_751f250b5bdfe5593c3d1f2cd89372b2 {
 	meta:
-		aliases = "__GI___res_querydomain, __res_querydomain"
+		aliases = "__res_querydomain"
 		type = "func"
 		size = "392"
 		objfiles = "res_query@libc.a"
@@ -8355,7 +8355,7 @@ rule __res_querydomain_751f250b5bdfe5593c3d1f2cd89372b2 {
 
 rule clnt_sperror_9f8cb3f5e7d262af11a831c97e76c197 {
 	meta:
-		aliases = "__GI_clnt_sperror, clnt_sperror"
+		aliases = "clnt_sperror"
 		type = "func"
 		size = "472"
 		objfiles = "clnt_perror@libc.a"
@@ -8367,7 +8367,7 @@ rule clnt_sperror_9f8cb3f5e7d262af11a831c97e76c197 {
 
 rule clnt_spcreateerror_dcd0ddc67ea09852f02c81468ca1221c {
 	meta:
-		aliases = "__GI_clnt_spcreateerror, clnt_spcreateerror"
+		aliases = "clnt_spcreateerror"
 		type = "func"
 		size = "292"
 		objfiles = "clnt_perror@libc.a"
@@ -8415,7 +8415,7 @@ rule __kernel_rem_pio2_e4f81c16e7bead45298c007e0e2cfdb5 {
 
 rule getnameinfo_7eacf2ae82ccc4742608ba0520d16009 {
 	meta:
-		aliases = "__GI_getnameinfo, getnameinfo"
+		aliases = "getnameinfo"
 		type = "func"
 		size = "744"
 		objfiles = "getnameinfo@libc.a"
@@ -8463,7 +8463,7 @@ rule des_init_19c59f2733b5e1459b297053672dff03 {
 
 rule vfscanf_7db90055264f98ccf441bfd2266e4cef {
 	meta:
-		aliases = "__GI_vfscanf, vfscanf"
+		aliases = "vfscanf"
 		type = "func"
 		size = "1784"
 		objfiles = "vfscanf@libc.a"
@@ -8487,7 +8487,7 @@ rule glob_in_dir_123e37d6694e6d00c5ea423710f68023 {
 
 rule authunix_create_6b08dfd8e18d1fd2cd7cd8a75114c634 {
 	meta:
-		aliases = "__GI_authunix_create, authunix_create"
+		aliases = "authunix_create"
 		type = "func"
 		size = "372"
 		objfiles = "auth_unix@libc.a"
@@ -8511,7 +8511,7 @@ rule gethostid_7222cc4e60eb7d3d3e28167e6b8dc68f {
 
 rule sleep_3a17de71f6f040fb531056b35fe09c46 {
 	meta:
-		aliases = "__GI_sleep, sleep"
+		aliases = "sleep"
 		type = "func"
 		size = "468"
 		objfiles = "sleep@libc.a"
@@ -8535,7 +8535,7 @@ rule sigset_a3f515246e78c538e86c7e98a1e243c3 {
 
 rule rexec_af_d3d0079bae26eb5797150ee51fe9a057 {
 	meta:
-		aliases = "__GI_rexec_af, rexec_af"
+		aliases = "rexec_af"
 		type = "func"
 		size = "1068"
 		objfiles = "rexec@libc.a"
@@ -8547,7 +8547,7 @@ rule rexec_af_d3d0079bae26eb5797150ee51fe9a057 {
 
 rule gethostname_f2815489f86f5cfa3d68c5c6a81adf12 {
 	meta:
-		aliases = "__GI_gethostname, gethostname"
+		aliases = "gethostname"
 		type = "func"
 		size = "128"
 		objfiles = "gethostname@libc.a"
@@ -8559,7 +8559,7 @@ rule gethostname_f2815489f86f5cfa3d68c5c6a81adf12 {
 
 rule getdomainname_0894ac354bc342401d460ab4f581b1cd {
 	meta:
-		aliases = "__GI___libc_getdomainname, __GI_getdomainname, __libc_getdomainname, getdomainname"
+		aliases = "getdomainname"
 		type = "func"
 		size = "128"
 		objfiles = "getdomainname@libc.a"
@@ -8667,7 +8667,7 @@ rule getpw_52e565b4b9df4d9be348cdc340ddce86 {
 
 rule vfwscanf_9684bf0ef92716cdbef4e38913af73a2 {
 	meta:
-		aliases = "__GI_vfwscanf, vfwscanf"
+		aliases = "vfwscanf"
 		type = "func"
 		size = "1892"
 		objfiles = "vfwscanf@libc.a"
@@ -8703,7 +8703,7 @@ rule __getgrouplist_internal_a6370a85c4c1e052ace4602eada82aaf {
 
 rule sigaction_cbb71f9e14dd79895162c031b2f3342a {
 	meta:
-		aliases = "__GI_sigaction, __libc_sigaction, sigaction"
+		aliases = "sigaction"
 		type = "func"
 		size = "220"
 		objfiles = "sigaction@libc.a"
@@ -8715,7 +8715,7 @@ rule sigaction_cbb71f9e14dd79895162c031b2f3342a {
 
 rule sysv_signal_3b3bc4278b1d5ac1b407b6e9e7e47fb1 {
 	meta:
-		aliases = "__sysv_signal, sysv_signal"
+		aliases = "sysv_signal"
 		type = "func"
 		size = "160"
 		objfiles = "sysv_signal@libc.a"
@@ -8727,7 +8727,7 @@ rule sysv_signal_3b3bc4278b1d5ac1b407b6e9e7e47fb1 {
 
 rule signal_c7d67293de94c12a6f29d53d1aef9b67 {
 	meta:
-		aliases = "__GI_signal, __bsd_signal, bsd_signal, signal"
+		aliases = "signal"
 		type = "func"
 		size = "224"
 		objfiles = "signal@libc.a"
@@ -8739,7 +8739,7 @@ rule signal_c7d67293de94c12a6f29d53d1aef9b67 {
 
 rule abort_51dc549aecdac3a1b34e973a23c124f0 {
 	meta:
-		aliases = "__GI_abort, abort"
+		aliases = "abort"
 		type = "func"
 		size = "336"
 		objfiles = "abort@libc.a"
@@ -8763,7 +8763,7 @@ rule ether_ntohost_82dc6b6efbd0be8918dbad61a1a6caf9 {
 
 rule authunix_create_default_6a50cc6f156cc14adc3995aaf420e4d2 {
 	meta:
-		aliases = "__GI_authunix_create_default, authunix_create_default"
+		aliases = "authunix_create_default"
 		type = "func"
 		size = "204"
 		objfiles = "auth_unix@libc.a"
@@ -8799,7 +8799,7 @@ rule __decode_answer_600d8b6dea90e0bed75d9c2f6d0d68ce {
 
 rule __ns_name_uncompress_6f55a46609a61e5b03ed211be67447ea {
 	meta:
-		aliases = "__GI___ns_name_uncompress, __ns_name_uncompress"
+		aliases = "__ns_name_uncompress"
 		type = "func"
 		size = "104"
 		objfiles = "ns_name@libc.a"
@@ -8835,7 +8835,7 @@ rule __divtc3_820a8ea13986151758c2670812c835b2 {
 
 rule sigblock_df28a6dfb34013becaae5df59dfe6fb0 {
 	meta:
-		aliases = "__GI_sigblock, sigblock"
+		aliases = "sigblock"
 		type = "func"
 		size = "92"
 		objfiles = "sigblock@libc.a"
@@ -8847,7 +8847,7 @@ rule sigblock_df28a6dfb34013becaae5df59dfe6fb0 {
 
 rule sigsetmask_10c22af3f594183337aecd76f6317422 {
 	meta:
-		aliases = "__GI_sigsetmask, sigsetmask"
+		aliases = "sigsetmask"
 		type = "func"
 		size = "92"
 		objfiles = "sigsetmask@libc.a"
@@ -8859,7 +8859,7 @@ rule sigsetmask_10c22af3f594183337aecd76f6317422 {
 
 rule glob64_9d838bcd0f85ad122cf24c13c37eea49 {
 	meta:
-		aliases = "__GI_glob64, glob64"
+		aliases = "glob64"
 		type = "func"
 		size = "1392"
 		objfiles = "glob64@libc.a"
@@ -8919,7 +8919,7 @@ rule __multc3_fb085f45a215391793aa72ae6291ec6d {
 
 rule ttyname_r_2b26a1842d59b850205cd655cdadc4f8 {
 	meta:
-		aliases = "__GI_ttyname_r, ttyname_r"
+		aliases = "ttyname_r"
 		type = "func"
 		size = "368"
 		objfiles = "ttyname@libc.a"
@@ -8955,7 +8955,7 @@ rule __dns_lookup_6334a8697a9ec318c07c5c8fe4a7f342 {
 
 rule glob_e774667b772ecdbf681e2663327357e7 {
 	meta:
-		aliases = "__GI_glob, glob"
+		aliases = "glob"
 		type = "func"
 		size = "1392"
 		objfiles = "glob@libc.a"
@@ -9111,7 +9111,7 @@ rule __fixunstfdi_ffd1e34164a4a7a33f7ee67c5db0d4a7 {
 
 rule sem_post_4a20728f7ceff32cf1f8e11490543c5d {
 	meta:
-		aliases = "__new_sem_post, sem_post"
+		aliases = "sem_post"
 		type = "func"
 		size = "296"
 		objfiles = "semaphore@libpthread.a"
@@ -9219,7 +9219,7 @@ rule svcunix_create_76b5188c15e30097a5f4ec219468c2d5 {
 
 rule pselect_9d3047cd1e37ae1ef64099339f9aa402 {
 	meta:
-		aliases = "__libc_pselect, pselect"
+		aliases = "pselect"
 		type = "func"
 		size = "200"
 		objfiles = "pselect@libc.a"
@@ -9243,7 +9243,7 @@ rule __pthread_manager_sighandler_e55bb9205fa96eb76d5347302202e23e {
 
 rule sigaction_1e859220f199568536a01052cf336bf2 {
 	meta:
-		aliases = "__GI_sigaction, sigaction"
+		aliases = "sigaction"
 		type = "func"
 		size = "328"
 		objfiles = "signals@libpthread.a"
@@ -9267,7 +9267,7 @@ rule __uClibc_main_82010d8953313a437b98badef68b31b1 {
 
 rule vdprintf_e2bbab112d50cc302226e2569e9464e4 {
 	meta:
-		aliases = "__GI_vdprintf, vdprintf"
+		aliases = "vdprintf"
 		type = "func"
 		size = "172"
 		objfiles = "vdprintf@libc.a"
@@ -9291,7 +9291,7 @@ rule rendezvous_request_487c4d537a07bf1b2bd4517600f3e7a7 {
 
 rule pthread_kill_other_threads_np_7fb7e4fe31b35d237c1f695817133c8e {
 	meta:
-		aliases = "__pthread_kill_other_threads_np, pthread_kill_other_threads_np"
+		aliases = "pthread_kill_other_threads_np"
 		type = "func"
 		size = "144"
 		objfiles = "pthread@libpthread.a"
@@ -9315,7 +9315,7 @@ rule __pthread_wait_for_restart_sig_f675d3c9f756d9d3d6a134a2725dbe4b {
 
 rule strptime_601ba06e1cc63d59adb8f528555ea350 {
 	meta:
-		aliases = "__GI_strptime, strptime"
+		aliases = "strptime"
 		type = "func"
 		size = "1208"
 		objfiles = "strptime@libc.a"
@@ -9423,7 +9423,7 @@ rule adjtime_7f82644b1b4885e2c4e5d59b6445c246 {
 
 rule __sigpause_e6e2bb79aa040451e6194766387555f5 {
 	meta:
-		aliases = "__GI___sigpause, __sigpause"
+		aliases = "__sigpause"
 		type = "func"
 		size = "148"
 		objfiles = "sigpause@libc.a"
@@ -9435,7 +9435,7 @@ rule __sigpause_e6e2bb79aa040451e6194766387555f5 {
 
 rule gethostbyname2_r_cb2e825cff6de11c8ea0adae1cf9a7f0 {
 	meta:
-		aliases = "__GI_gethostbyname2_r, gethostbyname2_r"
+		aliases = "gethostbyname2_r"
 		type = "func"
 		size = "744"
 		objfiles = "gethostbyname2_r@libc.a"
@@ -9450,7 +9450,7 @@ rule sigrelse_fc4bcbc4180390f153e6fcc42e824654 {
 		aliases = "sighold, sigrelse"
 		type = "func"
 		size = "112"
-		objfiles = "sighold@libc.a, sigrelse@libc.a"
+		objfiles = "sigrelse@libc.a, sighold@libc.a"
 	strings:
 		$pattern = { 94 21 FF 70 7C 08 02 A6 38 80 00 00 BF C1 00 88 3B E1 00 08 7C 7E 1B 78 7F E5 FB 78 38 60 00 02 90 01 00 94 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 41 BC 00 2C 7F C4 F3 78 7F E3 FB 78 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 41 9C 00 18 7F E4 FB 78 38 A0 00 00 38 60 00 02 ( 4? | 3? ) ?? ?? ?? 48 00 00 08 38 60 FF FF 80 01 00 94 BB C1 00 88 38 21 00 90 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -9459,7 +9459,7 @@ rule sigrelse_fc4bcbc4180390f153e6fcc42e824654 {
 
 rule svc_getreq_d91efe9acf0693bc71a1a1f200d74216 {
 	meta:
-		aliases = "__GI_svc_getreq, svc_getreq"
+		aliases = "svc_getreq"
 		type = "func"
 		size = "76"
 		objfiles = "svc@libc.a"
@@ -9519,7 +9519,7 @@ rule _time_mktime_tzi_91699050b1c64186c237ff9f4bab0404 {
 
 rule gethostbyaddr_r_6998fcc43a53bff63be2696e4712c194 {
 	meta:
-		aliases = "__GI_gethostbyaddr_r, gethostbyaddr_r"
+		aliases = "gethostbyaddr_r"
 		type = "func"
 		size = "840"
 		objfiles = "gethostbyaddr_r@libc.a"
@@ -9543,7 +9543,7 @@ rule clntraw_call_a0b886a77c13ba9cb8526eaa6588943f {
 
 rule error_at_line_89d720f028b288ebc71e8113cba3becc {
 	meta:
-		aliases = "__error_at_line, error_at_line"
+		aliases = "error_at_line"
 		type = "func"
 		size = "488"
 		objfiles = "error@libc.a"
@@ -9567,7 +9567,7 @@ rule initshells_cbc9bed1e59d4a8a6094f9ed094dc11c {
 
 rule stat64_7a6cb4fe726d6a5db61939c69680a492 {
 	meta:
-		aliases = "__GI_stat64, stat64"
+		aliases = "stat64"
 		type = "func"
 		size = "116"
 		objfiles = "stat64@libc.a"
@@ -9579,7 +9579,7 @@ rule stat64_7a6cb4fe726d6a5db61939c69680a492 {
 
 rule lstat64_f65c23691353f52f6e7a0e44abb8c2b8 {
 	meta:
-		aliases = "__GI_lstat64, lstat64"
+		aliases = "lstat64"
 		type = "func"
 		size = "116"
 		objfiles = "lstat64@libc.a"
@@ -9591,7 +9591,7 @@ rule lstat64_f65c23691353f52f6e7a0e44abb8c2b8 {
 
 rule fstat64_0dd5b937ee11cc6374ca24f29e7fefa5 {
 	meta:
-		aliases = "__GI_fstat64, fstat64"
+		aliases = "fstat64"
 		type = "func"
 		size = "116"
 		objfiles = "fstat64@libc.a"
@@ -9603,7 +9603,7 @@ rule fstat64_0dd5b937ee11cc6374ca24f29e7fefa5 {
 
 rule inet_ntop_89cec2ee0879e25955d104ee1ed85ab0 {
 	meta:
-		aliases = "__GI_inet_ntop, inet_ntop"
+		aliases = "inet_ntop"
 		type = "func"
 		size = "712"
 		objfiles = "ntop@libc.a"
@@ -9615,7 +9615,7 @@ rule inet_ntop_89cec2ee0879e25955d104ee1ed85ab0 {
 
 rule opendir_28b29f9188a597220e5697b7c7c6370c {
 	meta:
-		aliases = "__GI_opendir, opendir"
+		aliases = "opendir"
 		type = "func"
 		size = "276"
 		objfiles = "opendir@libc.a"
@@ -9663,10 +9663,10 @@ rule warnx_a621c13503b398183d1d0a2d83474376 {
 
 rule wscanf_3321fb334128344cf932b4f8a3f299d4 {
 	meta:
-		aliases = "__GI_printf, printf, scanf, wprintf, wscanf"
+		aliases = "printf, scanf, wprintf, wscanf"
 		type = "func"
 		size = "144"
-		objfiles = "scanf@libc.a, wprintf@libc.a, wscanf@libc.a, printf@libc.a"
+		objfiles = "wprintf@libc.a, wscanf@libc.a, scanf@libc.a, printf@libc.a"
 	strings:
 		$pattern = { 94 21 FF 80 7C 08 02 A6 90 81 00 1C 90 01 00 84 90 A1 00 20 90 C1 00 24 90 E1 00 28 91 01 00 2C 91 21 00 30 91 41 00 34 40 86 00 24 D8 21 00 38 D8 41 00 40 D8 61 00 48 D8 81 00 50 D8 A1 00 58 D8 C1 00 60 D8 E1 00 68 D9 01 00 70 3D 20 ?? ?? 38 00 00 01 7C 64 1B 78 80 69 ?? ?? 98 01 00 08 38 00 00 00 98 01 00 09 38 01 00 88 90 01 00 0C 38 A1 00 08 38 01 00 18 90 01 00 10 ( 4? | 3? ) ?? ?? ?? 80 01 00 84 38 21 00 80 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -9675,7 +9675,7 @@ rule wscanf_3321fb334128344cf932b4f8a3f299d4 {
 
 rule strftime_38fba7a1f14a74fcab5c30da3ed4fdd7 {
 	meta:
-		aliases = "__GI_strftime, strftime"
+		aliases = "strftime"
 		type = "func"
 		size = "1480"
 		objfiles = "strftime@libc.a"
@@ -9687,7 +9687,7 @@ rule strftime_38fba7a1f14a74fcab5c30da3ed4fdd7 {
 
 rule gethostbyname_r_f195d7c36de78ed5278435e581880d72 {
 	meta:
-		aliases = "__GI_gethostbyname_r, gethostbyname_r"
+		aliases = "gethostbyname_r"
 		type = "func"
 		size = "836"
 		objfiles = "gethostbyname_r@libc.a"
@@ -9735,7 +9735,7 @@ rule iruserfopen_50e9968070a38b13c4a1da84de1d864e {
 
 rule error_7f8e24a59e0ffe1b5adee9040f28a15b {
 	meta:
-		aliases = "__error, error"
+		aliases = "error"
 		type = "func"
 		size = "376"
 		objfiles = "error@libc.a"
@@ -9783,7 +9783,7 @@ rule _ppfs_parsespec_ca104b83df89e617a7aea224b4d0560b {
 
 rule vsscanf_6436866228034cdde225b7e2e82629d4 {
 	meta:
-		aliases = "__GI_vsscanf, vsscanf"
+		aliases = "vsscanf"
 		type = "func"
 		size = "152"
 		objfiles = "vsscanf@libc.a"
@@ -9795,7 +9795,7 @@ rule vsscanf_6436866228034cdde225b7e2e82629d4 {
 
 rule vsnprintf_2594ddc83cd3b2cfddfa73b183f929b2 {
 	meta:
-		aliases = "__GI_vsnprintf, vsnprintf"
+		aliases = "vsnprintf"
 		type = "func"
 		size = "204"
 		objfiles = "vsnprintf@libc.a"
@@ -9819,10 +9819,10 @@ rule errx_f7023cd6a42ee09783b282d162d82da7 {
 
 rule syslog_6fb229d4e388b4b87417d6a718a14138 {
 	meta:
-		aliases = "__GI_asprintf, __GI_fprintf, __GI_fscanf, __GI_sscanf, __GI_syslog, asprintf, dprintf, fprintf, fscanf, fwprintf, fwscanf, sscanf, swscanf, syslog"
+		aliases = "asprintf, dprintf, fprintf, fscanf, fwprintf, fwscanf, sscanf, swscanf, syslog"
 		type = "func"
 		size = "128"
-		objfiles = "fscanf@libc.a, sscanf@libc.a, fwprintf@libc.a, fprintf@libc.a, swscanf@libc.a"
+		objfiles = "sscanf@libc.a, fwscanf@libc.a, fprintf@libc.a, fscanf@libc.a, swscanf@libc.a"
 	strings:
 		$pattern = { 94 21 FF 90 7C 08 02 A6 90 A1 00 18 90 01 00 74 90 C1 00 1C 90 E1 00 20 91 01 00 24 91 21 00 28 91 41 00 2C 40 86 00 24 D8 21 00 30 D8 41 00 38 D8 61 00 40 D8 81 00 48 D8 A1 00 50 D8 C1 00 58 D8 E1 00 60 D9 01 00 68 38 00 00 02 38 A1 00 08 98 01 00 08 38 00 00 00 98 01 00 09 38 01 00 78 90 01 00 0C 38 01 00 10 90 01 00 10 ( 4? | 3? ) ?? ?? ?? 80 01 00 74 38 21 00 70 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -9831,7 +9831,7 @@ rule syslog_6fb229d4e388b4b87417d6a718a14138 {
 
 rule sprintf_bc405e8bbd990b25bb7f2874acd70254 {
 	meta:
-		aliases = "__GI_sprintf, sprintf"
+		aliases = "sprintf"
 		type = "func"
 		size = "136"
 		objfiles = "sprintf@libc.a"
@@ -9843,7 +9843,7 @@ rule sprintf_bc405e8bbd990b25bb7f2874acd70254 {
 
 rule swprintf_f2e266a30d918772954530ef39f04d91 {
 	meta:
-		aliases = "__GI_snprintf, snprintf, swprintf"
+		aliases = "snprintf, swprintf"
 		type = "func"
 		size = "124"
 		objfiles = "swprintf@libc.a, snprintf@libc.a"
@@ -9867,7 +9867,7 @@ rule ftok_ecdbd45dfa89e82c70079ce47f096683 {
 
 rule getaddrinfo_e5ac6f4addf61283238c40a8a83ecb1c {
 	meta:
-		aliases = "__GI_getaddrinfo, getaddrinfo"
+		aliases = "getaddrinfo"
 		type = "func"
 		size = "760"
 		objfiles = "getaddrinfo@libc.a"
@@ -9891,7 +9891,7 @@ rule writeunix_ef6c2cdb1535014266905701f75b9bb0 {
 
 rule clntudp_bufcreate_eb696b4d8de2ae82ad935dcd061df1ec {
 	meta:
-		aliases = "__GI_clntudp_bufcreate, clntudp_bufcreate"
+		aliases = "clntudp_bufcreate"
 		type = "func"
 		size = "596"
 		objfiles = "clnt_udp@libc.a"
@@ -9903,7 +9903,7 @@ rule clntudp_bufcreate_eb696b4d8de2ae82ad935dcd061df1ec {
 
 rule __res_query_269d6d52cdf2e6346fc2924850f4096b {
 	meta:
-		aliases = "__GI___res_query, __res_query"
+		aliases = "__res_query"
 		type = "func"
 		size = "292"
 		objfiles = "res_query@libc.a"
@@ -9915,7 +9915,7 @@ rule __res_query_269d6d52cdf2e6346fc2924850f4096b {
 
 rule vswscanf_8c56ca290ecc9f0032d8381d75cfe4ee {
 	meta:
-		aliases = "__GI_vswscanf, vswscanf"
+		aliases = "vswscanf"
 		type = "func"
 		size = "152"
 		objfiles = "vswscanf@libc.a"
@@ -9927,7 +9927,7 @@ rule vswscanf_8c56ca290ecc9f0032d8381d75cfe4ee {
 
 rule stat_cd34d866b220d02848e79453c07687f6 {
 	meta:
-		aliases = "__GI_stat, stat"
+		aliases = "stat"
 		type = "func"
 		size = "116"
 		objfiles = "stat@libc.a"
@@ -9939,7 +9939,7 @@ rule stat_cd34d866b220d02848e79453c07687f6 {
 
 rule lstat_ddb17dfb2dae9955e43f6b7a72525ab5 {
 	meta:
-		aliases = "__GI_lstat, lstat"
+		aliases = "lstat"
 		type = "func"
 		size = "116"
 		objfiles = "lstat@libc.a"
@@ -9951,7 +9951,7 @@ rule lstat_ddb17dfb2dae9955e43f6b7a72525ab5 {
 
 rule fstat_dd85ff2f0815be7e6526f06cc4c203e5 {
 	meta:
-		aliases = "__GI_fstat, fstat"
+		aliases = "fstat"
 		type = "func"
 		size = "116"
 		objfiles = "fstat@libc.a"
@@ -10035,7 +10035,7 @@ rule __res_search_d8eeeb781f53c3b3f1df5e3dc121a82e {
 
 rule strerror_r_50eed1f860cc49807a6addf85abaff70 {
 	meta:
-		aliases = "__GI___xpg_strerror_r, __xpg_strerror_r, strerror_r"
+		aliases = "strerror_r"
 		type = "func"
 		size = "272"
 		objfiles = "__xpg_strerror_r@libc.a"
@@ -10071,7 +10071,7 @@ rule __md5_Final_b7d0bb9c9a8f485327afbf5b6fa1c8b5 {
 
 rule vswprintf_f2d7a1e8b28069ae3ad3d85d460c73c6 {
 	meta:
-		aliases = "__GI_vswprintf, vswprintf"
+		aliases = "vswprintf"
 		type = "func"
 		size = "204"
 		objfiles = "vswprintf@libc.a"
@@ -10179,7 +10179,7 @@ rule sysctl_08effdd4559649d52677a4115115e7d0 {
 
 rule clnttcp_create_7048377da91f5c428b99af4fb839117b {
 	meta:
-		aliases = "__GI_clnttcp_create, clnttcp_create"
+		aliases = "clnttcp_create"
 		type = "func"
 		size = "584"
 		objfiles = "clnt_tcp@libc.a"
@@ -10191,7 +10191,7 @@ rule clnttcp_create_7048377da91f5c428b99af4fb839117b {
 
 rule clntunix_create_ae7f7e733418a8a931fe52d8f0c354e5 {
 	meta:
-		aliases = "__GI_clntunix_create, clntunix_create"
+		aliases = "clntunix_create"
 		type = "func"
 		size = "548"
 		objfiles = "clnt_unix@libc.a"
@@ -10203,7 +10203,7 @@ rule clntunix_create_ae7f7e733418a8a931fe52d8f0c354e5 {
 
 rule pmap_set_b8c3f74404da8155233ff02124100ea5 {
 	meta:
-		aliases = "__GI_pmap_set, pmap_set"
+		aliases = "pmap_set"
 		type = "func"
 		size = "296"
 		objfiles = "pmap_clnt@libc.a"
@@ -10215,7 +10215,7 @@ rule pmap_set_b8c3f74404da8155233ff02124100ea5 {
 
 rule regexec_5c9600e4f157ae9ffb9d8cce09ff9d2a {
 	meta:
-		aliases = "__regexec, regexec"
+		aliases = "regexec"
 		type = "func"
 		size = "332"
 		objfiles = "regex_old@libc.a"
@@ -10251,7 +10251,7 @@ rule authunix_refresh_e7e2666b994520fff64fd56cb882ec46 {
 
 rule pmap_unset_4fd91a63678ee86b293e8ed61691178d {
 	meta:
-		aliases = "__GI_pmap_unset, pmap_unset"
+		aliases = "pmap_unset"
 		type = "func"
 		size = "260"
 		objfiles = "pmap_clnt@libc.a"
@@ -10263,10 +10263,10 @@ rule pmap_unset_4fd91a63678ee86b293e8ed61691178d {
 
 rule statfs64_ae732ea3702e1a1311f045ea20c2dd27 {
 	meta:
-		aliases = "__GI_fstatfs64, __GI_statfs64, fstatfs64, statfs64"
+		aliases = "fstatfs64, statfs64"
 		type = "func"
 		size = "184"
-		objfiles = "fstatfs64@libc.a, statfs64@libc.a"
+		objfiles = "statfs64@libc.a, fstatfs64@libc.a"
 	strings:
 		$pattern = { 94 21 FF A0 7C 08 02 A6 BF A1 00 54 7C 9F 23 78 38 81 00 08 90 01 00 64 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 38 60 FF FF 41 9C 00 80 80 A1 00 20 39 20 00 00 80 81 00 28 80 61 00 2C 81 61 00 0C 81 41 00 10 81 01 00 14 80 E1 00 18 80 C1 00 1C 83 A1 00 24 80 01 00 08 90 BF 00 2C 38 A0 00 14 90 9F 00 34 38 81 00 34 90 7F 00 38 38 7F 00 40 90 1F 00 00 91 7F 00 04 91 5F 00 0C 91 1F 00 14 90 FF 00 1C 90 DF 00 24 91 3F 00 28 93 BF 00 30 91 3F 00 08 91 3F 00 10 91 3F 00 18 91 3F 00 20 ( 4? | 3? ) ?? ?? ?? 38 60 00 00 80 01 00 64 BB A1 00 54 38 21 00 60 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -10275,7 +10275,7 @@ rule statfs64_ae732ea3702e1a1311f045ea20c2dd27 {
 
 rule tcsetattr_a0e88915836d6714f9803a5cee0f9aa6 {
 	meta:
-		aliases = "__GI_tcsetattr, tcsetattr"
+		aliases = "tcsetattr"
 		type = "func"
 		size = "356"
 		objfiles = "tcsetattr@libc.a"
@@ -10287,7 +10287,7 @@ rule tcsetattr_a0e88915836d6714f9803a5cee0f9aa6 {
 
 rule isatty_b2b95d16c437daeb6e8e7859398cd4b6 {
 	meta:
-		aliases = "__GI_isatty, isatty"
+		aliases = "isatty"
 		type = "func"
 		size = "44"
 		objfiles = "isatty@libc.a"
@@ -10311,7 +10311,7 @@ rule timegm_c8cfde5565f81592ee2b714d5a687fd0 {
 
 rule svc_sendreply_0599b8d6f13894106404fbb6e94caa95 {
 	meta:
-		aliases = "__GI_svc_sendreply, svc_sendreply"
+		aliases = "svc_sendreply"
 		type = "func"
 		size = "104"
 		objfiles = "svc@libc.a"
@@ -10323,7 +10323,7 @@ rule svc_sendreply_0599b8d6f13894106404fbb6e94caa95 {
 
 rule svcerr_progvers_0cd5ea9ec8fe82f5d440b8ea3de4b800 {
 	meta:
-		aliases = "__GI_svcerr_progvers, svcerr_progvers"
+		aliases = "svcerr_progvers"
 		type = "func"
 		size = "108"
 		objfiles = "svc@libc.a"
@@ -10335,7 +10335,7 @@ rule svcerr_progvers_0cd5ea9ec8fe82f5d440b8ea3de4b800 {
 
 rule pmap_getport_fb53f1380c8ebd8957c804861a76b7b9 {
 	meta:
-		aliases = "__GI_pmap_getport, pmap_getport"
+		aliases = "pmap_getport"
 		type = "func"
 		size = "336"
 		objfiles = "pm_getport@libc.a"
@@ -10539,7 +10539,7 @@ rule __ieee754_acos_a8b8660431746c78b95959094d6dcc34 {
 
 rule erf_9cf763d825796e5482ccb252163b5727 {
 	meta:
-		aliases = "__GI_erf, erf"
+		aliases = "erf"
 		type = "func"
 		size = "1196"
 		objfiles = "s_erf@libm.a"
@@ -10575,7 +10575,7 @@ rule __ieee754_pow_5bca3aaf771aa8ecaf1e279cc4928166 {
 
 rule erfc_1f059c2ed760c1b2ad36758608cff054 {
 	meta:
-		aliases = "__GI_erfc, erfc"
+		aliases = "erfc"
 		type = "func"
 		size = "1208"
 		objfiles = "s_erf@libm.a"
@@ -10611,7 +10611,7 @@ rule pclose_d9cff3e10f683a33391752cc82a56ad4 {
 
 rule gethostent_r_982a7e5518a2702fa6dc8a0bf77de725 {
 	meta:
-		aliases = "__GI_gethostent_r, gethostent_r"
+		aliases = "gethostent_r"
 		type = "func"
 		size = "224"
 		objfiles = "gethostent@libc.a"
@@ -10647,7 +10647,7 @@ rule _stdio_openlist_dec_use_b5824be375426f9be0abd95f4e8ed62a {
 
 rule fork_bffb408809680117a605d0ff1e91dae5 {
 	meta:
-		aliases = "__fork, fork"
+		aliases = "fork"
 		type = "func"
 		size = "312"
 		objfiles = "ptfork@libpthread.a"
@@ -10659,7 +10659,7 @@ rule fork_bffb408809680117a605d0ff1e91dae5 {
 
 rule getservent_r_38f906c765f72ea2b19ddb1471808e91 {
 	meta:
-		aliases = "__GI_getservent_r, getservent_r"
+		aliases = "getservent_r"
 		type = "func"
 		size = "608"
 		objfiles = "getservice@libc.a"
@@ -10671,7 +10671,7 @@ rule getservent_r_38f906c765f72ea2b19ddb1471808e91 {
 
 rule getprotoent_r_aa71848bc1d6322b9163c74b10aed90a {
 	meta:
-		aliases = "__GI_getprotoent_r, getprotoent_r"
+		aliases = "getprotoent_r"
 		type = "func"
 		size = "576"
 		objfiles = "getproto@libc.a"
@@ -10683,7 +10683,7 @@ rule getprotoent_r_aa71848bc1d6322b9163c74b10aed90a {
 
 rule fseeko64_85bc5f2048241f1306341abad9b29353 {
 	meta:
-		aliases = "__GI_fseeko64, fseeko64"
+		aliases = "fseeko64"
 		type = "func"
 		size = "284"
 		objfiles = "fseeko64@libc.a"
@@ -10695,7 +10695,7 @@ rule fseeko64_85bc5f2048241f1306341abad9b29353 {
 
 rule inet_pton_0b274e0d521dd4b6ca7eae050dd3351a {
 	meta:
-		aliases = "__GI_inet_pton, inet_pton"
+		aliases = "inet_pton"
 		type = "func"
 		size = "516"
 		objfiles = "ntop@libc.a"
@@ -10707,7 +10707,7 @@ rule inet_pton_0b274e0d521dd4b6ca7eae050dd3351a {
 
 rule svcudp_bufcreate_a7913748a02549c1d6b815da5fb45cf9 {
 	meta:
-		aliases = "__GI_svcudp_bufcreate, svcudp_bufcreate"
+		aliases = "svcudp_bufcreate"
 		type = "func"
 		size = "536"
 		objfiles = "svc_udp@libc.a"
@@ -10767,7 +10767,7 @@ rule _svcauth_unix_437ff8d982e748927352a5347d2500fa {
 
 rule ftello64_f9ddb19d6e0008385bfc8e12e9188220 {
 	meta:
-		aliases = "__GI_ftello64, ftello64"
+		aliases = "ftello64"
 		type = "func"
 		size = "212"
 		objfiles = "ftello64@libc.a"
@@ -10779,7 +10779,7 @@ rule ftello64_f9ddb19d6e0008385bfc8e12e9188220 {
 
 rule svcerr_noprog_5ef32cadad11d8237356a7dc4d839083 {
 	meta:
-		aliases = "__GI_svcerr_noprog, svcerr_noprog"
+		aliases = "svcerr_noprog"
 		type = "func"
 		size = "84"
 		objfiles = "svc@libc.a"
@@ -10803,7 +10803,7 @@ rule svcerr_noproc_dea95eddf561b7b9bc9859214d31fcac {
 
 rule svcerr_decode_38900ef781a740c7ed5a85d7571b3c35 {
 	meta:
-		aliases = "__GI_svcerr_decode, svcerr_decode"
+		aliases = "svcerr_decode"
 		type = "func"
 		size = "88"
 		objfiles = "svc@libc.a"
@@ -10827,7 +10827,7 @@ rule svcerr_systemerr_a43aafd09701b150350ee493043b57d1 {
 
 rule __res_init_2cb7e7ea58a264b8950dc670a19c4216 {
 	meta:
-		aliases = "__GI___res_init, __res_init"
+		aliases = "__res_init"
 		type = "func"
 		size = "396"
 		objfiles = "res_init@libc.a"
@@ -10851,7 +10851,7 @@ rule gethostent_586414c5f347d261b75dc18ba330a6e7 {
 
 rule random_4a26c39da1b2c00f840a28335a0a92ee {
 	meta:
-		aliases = "__GI_random, random"
+		aliases = "random"
 		type = "func"
 		size = "104"
 		objfiles = "random@libc.a"
@@ -10875,7 +10875,7 @@ rule pthread_reap_children_7ac3b6aa10a8e2cb864b62c37f4570bc {
 
 rule getttyent_00ea9e8d085b506dd847246d11099528 {
 	meta:
-		aliases = "__GI_getttyent, getttyent"
+		aliases = "getttyent"
 		type = "func"
 		size = "880"
 		objfiles = "getttyent@libc.a"
@@ -10995,7 +10995,7 @@ rule _dl_parse_relocation_informati_156a015d9519508b8345a1db5e23cae5 {
 
 rule rtime_368bb584a000505cd6b8e3adecfe541d {
 	meta:
-		aliases = "__GI_rtime, rtime"
+		aliases = "rtime"
 		type = "func"
 		size = "440"
 		objfiles = "rtime@libc.a"
@@ -11031,7 +11031,7 @@ rule __ieee754_jn_74c39f3481ede67772c8da79c41af468 {
 
 rule __ns_name_unpack_9d7ff65f3f8a46c7160d4667b3e33c93 {
 	meta:
-		aliases = "__GI___ns_name_unpack, __ns_name_unpack"
+		aliases = "__ns_name_unpack"
 		type = "func"
 		size = "296"
 		objfiles = "ns_name@libc.a"
@@ -11043,7 +11043,7 @@ rule __ns_name_unpack_9d7ff65f3f8a46c7160d4667b3e33c93 {
 
 rule svcerr_auth_d2828231eee1d9ec88d6206eaa1755f8 {
 	meta:
-		aliases = "__GI_svcerr_auth, svcerr_auth"
+		aliases = "svcerr_auth"
 		type = "func"
 		size = "68"
 		objfiles = "svc@libc.a"
@@ -11103,7 +11103,7 @@ rule linear_search_fdes_f885a1bb623d118ddea7f46c6ae1f182 {
 
 rule execlp_912180496b15b89936abcd9242bca7ce {
 	meta:
-		aliases = "__GI_execlp, execlp"
+		aliases = "execlp"
 		type = "func"
 		size = "300"
 		objfiles = "execlp@libc.a"
@@ -11115,7 +11115,7 @@ rule execlp_912180496b15b89936abcd9242bca7ce {
 
 rule execl_a9c36572d5b0569a060b6cece4b03ca3 {
 	meta:
-		aliases = "__GI_execl, execl"
+		aliases = "execl"
 		type = "func"
 		size = "308"
 		objfiles = "execl@libc.a"
@@ -11127,7 +11127,7 @@ rule execl_a9c36572d5b0569a060b6cece4b03ca3 {
 
 rule execle_e9fa5aa3034d358414f548c83838cfc2 {
 	meta:
-		aliases = "__GI_execle, execle"
+		aliases = "execle"
 		type = "func"
 		size = "352"
 		objfiles = "execle@libc.a"
@@ -11151,7 +11151,7 @@ rule _stdlib_wcsto_ll_ce7e3a2a54790564b4040e81db29047e {
 
 rule hsearch_r_509c612266bce2712868d640fb38c124 {
 	meta:
-		aliases = "__GI_hsearch_r, hsearch_r"
+		aliases = "hsearch_r"
 		type = "func"
 		size = "448"
 		objfiles = "hsearch_r@libc.a"
@@ -11235,7 +11235,7 @@ rule initstate_a4f8bcbebb8ca80a07da7a1968756e6f {
 
 rule if_nameindex_9976720696b98defd9db333918ebcb07 {
 	meta:
-		aliases = "__GI_if_nameindex, if_nameindex"
+		aliases = "if_nameindex"
 		type = "func"
 		size = "480"
 		objfiles = "if_index@libc.a"
@@ -11259,7 +11259,7 @@ rule sendto_462afd00ad8d8d302f8ab582a18d6a15 {
 
 rule getprotobyname_r_3f6fcbe9756dcf546028087885eaa245 {
 	meta:
-		aliases = "__GI_getprotobyname_r, getprotobyname_r"
+		aliases = "getprotobyname_r"
 		type = "func"
 		size = "244"
 		objfiles = "getproto@libc.a"
@@ -11271,7 +11271,7 @@ rule getprotobyname_r_3f6fcbe9756dcf546028087885eaa245 {
 
 rule getdelim_fe722873e68b24879c438420c1abc60a {
 	meta:
-		aliases = "__GI_getdelim, getdelim"
+		aliases = "getdelim"
 		type = "func"
 		size = "328"
 		objfiles = "getdelim@libc.a"
@@ -11295,7 +11295,7 @@ rule pread64_8b2ea3537d9bc9e9de13cae4b7b052bf {
 
 rule setvbuf_b4d80c531911187588fc57c63f904281 {
 	meta:
-		aliases = "__GI_setvbuf, setvbuf"
+		aliases = "setvbuf"
 		type = "func"
 		size = "348"
 		objfiles = "setvbuf@libc.a"
@@ -11355,7 +11355,7 @@ rule authunix_validate_b514069f92fca322855fbc7d0fdd0a35 {
 
 rule fclose_3c5aa20da2d8c57c08aeea0218c52aac {
 	meta:
-		aliases = "__GI_fclose, fclose"
+		aliases = "fclose"
 		type = "func"
 		size = "328"
 		objfiles = "fclose@libc.a"
@@ -11391,7 +11391,7 @@ rule if_indextoname_d5d366aa8c1c04411c4916e2dfa0b6e9 {
 
 rule if_nametoindex_b6818ddbe12e41eafac4b8f6d28819cb {
 	meta:
-		aliases = "__GI_if_nametoindex, if_nametoindex"
+		aliases = "if_nametoindex"
 		type = "func"
 		size = "168"
 		objfiles = "if_index@libc.a"
@@ -11403,7 +11403,7 @@ rule if_nametoindex_b6818ddbe12e41eafac4b8f6d28819cb {
 
 rule authnone_create_c67bf0a7f091fb32b737fb615f1c6664 {
 	meta:
-		aliases = "__GI_authnone_create, authnone_create"
+		aliases = "authnone_create"
 		type = "func"
 		size = "248"
 		objfiles = "auth_none@libc.a"
@@ -11415,7 +11415,7 @@ rule authnone_create_c67bf0a7f091fb32b737fb615f1c6664 {
 
 rule tcgetattr_f00c9893ee4c1db8053f05378790174f {
 	meta:
-		aliases = "__GI_tcgetattr, tcgetattr"
+		aliases = "tcgetattr"
 		type = "func"
 		size = "156"
 		objfiles = "tcgetattr@libc.a"
@@ -11463,7 +11463,7 @@ rule __ieee754_y0_88cadba8571acbf434d33a6fee4fb99d {
 
 rule asinh_cf71cef333bf8023174e232da4d98683 {
 	meta:
-		aliases = "__GI_asinh, asinh"
+		aliases = "asinh"
 		type = "func"
 		size = "320"
 		objfiles = "s_asinh@libm.a"
@@ -11487,7 +11487,7 @@ rule __ieee754_j1_c334b796c30088594e7c07f7579cb7e7 {
 
 rule llrint_be3d8e6472283487e32717883154417a {
 	meta:
-		aliases = "__GI_llrint, llrint"
+		aliases = "llrint"
 		type = "func"
 		size = "380"
 		objfiles = "s_llrint@libm.a"
@@ -11511,7 +11511,7 @@ rule __ieee754_remainder_df094ed11346e4ecda0646927a1936a2 {
 
 rule remquo_64f0e4bdfbe9a8d462478df456440b70 {
 	meta:
-		aliases = "__GI_remquo, remquo"
+		aliases = "remquo"
 		type = "func"
 		size = "132"
 		objfiles = "s_remquo@libm.a"
@@ -11523,7 +11523,7 @@ rule remquo_64f0e4bdfbe9a8d462478df456440b70 {
 
 rule lockf64_5af7bc7caaa8ddc906e90d548fb146d1 {
 	meta:
-		aliases = "__GI_lockf64, lockf64"
+		aliases = "lockf64"
 		type = "func"
 		size = "348"
 		objfiles = "lockf64@libc.a"
@@ -11547,7 +11547,7 @@ rule __pgsreader_6c3af1d99f08c29863645ebf73f1c376 {
 
 rule re_search_2_a8c50bd37fb856ec7a09899e32e27c97 {
 	meta:
-		aliases = "__re_search_2, re_search_2"
+		aliases = "re_search_2"
 		type = "func"
 		size = "716"
 		objfiles = "regex_old@libc.a"
@@ -11583,7 +11583,7 @@ rule scandir64_17289fd1e6705ac1821b6e0fc63855bb {
 
 rule getservbyname_r_fa10f4becfce299d78f07e3163508ff1 {
 	meta:
-		aliases = "__GI_getservbyname_r, getservbyname_r"
+		aliases = "getservbyname_r"
 		type = "func"
 		size = "300"
 		objfiles = "getservice@libc.a"
@@ -11595,7 +11595,7 @@ rule getservbyname_r_fa10f4becfce299d78f07e3163508ff1 {
 
 rule getservbyport_r_db13bb565c8c742394793896bc9d243f {
 	meta:
-		aliases = "__GI_getservbyport_r, getservbyport_r"
+		aliases = "getservbyport_r"
 		type = "func"
 		size = "244"
 		objfiles = "getservice@libc.a"
@@ -11619,7 +11619,7 @@ rule _dl_linux_resolve_a5b1c025bdfd29e54ba389390c3d9bfb {
 
 rule modf_12c7b809c2adfde0be63bc6e21208a9a {
 	meta:
-		aliases = "__GI_modf, modf"
+		aliases = "modf"
 		type = "func"
 		size = "296"
 		objfiles = "s_modf@libm.a"
@@ -11643,7 +11643,7 @@ rule __divdc3_e70680114906ddf8f629fa1ce614a596 {
 
 rule expm1_45a60273412864b80ad739e16d59f8e8 {
 	meta:
-		aliases = "__GI_expm1, expm1"
+		aliases = "expm1"
 		type = "func"
 		size = "884"
 		objfiles = "s_expm1@libm.a"
@@ -11655,7 +11655,7 @@ rule expm1_45a60273412864b80ad739e16d59f8e8 {
 
 rule nextafter_cc8ee91074c16d8018d97b0c6622c438 {
 	meta:
-		aliases = "__GI_nextafter, nextafter"
+		aliases = "nextafter"
 		type = "func"
 		size = "388"
 		objfiles = "s_nextafter@libm.a"
@@ -11667,7 +11667,7 @@ rule nextafter_cc8ee91074c16d8018d97b0c6622c438 {
 
 rule getnetent_e09e2a3fbcec916079b7f5c212dd5203 {
 	meta:
-		aliases = "__GI_getnetent, getnetent"
+		aliases = "getnetent"
 		type = "func"
 		size = "520"
 		objfiles = "getnetent@libc.a"
@@ -11715,7 +11715,7 @@ rule _create_xid_c48cf67d7ed3f796c3ef458528bc1974 {
 
 rule openlog_8c2b7682c551e5c970c666f0363b8729 {
 	meta:
-		aliases = "__GI_openlog, openlog"
+		aliases = "openlog"
 		type = "func"
 		size = "380"
 		objfiles = "syslog@libc.a"
@@ -11727,10 +11727,10 @@ rule openlog_8c2b7682c551e5c970c666f0363b8729 {
 
 rule getspent_r_1265ec20b8caab0235e5c64a919160aa {
 	meta:
-		aliases = "__GI_getgrent_r, __GI_getpwent_r, __GI_getspent_r, getgrent_r, getpwent_r, getspent_r"
+		aliases = "getgrent_r, getpwent_r, getspent_r"
 		type = "func"
 		size = "220"
-		objfiles = "getpwent_r@libc.a, getspent_r@libc.a, getgrent_r@libc.a"
+		objfiles = "getspent_r@libc.a, getpwent_r@libc.a, getgrent_r@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 3D 20 ?? ?? 7C 08 02 A6 BF 61 00 1C 3B E9 ?? ?? 7C 9C 23 78 3C 80 ?? ?? 38 84 ?? ?? 7C 7D 1B 78 7C BB 2B 78 38 61 00 08 7F E5 FB 78 90 01 00 34 7C DE 33 78 ( 4? | 3? ) ?? ?? ?? 7F E3 FB 78 ( 4? | 3? ) ?? ?? ?? 38 00 00 00 90 1E 00 00 80 1F 00 18 2F 80 00 00 40 BE 00 38 3C 60 ?? ?? 3C 80 ?? ?? 38 63 ?? ?? 38 84 ?? ?? ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 90 7F 00 18 40 BE 00 10 ( 4? | 3? ) ?? ?? ?? 83 E3 00 00 48 00 00 38 38 00 00 01 90 03 00 34 3D 20 ?? ?? 3C 60 ?? ?? 80 E9 ?? ?? 38 63 ?? ?? 7F 85 E3 78 7F 66 DB 78 7F A4 EB 78 ( 4? | 3? ) ?? ?? ?? 7C 7F 1B 79 40 82 00 08 93 BE 00 00 38 61 00 08 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 7F E3 FB 78 BB 61 00 1C 38 21 00 30 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -11751,7 +11751,7 @@ rule frame_downheap_ceaadddd12c3ff8a8262d722d9fe8ec8 {
 
 rule qsort_0d20859794f53e5f9e8c8dfc6f985ce1 {
 	meta:
-		aliases = "__GI_qsort, qsort"
+		aliases = "qsort"
 		type = "func"
 		size = "220"
 		objfiles = "qsort@libc.a"
@@ -11763,7 +11763,7 @@ rule qsort_0d20859794f53e5f9e8c8dfc6f985ce1 {
 
 rule wcrtomb_b0f09e9f6677d90e33d4be39fb69d778 {
 	meta:
-		aliases = "__GI_wcrtomb, wcrtomb"
+		aliases = "wcrtomb"
 		type = "func"
 		size = "92"
 		objfiles = "wcrtomb@libc.a"
@@ -11811,7 +11811,7 @@ rule pause_6ea6ee0a2f81aca9929319e74dc034bb {
 
 rule rresvport_71cd4a139fce6641d1d470da28cac4a2 {
 	meta:
-		aliases = "__GI_rresvport, rresvport"
+		aliases = "rresvport"
 		type = "func"
 		size = "192"
 		objfiles = "rcmd@libc.a"
@@ -11823,7 +11823,7 @@ rule rresvport_71cd4a139fce6641d1d470da28cac4a2 {
 
 rule svc_unregister_f3473761753d3d493f7cec994af1390f {
 	meta:
-		aliases = "__GI_svc_unregister, svc_unregister"
+		aliases = "svc_unregister"
 		type = "func"
 		size = "120"
 		objfiles = "svc@libc.a"
@@ -11847,7 +11847,7 @@ rule __fake_pread_write64_77a6490a9b0ba24aaa541c83b049dd39 {
 
 rule srandom_r_f1958aa9323631221300e3c11999f2e5 {
 	meta:
-		aliases = "__GI_srandom_r, srandom_r"
+		aliases = "srandom_r"
 		type = "func"
 		size = "232"
 		objfiles = "random_r@libc.a"
@@ -11883,7 +11883,7 @@ rule rewinddir_7d21106516b8c8ee564f7c546019725e {
 
 rule getutid_d7f7138b532d677bf6fde2a62c90ff94 {
 	meta:
-		aliases = "__GI_getutid, getutid"
+		aliases = "getutid"
 		type = "func"
 		size = "108"
 		objfiles = "utent@libc.a"
@@ -11893,9 +11893,9 @@ rule getutid_d7f7138b532d677bf6fde2a62c90ff94 {
 		$pattern
 }
 
-rule srandom_bbd31e77a19870b2d10909bebf081314 {
+rule srand_bbd31e77a19870b2d10909bebf081314 {
 	meta:
-		aliases = "srand, srandom"
+		aliases = "srand"
 		type = "func"
 		size = "104"
 		objfiles = "random@libc.a"
@@ -11931,7 +11931,7 @@ rule getutent_2efa99ffe5ae25234ae2e185133d64c8 {
 
 rule setutent_c86c5bcd9307d298d50ef942f0b4763e {
 	meta:
-		aliases = "__GI_setutent, setutent"
+		aliases = "setutent"
 		type = "func"
 		size = "92"
 		objfiles = "utent@libc.a"
@@ -11943,7 +11943,7 @@ rule setutent_c86c5bcd9307d298d50ef942f0b4763e {
 
 rule closelog_9bb3991273dbd1dd8e0a2667061f6185 {
 	meta:
-		aliases = "__GI_closelog, closelog"
+		aliases = "closelog"
 		type = "func"
 		size = "100"
 		objfiles = "syslog@libc.a"
@@ -11979,7 +11979,7 @@ rule getutline_57790d9f1cec6566126d7bd46523da51 {
 
 rule readdir_50d548faa4f7be0693fe09361a319d04 {
 	meta:
-		aliases = "__GI_readdir, readdir"
+		aliases = "readdir"
 		type = "func"
 		size = "192"
 		objfiles = "readdir@libc.a"
@@ -11991,7 +11991,7 @@ rule readdir_50d548faa4f7be0693fe09361a319d04 {
 
 rule readdir64_3bf3c7fcb8bd45aca9ef94c979f9fea4 {
 	meta:
-		aliases = "__GI_readdir64, readdir64"
+		aliases = "readdir64"
 		type = "func"
 		size = "196"
 		objfiles = "readdir64@libc.a"
@@ -12027,7 +12027,7 @@ rule __new_exitfn_6404b38245ea59b6038a0e6d22de4d77 {
 
 rule exit_c259b1bca5366cb23482599039006350 {
 	meta:
-		aliases = "__GI_exit, exit"
+		aliases = "exit"
 		type = "func"
 		size = "132"
 		objfiles = "exit@libc.a"
@@ -12039,7 +12039,7 @@ rule exit_c259b1bca5366cb23482599039006350 {
 
 rule endprotoent_cbc0a78deace9e20e1f914caeaf6b2a4 {
 	meta:
-		aliases = "__GI_endprotoent, endprotoent"
+		aliases = "endprotoent"
 		type = "func"
 		size = "128"
 		objfiles = "getproto@libc.a"
@@ -12051,7 +12051,7 @@ rule endprotoent_cbc0a78deace9e20e1f914caeaf6b2a4 {
 
 rule endservent_1133db54ace317d1cc3468df9ad78912 {
 	meta:
-		aliases = "__GI_endservent, endservent"
+		aliases = "endservent"
 		type = "func"
 		size = "128"
 		objfiles = "getservice@libc.a"
@@ -12078,7 +12078,7 @@ rule setspent_d2d9aabee1dd5eb29e2bfad335d0628d {
 		aliases = "setgrent, setpwent, setspent"
 		type = "func"
 		size = "104"
-		objfiles = "getpwent_r@libc.a, getspent_r@libc.a, getgrent_r@libc.a"
+		objfiles = "getspent_r@libc.a, getpwent_r@libc.a, getgrent_r@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 3C 80 ?? ?? 38 84 ?? ?? BF A1 00 24 3F A0 ?? ?? 3B BD ?? ?? 3B E1 00 08 7F A5 EB 78 7F E3 FB 78 90 01 00 34 ( 4? | 3? ) ?? ?? ?? 7F A3 EB 78 ( 4? | 3? ) ?? ?? ?? 80 7D 00 18 2F 83 00 00 41 9E 00 08 ( 4? | 3? ) ?? ?? ?? 7F E3 FB 78 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 BB A1 00 24 38 21 00 30 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -12111,10 +12111,10 @@ rule pututline_dd7f1fcc6cf9c72143b30aa4c5a71f75 {
 
 rule setservent_869cb4dc11156d8e503a2425460dc920 {
 	meta:
-		aliases = "__GI_setprotoent, __GI_setservent, setprotoent, setservent"
+		aliases = "setprotoent, setservent"
 		type = "func"
 		size = "160"
-		objfiles = "getservice@libc.a, getproto@libc.a"
+		objfiles = "getproto@libc.a, getservice@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 3C 80 ?? ?? 38 84 ?? ?? BF A1 00 24 3F A0 ?? ?? 3B BD ?? ?? 7C 7F 1B 78 7F A5 EB 78 38 61 00 08 90 01 00 34 ( 4? | 3? ) ?? ?? ?? 7F A3 EB 78 ( 4? | 3? ) ?? ?? ?? 3D 20 ?? ?? 3B A9 ?? ?? 80 7D 00 04 2F 83 00 00 40 BE 00 20 3C 60 ?? ?? 3C 80 ?? ?? 38 63 ?? ?? 38 84 ?? ?? ( 4? | 3? ) ?? ?? ?? 90 7D 00 04 48 00 00 08 ( 4? | 3? ) ?? ?? ?? 2F 9F 00 00 41 9E 00 10 38 00 00 01 3D 20 ?? ?? 90 09 ?? ?? 38 61 00 08 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 BB A1 00 24 38 21 00 30 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -12195,7 +12195,7 @@ rule __parsegrent_561e764e4347f5422b4228dce85c9b30 {
 
 rule __dl_iterate_phdr_639d254203aa7a0eea31d55514f160c0 {
 	meta:
-		aliases = "__GI___dl_iterate_phdr, __dl_iterate_phdr"
+		aliases = "__dl_iterate_phdr"
 		type = "func"
 		size = "140"
 		objfiles = "dl_iterate_phdr@libc.a"
@@ -12255,7 +12255,7 @@ rule getchar_c5fcbf2e7b1c17ea528621bd446677c9 {
 
 rule ioctl_76111c88f66174e1cbc6222ca1e20d20 {
 	meta:
-		aliases = "__GI_ioctl, ioctl"
+		aliases = "ioctl"
 		type = "func"
 		size = "224"
 		objfiles = "ioctl@libc.a"
@@ -12399,7 +12399,7 @@ rule do_dlclose_b3c2c653556376c176a24f7fbed289c8 {
 
 rule xdr_pmaplist_a578186e627c3225e3a9fd5273c98908 {
 	meta:
-		aliases = "__GI_xdr_pmaplist, xdr_pmaplist"
+		aliases = "xdr_pmaplist"
 		type = "func"
 		size = "220"
 		objfiles = "pmap_prot2@libc.a"
@@ -12411,7 +12411,7 @@ rule xdr_pmaplist_a578186e627c3225e3a9fd5273c98908 {
 
 rule fnmatch_4021ac47bdc642930026e55e9c3ce93a {
 	meta:
-		aliases = "__GI_fnmatch, fnmatch"
+		aliases = "fnmatch"
 		type = "func"
 		size = "1448"
 		objfiles = "fnmatch_old@libc.a"
@@ -12423,10 +12423,10 @@ rule fnmatch_4021ac47bdc642930026e55e9c3ce93a {
 
 rule fwrite_7af715a552e15d4b5a5a030794d29e2d {
 	meta:
-		aliases = "__GI_fread, __GI_fwrite, fread, fwrite"
+		aliases = "fread, fwrite"
 		type = "func"
 		size = "156"
-		objfiles = "fread@libc.a, fwrite@libc.a"
+		objfiles = "fwrite@libc.a, fread@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 7D 80 00 26 BF 61 00 1C 7C DF 33 78 90 01 00 34 7C 7C 1B 78 91 81 00 18 7C 9B 23 78 7C BE 2B 78 80 06 00 34 2E 00 00 00 40 B2 00 24 3B A6 00 38 3C 80 ?? ?? 38 61 00 08 38 84 ?? ?? 7F A5 EB 78 ( 4? | 3? ) ?? ?? ?? 7F A3 EB 78 ( 4? | 3? ) ?? ?? ?? 7F E6 FB 78 7F 83 E3 78 7F 64 DB 78 7F C5 F3 78 ( 4? | 3? ) ?? ?? ?? 7C 7F 1B 78 40 92 00 10 38 61 00 08 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 7F E3 FB 78 81 81 00 18 BB 61 00 1C 38 21 00 30 7C 08 03 A6 7D 80 81 20 4E 80 00 20 }
 	condition:
@@ -12435,7 +12435,7 @@ rule fwrite_7af715a552e15d4b5a5a030794d29e2d {
 
 rule fgetws_1f276786d7dd3f34e6f90a8bd027d3a9 {
 	meta:
-		aliases = "__GI_fgets, fgets, fgetws"
+		aliases = "fgets, fgetws"
 		type = "func"
 		size = "148"
 		objfiles = "fgetws@libc.a, fgets@libc.a"
@@ -12471,10 +12471,10 @@ rule fsetpos64_0463e14e5d2b5156ba0a546fbd776d5a {
 
 rule getwc_c956c9beffb5e9be180ad3dcfe83e397 {
 	meta:
-		aliases = "__GI_fgetwc, __GI_fileno, fgetwc, fileno, getwc"
+		aliases = "fileno, getwc"
 		type = "func"
 		size = "132"
-		objfiles = "fileno@libc.a, fgetwc@libc.a"
+		objfiles = "fgetwc@libc.a, fileno@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 7D 80 00 26 BF A1 00 24 7C 7F 1B 78 90 01 00 34 91 81 00 20 80 03 00 34 2E 00 00 00 40 B2 00 24 3B A3 00 38 3C 80 ?? ?? 38 61 00 08 38 84 ?? ?? 7F A5 EB 78 ( 4? | 3? ) ?? ?? ?? 7F A3 EB 78 ( 4? | 3? ) ?? ?? ?? 7F E3 FB 78 ( 4? | 3? ) ?? ?? ?? 7C 7F 1B 78 40 92 00 10 38 61 00 08 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 7F E3 FB 78 81 81 00 20 BB A1 00 24 38 21 00 30 7C 08 03 A6 7D 80 81 20 4E 80 00 20 }
 	condition:
@@ -12495,7 +12495,7 @@ rule clearerr_a2730cc2928bb7bd698b93e5212a3fad {
 
 rule rewind_abce72b948be657e10fe3928f91ae7b3 {
 	meta:
-		aliases = "__GI_rewind, rewind"
+		aliases = "rewind"
 		type = "func"
 		size = "144"
 		objfiles = "rewind@libc.a"
@@ -12531,10 +12531,10 @@ rule feof_5c87f89204e26fb85dbe45dfe25814c4 {
 
 rule putwc_83650752b0b6b8f3a0316365fb304ac6 {
 	meta:
-		aliases = "__GI_fputs, __GI_fputws, fputs, fputwc, fputws, putwc"
+		aliases = "fputs, fputws, putwc"
 		type = "func"
 		size = "140"
-		objfiles = "fputwc@libc.a, fputs@libc.a, fputws@libc.a"
+		objfiles = "fputs@libc.a, fputwc@libc.a, fputws@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 7D 80 00 26 BF A1 00 24 7C 9F 23 78 90 01 00 34 7C 7E 1B 78 91 81 00 20 80 04 00 34 2E 00 00 00 40 B2 00 24 3B A4 00 38 3C 80 ?? ?? 38 61 00 08 38 84 ?? ?? 7F A5 EB 78 ( 4? | 3? ) ?? ?? ?? 7F A3 EB 78 ( 4? | 3? ) ?? ?? ?? 7F E4 FB 78 7F C3 F3 78 ( 4? | 3? ) ?? ?? ?? 7C 7F 1B 78 40 92 00 10 38 61 00 08 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 7F E3 FB 78 81 81 00 20 BB A1 00 24 38 21 00 30 7C 08 03 A6 7D 80 81 20 4E 80 00 20 }
 	condition:
@@ -12555,10 +12555,10 @@ rule __getdents64_9267edecd26e04789fa06a9c07566288 {
 
 rule getpwuid_r_34f70439d0c2f9929778badc5c94f258 {
 	meta:
-		aliases = "__GI_getgrgid_r, __GI_getpwuid_r, getgrgid_r, getpwuid_r"
+		aliases = "getgrgid_r, getpwuid_r"
 		type = "func"
 		size = "208"
-		objfiles = "getpwuid_r@libc.a, getgrgid_r@libc.a"
+		objfiles = "getgrgid_r@libc.a, getpwuid_r@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 90 01 00 34 38 00 00 00 BF 01 00 10 7C 79 1B 78 90 07 00 00 7C 9D 23 78 3C 60 ?? ?? 3C 80 ?? ?? 38 63 ?? ?? 38 84 ?? ?? 7C FA 3B 78 7C BB 2B 78 7C DC 33 78 ( 4? | 3? ) ?? ?? ?? 7C 7E 1B 79 40 A2 00 10 ( 4? | 3? ) ?? ?? ?? 83 E3 00 00 48 00 00 68 38 00 00 01 3D 20 ?? ?? 90 1E 00 34 3B 09 ?? ?? 7F 03 C3 78 7F A4 EB 78 7F 65 DB 78 7F 86 E3 78 7F C7 F3 78 ( 4? | 3? ) ?? ?? ?? 7C 7F 1B 79 40 82 00 18 80 1D 00 08 7F 80 C8 00 40 9E FF D8 93 BA 00 00 48 00 00 1C 6B E0 00 02 7C 09 FE 70 7D 20 02 78 7C 00 48 50 7C 00 FE 70 7F FF 00 38 7F C3 F3 78 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 7F E3 FB 78 BB 01 00 10 38 21 00 30 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -12567,10 +12567,10 @@ rule getpwuid_r_34f70439d0c2f9929778badc5c94f258 {
 
 rule getspnam_r_f522b32b6c599c431a90c1bff3645cc3 {
 	meta:
-		aliases = "__GI_getgrnam_r, __GI_getpwnam_r, __GI_getspnam_r, getgrnam_r, getpwnam_r, getspnam_r"
+		aliases = "getgrnam_r, getpwnam_r, getspnam_r"
 		type = "func"
 		size = "216"
-		objfiles = "getspnam_r@libc.a, getpwnam_r@libc.a, getgrnam_r@libc.a"
+		objfiles = "getpwnam_r@libc.a, getspnam_r@libc.a, getgrnam_r@libc.a"
 	strings:
 		$pattern = { 94 21 FF D0 7C 08 02 A6 90 01 00 34 38 00 00 00 BF 01 00 10 7C 79 1B 78 90 07 00 00 7C 9D 23 78 3C 60 ?? ?? 3C 80 ?? ?? 38 63 ?? ?? 38 84 ?? ?? 7C FB 3B 78 7C BA 2B 78 7C DC 33 78 ( 4? | 3? ) ?? ?? ?? 7C 7E 1B 79 40 A2 00 10 ( 4? | 3? ) ?? ?? ?? 83 E3 00 00 48 00 00 70 38 00 00 01 3D 20 ?? ?? 90 1E 00 34 3B 09 ?? ?? 7F A4 EB 78 7F 45 D3 78 7F 86 E3 78 7F C7 F3 78 7F 03 C3 78 ( 4? | 3? ) ?? ?? ?? 7F 24 CB 78 7C 7F 1B 79 40 82 00 1C 80 7D 00 00 ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E FF D0 93 BB 00 00 48 00 00 1C 6B E0 00 02 7C 09 FE 70 7D 20 02 78 7C 00 48 50 7C 00 FE 70 7F FF 00 38 7F C3 F3 78 ( 4? | 3? ) ?? ?? ?? 80 01 00 34 7F E3 FB 78 BB 01 00 10 38 21 00 30 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -12579,7 +12579,7 @@ rule getspnam_r_f522b32b6c599c431a90c1bff3645cc3 {
 
 rule fcntl64_61b60a127f968e330f81df277f1ca33f {
 	meta:
-		aliases = "__GI___libc_fcntl64, __GI_fcntl64, __libc_fcntl64, fcntl64"
+		aliases = "fcntl64"
 		type = "func"
 		size = "100"
 		objfiles = "__syscall_fcntl64@libc.a"
@@ -12603,7 +12603,7 @@ rule fde_mixed_encoding_compare_51332c020369576a41850a14cc8f52dd {
 
 rule fcntl_26620018a30d4b8820a4de1552d57aa9 {
 	meta:
-		aliases = "__GI___libc_fcntl, __GI_fcntl, __libc_fcntl, fcntl"
+		aliases = "fcntl"
 		type = "func"
 		size = "124"
 		objfiles = "__syscall_fcntl@libc.a"
@@ -12615,7 +12615,7 @@ rule fcntl_26620018a30d4b8820a4de1552d57aa9 {
 
 rule open_3d0568edff63c4ee094d6217964c7366 {
 	meta:
-		aliases = "__GI___libc_open, __GI_open, __libc_open, open"
+		aliases = "open"
 		type = "func"
 		size = "120"
 		objfiles = "open@libc.a"
@@ -12627,7 +12627,7 @@ rule open_3d0568edff63c4ee094d6217964c7366 {
 
 rule system_c002406749ac91d4bf42c26f1785fe72 {
 	meta:
-		aliases = "__libc_system, system"
+		aliases = "system"
 		type = "func"
 		size = "340"
 		objfiles = "system@libc.a"
@@ -12711,7 +12711,7 @@ rule join_extricate_func_46e196cbb66960240527e3ecab7350e0 {
 
 rule sendto_a1883a52ba99ccfbcf73eac8ba8822c5 {
 	meta:
-		aliases = "__GI_sendto, __libc_sendto, sendto"
+		aliases = "sendto"
 		type = "func"
 		size = "64"
 		objfiles = "sendto@libc.a"
@@ -12723,7 +12723,7 @@ rule sendto_a1883a52ba99ccfbcf73eac8ba8822c5 {
 
 rule recvfrom_e9ed35b76a191ba6a68ef1978706e65b {
 	meta:
-		aliases = "__GI_recvfrom, __libc_recvfrom, recvfrom"
+		aliases = "recvfrom"
 		type = "func"
 		size = "64"
 		objfiles = "recvfrom@libc.a"
@@ -12735,7 +12735,7 @@ rule recvfrom_e9ed35b76a191ba6a68ef1978706e65b {
 
 rule setsockopt_f9b57f0dabb82fd0f6e0c96e6fbeb233 {
 	meta:
-		aliases = "__GI_setsockopt, setsockopt"
+		aliases = "setsockopt"
 		type = "func"
 		size = "60"
 		objfiles = "setsockopt@libc.a"
@@ -12807,7 +12807,7 @@ rule mq_open_d31017a2debaea7cd67dd31bd0cac0fe {
 
 rule execvp_4d0201bd4a254d99b3483d762447061f {
 	meta:
-		aliases = "__GI_execvp, execvp"
+		aliases = "execvp"
 		type = "func"
 		size = "512"
 		objfiles = "execvp@libc.a"
@@ -12879,7 +12879,7 @@ rule _dl_do_reloc_ba088b4f58c5040708141c7389f4ebf6 {
 
 rule xdr_array_3c4c2dc24e0c3a9cc78891581c4673f2 {
 	meta:
-		aliases = "__GI_xdr_array, xdr_array"
+		aliases = "xdr_array"
 		type = "func"
 		size = "336"
 		objfiles = "xdr_array@libc.a"
@@ -12903,7 +12903,7 @@ rule __prefix_array_ed2a75218897dc82da63abfc0c7a64c8 {
 
 rule xdrrec_create_d4ce500f6c28f96d09f466f4432111c4 {
 	meta:
-		aliases = "__GI_xdrrec_create, xdrrec_create"
+		aliases = "xdrrec_create"
 		type = "func"
 		size = "308"
 		objfiles = "xdr_rec@libc.a"
@@ -12951,7 +12951,7 @@ rule _stdlib_wcsto_l_91a80db9bff09b1581736af5efadc537 {
 
 rule lldiv_72c80facf01185c4aea65e4a83b17cbd {
 	meta:
-		aliases = "imaxdiv, lldiv"
+		aliases = "lldiv"
 		type = "func"
 		size = "156"
 		objfiles = "lldiv@libc.a"
@@ -12999,7 +12999,7 @@ rule _time_mktime_d96ac72e1497e8a8ab3c43a42caf41ec {
 
 rule localtime_r_1ac5855cf2a23b638c364d0487791692 {
 	meta:
-		aliases = "__GI_localtime_r, localtime_r"
+		aliases = "localtime_r"
 		type = "func"
 		size = "152"
 		objfiles = "localtime_r@libc.a"
@@ -13011,7 +13011,7 @@ rule localtime_r_1ac5855cf2a23b638c364d0487791692 {
 
 rule getprotobynumber_r_0e36abccea73b38f5ad57adbf02eb49f {
 	meta:
-		aliases = "__GI_getprotobynumber_r, getprotobynumber_r"
+		aliases = "getprotobynumber_r"
 		type = "func"
 		size = "196"
 		objfiles = "getproto@libc.a"
@@ -13035,7 +13035,7 @@ rule send_2ddd919c7b89a311a73d9dc728e9334e {
 
 rule ptsname_r_e376b72a534a67570e59b5a8df1c8621 {
 	meta:
-		aliases = "__GI_ptsname_r, ptsname_r"
+		aliases = "ptsname_r"
 		type = "func"
 		size = "212"
 		objfiles = "ptsname@libc.a"
@@ -13059,7 +13059,7 @@ rule scan_getwc_6ad3c8265d8bbd44ca280931d67008e9 {
 
 rule svc_register_c3268b625319478efe304d24b8877d7c {
 	meta:
-		aliases = "__GI_svc_register, svc_register"
+		aliases = "svc_register"
 		type = "func"
 		size = "180"
 		objfiles = "svc@libc.a"
@@ -13071,7 +13071,7 @@ rule svc_register_c3268b625319478efe304d24b8877d7c {
 
 rule pthread_cond_timedwait_46dea9d89c386aa4adca8219f68384f7 {
 	meta:
-		aliases = "__GI_pthread_cond_timedwait, pthread_cond_timedwait"
+		aliases = "pthread_cond_timedwait"
 		type = "func"
 		size = "504"
 		objfiles = "condvar@libpthread.a"
@@ -13083,7 +13083,7 @@ rule pthread_cond_timedwait_46dea9d89c386aa4adca8219f68384f7 {
 
 rule vasprintf_eb3f6e1796b6343e4d1fe68caacd0650 {
 	meta:
-		aliases = "__GI_vasprintf, vasprintf"
+		aliases = "vasprintf"
 		type = "func"
 		size = "160"
 		objfiles = "vasprintf@libc.a"
@@ -13119,7 +13119,7 @@ rule byte_group_match_null_string_p_5e1c91eaeee260e49f5fac0ef27619ec {
 
 rule write_a2a95f4e6264ca8dced1426d0ea34333 {
 	meta:
-		aliases = "__GI_waitpid, accept, connect, lseek, msync, read, recvmsg, sendmsg, waitpid, write"
+		aliases = "accept, connect, lseek, msync, read, recvmsg, sendmsg, waitpid, write"
 		type = "func"
 		size = "96"
 		objfiles = "wrapsyscall@libpthread.a"
@@ -13143,7 +13143,7 @@ rule __des_crypt_0e2e33c50df4d9e41d7d5cd2b3aecd20 {
 
 rule gethostbyaddr_c99a3aef6e0ef02f13ce815fb94b8b2f {
 	meta:
-		aliases = "__GI_gethostbyaddr, gethostbyaddr"
+		aliases = "gethostbyaddr"
 		type = "func"
 		size = "96"
 		objfiles = "gethostbyaddr@libc.a"
@@ -13179,7 +13179,7 @@ rule readtcp_d4b11a0f57fcd3712124bdf960a3545e {
 
 rule vfprintf_569d643dcca32d07f46ad782dd19d7cc {
 	meta:
-		aliases = "__GI_vfprintf, vfprintf"
+		aliases = "vfprintf"
 		type = "func"
 		size = "176"
 		objfiles = "vfprintf@libc.a"
@@ -13191,7 +13191,7 @@ rule vfprintf_569d643dcca32d07f46ad782dd19d7cc {
 
 rule vfwprintf_a82007c0e5890ebfca8bcc8f11282c58 {
 	meta:
-		aliases = "__GI_vfwprintf, vfwprintf"
+		aliases = "vfwprintf"
 		type = "func"
 		size = "176"
 		objfiles = "vfwprintf@libc.a"
@@ -13203,7 +13203,7 @@ rule vfwprintf_a82007c0e5890ebfca8bcc8f11282c58 {
 
 rule xdr_rmtcall_args_3271958a02d5afe9b65dfd33f0b2ad9d {
 	meta:
-		aliases = "__GI_xdr_rmtcall_args, xdr_rmtcall_args"
+		aliases = "xdr_rmtcall_args"
 		type = "func"
 		size = "316"
 		objfiles = "pmap_rmt@libc.a"
@@ -13215,7 +13215,7 @@ rule xdr_rmtcall_args_3271958a02d5afe9b65dfd33f0b2ad9d {
 
 rule bindresvport_f3d6447b9dfc1c9a7223e053632dd643 {
 	meta:
-		aliases = "__GI_bindresvport, bindresvport"
+		aliases = "bindresvport"
 		type = "func"
 		size = "276"
 		objfiles = "bindresvport@libc.a"
@@ -13251,7 +13251,7 @@ rule __wcstofpmax_70d19d089aeba21f23471c1a7cefe897 {
 
 rule lockf_0f24e34abe8656240ac6e0e69c9db879 {
 	meta:
-		aliases = "__GI_lockf, lockf"
+		aliases = "lockf"
 		type = "func"
 		size = "292"
 		objfiles = "lockf@libc.a"
@@ -13263,7 +13263,7 @@ rule lockf_0f24e34abe8656240ac6e0e69c9db879 {
 
 rule readdir_r_786ca3caeedf19ed9f42c3b3dd755fea {
 	meta:
-		aliases = "__GI_readdir_r, readdir_r"
+		aliases = "readdir_r"
 		type = "func"
 		size = "252"
 		objfiles = "readdir_r@libc.a"
@@ -13275,7 +13275,7 @@ rule readdir_r_786ca3caeedf19ed9f42c3b3dd755fea {
 
 rule readdir64_r_81a9e653d2b9d0b3b783c914b5c66248 {
 	meta:
-		aliases = "__GI_readdir64_r, readdir64_r"
+		aliases = "readdir64_r"
 		type = "func"
 		size = "256"
 		objfiles = "readdir64_r@libc.a"
@@ -13323,7 +13323,7 @@ rule open64_0c092c563c8a64e141e6d89209006690 {
 
 rule getmntent_r_3f24c6062441be4fd5a86e9feeaecf62 {
 	meta:
-		aliases = "__GI_getmntent_r, getmntent_r"
+		aliases = "getmntent_r"
 		type = "func"
 		size = "368"
 		objfiles = "mntent@libc.a"
@@ -13335,7 +13335,7 @@ rule getmntent_r_3f24c6062441be4fd5a86e9feeaecf62 {
 
 rule nanosleep_1d975e911130969a010272f6eb4509e6 {
 	meta:
-		aliases = "__GI_nanosleep, nanosleep"
+		aliases = "nanosleep"
 		type = "func"
 		size = "88"
 		objfiles = "wrapsyscall@libpthread.a"
@@ -13383,7 +13383,7 @@ rule getservbyname_c3b8a6bea438947caffd7e72e9c96ea3 {
 
 rule getservbyport_b947eb634272ce97d4a5adae21213772 {
 	meta:
-		aliases = "__GI_getservbyport, getservbyport"
+		aliases = "getservbyport"
 		type = "func"
 		size = "88"
 		objfiles = "getservice@libc.a"
@@ -13419,7 +13419,7 @@ rule getresgid_8640efd381cbc0c1a727269dcc5974b6 {
 
 rule xdr_string_d375db3c024e2a234844a228d83a8198 {
 	meta:
-		aliases = "__GI_xdr_string, xdr_string"
+		aliases = "xdr_string"
 		type = "func"
 		size = "292"
 		objfiles = "xdr@libc.a"
@@ -13431,7 +13431,7 @@ rule xdr_string_d375db3c024e2a234844a228d83a8198 {
 
 rule unsetenv_9cd5c368cc39094a5444c447ce4c86c7 {
 	meta:
-		aliases = "__GI_unsetenv, unsetenv"
+		aliases = "unsetenv"
 		type = "func"
 		size = "256"
 		objfiles = "setenv@libc.a"
@@ -13443,7 +13443,7 @@ rule unsetenv_9cd5c368cc39094a5444c447ce4c86c7 {
 
 rule pthread_once_ac4cc02dcf114de9bcd4899c55ebb3db {
 	meta:
-		aliases = "__pthread_once, pthread_once"
+		aliases = "pthread_once"
 		type = "func"
 		size = "312"
 		objfiles = "mutex@libpthread.a"
@@ -13491,7 +13491,7 @@ rule fgetpos64_909df2f7089af96663aeaee0eb7ad73c {
 
 rule closedir_637c2008e9603b17e5036dd14bf2cb23 {
 	meta:
-		aliases = "__GI_closedir, closedir"
+		aliases = "closedir"
 		type = "func"
 		size = "164"
 		objfiles = "closedir@libc.a"
@@ -13503,7 +13503,7 @@ rule closedir_637c2008e9603b17e5036dd14bf2cb23 {
 
 rule getwc_unlocked_7ed75d517eff0a0291009544012f6b55 {
 	meta:
-		aliases = "__GI_fgetwc_unlocked, fgetwc_unlocked, getwc_unlocked"
+		aliases = "getwc_unlocked"
 		type = "func"
 		size = "440"
 		objfiles = "fgetwc_unlocked@libc.a"
@@ -13527,7 +13527,7 @@ rule putgrent_9f7aa01f9cf0d72fb6620cac3ca4216e {
 
 rule ungetc_be9b35630ead2d7e10daf3580cd94e00 {
 	meta:
-		aliases = "__GI_ungetc, ungetc"
+		aliases = "ungetc"
 		type = "func"
 		size = "320"
 		objfiles = "ungetc@libc.a"
@@ -13539,7 +13539,7 @@ rule ungetc_be9b35630ead2d7e10daf3580cd94e00 {
 
 rule ungetwc_c8b90e54cab5b9a8cacaf43d04aeb0ae {
 	meta:
-		aliases = "__GI_ungetwc, ungetwc"
+		aliases = "ungetwc"
 		type = "func"
 		size = "236"
 		objfiles = "ungetwc@libc.a"
@@ -13647,7 +13647,7 @@ rule unlockpt_64f3720600da025dbb36f49e16365ac2 {
 
 rule gethostbyname_c62706d1ad3054d799160ccbdc1a880d {
 	meta:
-		aliases = "__GI_gethostbyname, gethostbyname"
+		aliases = "gethostbyname"
 		type = "func"
 		size = "80"
 		objfiles = "gethostbyname@libc.a"
@@ -13719,7 +13719,7 @@ rule encrypt_bea2d3c35a3b27221d903436e440f8f4 {
 
 rule getc_b04535e49d759ef1fdc2c647d1770614 {
 	meta:
-		aliases = "__GI_fgetc, fgetc, getc"
+		aliases = "getc"
 		type = "func"
 		size = "188"
 		objfiles = "fgetc@libc.a"
@@ -13731,7 +13731,7 @@ rule getc_b04535e49d759ef1fdc2c647d1770614 {
 
 rule pthread_cond_wait_f817f4aab9c8ed516068128efd1e1d00 {
 	meta:
-		aliases = "__GI_pthread_cond_wait, pthread_cond_wait"
+		aliases = "pthread_cond_wait"
 		type = "func"
 		size = "404"
 		objfiles = "condvar@libpthread.a"
@@ -13755,7 +13755,7 @@ rule byte_alt_match_null_string_p_a481c64e00b89b95cc02bdca4dba1ff7 {
 
 rule putc_f1bfaffe562aef6042f32ba0cb8f8f2e {
 	meta:
-		aliases = "__GI_fputc, __GI_putc, fputc, putc"
+		aliases = "putc"
 		type = "func"
 		size = "212"
 		objfiles = "fputc@libc.a"
@@ -13839,7 +13839,7 @@ rule __decode_dotted_f8ee4128381a5dce1b25694638d9a733 {
 
 rule fflush_a9bdc8a5795558180a4ecaf812e49587 {
 	meta:
-		aliases = "__GI_fflush, fflush"
+		aliases = "fflush"
 		type = "func"
 		size = "168"
 		objfiles = "fflush@libc.a"
@@ -13875,7 +13875,7 @@ rule __adddf3_74de71b215889b453adb03034b12d1b7 {
 
 rule lrint_3bc148abdd2fc54cca535055b3e5358f {
 	meta:
-		aliases = "__GI_lrint, lrint"
+		aliases = "lrint"
 		type = "func"
 		size = "256"
 		objfiles = "s_lrint@libm.a"
@@ -13897,9 +13897,9 @@ rule __subdf3_641c177c891ad652e8988fe7b83bb198 {
 		$pattern
 }
 
-rule memcmp_6db4bcba2c8d65c6c921608508f8aa7c {
+rule bcmp_6db4bcba2c8d65c6c921608508f8aa7c {
 	meta:
-		aliases = "__GI_memcmp, bcmp, memcmp"
+		aliases = "bcmp"
 		type = "func"
 		size = "780"
 		objfiles = "memcmp@libc.a"
@@ -14067,7 +14067,7 @@ rule __kernel_cos_8e9a16cbe4cad7082f725db2ddfb2808 {
 
 rule log1p_bc886da8fe150c98117ed41f4da67779 {
 	meta:
-		aliases = "__GI_log1p, log1p"
+		aliases = "log1p"
 		type = "func"
 		size = "892"
 		objfiles = "s_log1p@libm.a"
@@ -14127,7 +14127,7 @@ rule difftime_539408d0d0db7f30a72726da5078fc5a {
 
 rule cbrt_1d2300d55bb91125dfbe871cadb4a0ad {
 	meta:
-		aliases = "__GI_cbrt, cbrt"
+		aliases = "cbrt"
 		type = "func"
 		size = "372"
 		objfiles = "s_cbrt@libm.a"
@@ -14214,7 +14214,7 @@ rule getgrnam_674cacbd2ee2d111f815b9dd7ea3dbae {
 		aliases = "fgetgrent, getgrgid, getgrnam"
 		type = "func"
 		size = "56"
-		objfiles = "getgrgid@libc.a, getgrnam@libc.a, fgetgrent@libc.a"
+		objfiles = "fgetgrent@libc.a, getgrnam@libc.a, getgrgid@libc.a"
 	strings:
 		$pattern = { 94 21 FF E0 3C 80 ?? ?? 7C 08 02 A6 38 84 ?? ?? 38 A4 00 10 38 C0 01 00 38 E1 00 08 90 01 00 24 ( 4? | 3? ) ?? ?? ?? 80 01 00 24 80 61 00 08 38 21 00 20 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -14226,7 +14226,7 @@ rule getpwuid_8d8465ca06afd67c5e58181606818b82 {
 		aliases = "fgetpwent, getpwnam, getpwuid"
 		type = "func"
 		size = "56"
-		objfiles = "fgetpwent@libc.a, getpwuid@libc.a, getpwnam@libc.a"
+		objfiles = "getpwuid@libc.a, fgetpwent@libc.a, getpwnam@libc.a"
 	strings:
 		$pattern = { 94 21 FF E0 3C 80 ?? ?? 7C 08 02 A6 38 84 ?? ?? 38 A4 00 1C 38 C0 01 00 38 E1 00 08 90 01 00 24 ( 4? | 3? ) ?? ?? ?? 80 01 00 24 80 61 00 08 38 21 00 20 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -14238,7 +14238,7 @@ rule sgetspent_3a81a9429db60e53fa58a598d31c3a02 {
 		aliases = "fgetspent, getspnam, sgetspent"
 		type = "func"
 		size = "56"
-		objfiles = "sgetspent@libc.a, fgetspent@libc.a, getspnam@libc.a"
+		objfiles = "getspnam@libc.a, sgetspent@libc.a, fgetspent@libc.a"
 	strings:
 		$pattern = { 94 21 FF E0 3C 80 ?? ?? 7C 08 02 A6 38 84 ?? ?? 38 A4 00 24 38 C0 01 00 38 E1 00 08 90 01 00 24 ( 4? | 3? ) ?? ?? ?? 80 01 00 24 80 61 00 08 38 21 00 20 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -14259,7 +14259,7 @@ rule __pthread_manager_event_9d1ce334d15d763ec3e69714e0895c0d {
 
 rule asctime_r_fa4fcae0dbf257efb79d2d00129a6e27 {
 	meta:
-		aliases = "__GI_asctime_r, asctime_r"
+		aliases = "asctime_r"
 		type = "func"
 		size = "312"
 		objfiles = "asctime_r@libc.a"
@@ -14283,7 +14283,7 @@ rule clearenv_d3fa2568590b8fb8bd575fcdefd3bc37 {
 
 rule endnetent_cdb99d1ee5a48968bae0d4663aa8a0f7 {
 	meta:
-		aliases = "__GI_endnetent, endnetent"
+		aliases = "endnetent"
 		type = "func"
 		size = "124"
 		objfiles = "getnetent@libc.a"
@@ -14298,7 +14298,7 @@ rule endspent_6a2eeaeee8a4187c92218d59e4c3ebd7 {
 		aliases = "endgrent, endpwent, endspent"
 		type = "func"
 		size = "112"
-		objfiles = "getpwent_r@libc.a, getspent_r@libc.a, getgrent_r@libc.a"
+		objfiles = "getspent_r@libc.a, getpwent_r@libc.a, getgrent_r@libc.a"
 	strings:
 		$pattern = { 94 21 FF E0 3D 20 ?? ?? 7C 08 02 A6 3C 80 ?? ?? 38 84 ?? ?? BF C1 00 18 3B E9 ?? ?? 3B C1 00 08 7F E5 FB 78 7F C3 F3 78 90 01 00 24 ( 4? | 3? ) ?? ?? ?? 7F E3 FB 78 ( 4? | 3? ) ?? ?? ?? 80 7F 00 18 2F 83 00 00 41 9E 00 10 ( 4? | 3? ) ?? ?? ?? 38 00 00 00 90 1F 00 18 7F C3 F3 78 38 80 00 01 ( 4? | 3? ) ?? ?? ?? 80 01 00 24 BB C1 00 18 38 21 00 20 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -14307,7 +14307,7 @@ rule endspent_6a2eeaeee8a4187c92218d59e4c3ebd7 {
 
 rule setnetent_4751548f0ee1b2d792353ba304baac3e {
 	meta:
-		aliases = "__GI_setnetent, setnetent"
+		aliases = "setnetent"
 		type = "func"
 		size = "152"
 		objfiles = "getnetent@libc.a"
@@ -14343,7 +14343,7 @@ rule pthread_key_delete_e47d96b1535c3ece7fa856e084aff7e8 {
 
 rule regerror_fbf53ae3ed4501faa05959cb9fa5ac55 {
 	meta:
-		aliases = "__regerror, regerror"
+		aliases = "regerror"
 		type = "func"
 		size = "156"
 		objfiles = "regex_old@libc.a"
@@ -14367,7 +14367,7 @@ rule pthread_setspecific_31f5592b807028b220de36911d59b5b7 {
 
 rule initstate_r_548539a47b3f72468113226e4cc40bfa {
 	meta:
-		aliases = "__GI_initstate_r, initstate_r"
+		aliases = "initstate_r"
 		type = "func"
 		size = "232"
 		objfiles = "random_r@libc.a"
@@ -14379,7 +14379,7 @@ rule initstate_r_548539a47b3f72468113226e4cc40bfa {
 
 rule sgetspent_r_0c6fc6c0f70e29b0fe58f082ab4fa40b {
 	meta:
-		aliases = "__GI_sgetspent_r, sgetspent_r"
+		aliases = "sgetspent_r"
 		type = "func"
 		size = "152"
 		objfiles = "sgetspent_r@libc.a"
@@ -14391,7 +14391,7 @@ rule sgetspent_r_0c6fc6c0f70e29b0fe58f082ab4fa40b {
 
 rule wcsnrtombs_afa50bad009c279f54b9d432e044a352 {
 	meta:
-		aliases = "__GI_wcsnrtombs, wcsnrtombs"
+		aliases = "wcsnrtombs"
 		type = "func"
 		size = "196"
 		objfiles = "wcsnrtombs@libc.a"
@@ -14451,7 +14451,7 @@ rule tdelete_854810fa7dc31d2bedb1b09d8c0ffbec {
 
 rule ppoll_6f6cbf61115fca59aad5168b5bbaba97 {
 	meta:
-		aliases = "__GI_ppoll, ppoll"
+		aliases = "ppoll"
 		type = "func"
 		size = "100"
 		objfiles = "ppoll@libc.a"
@@ -14463,7 +14463,7 @@ rule ppoll_6f6cbf61115fca59aad5168b5bbaba97 {
 
 rule mbrtowc_d80087fff6d066ef9a92d11d30f33e2c {
 	meta:
-		aliases = "__GI_mbrtowc, mbrtowc"
+		aliases = "mbrtowc"
 		type = "func"
 		size = "164"
 		objfiles = "mbrtowc@libc.a"
@@ -14475,7 +14475,7 @@ rule mbrtowc_d80087fff6d066ef9a92d11d30f33e2c {
 
 rule mbsnrtowcs_201e6efbc07c699da37d1847ad2ae6f4 {
 	meta:
-		aliases = "__GI_mbsnrtowcs, mbsnrtowcs"
+		aliases = "mbsnrtowcs"
 		type = "func"
 		size = "212"
 		objfiles = "mbsnrtowcs@libc.a"
@@ -14487,7 +14487,7 @@ rule mbsnrtowcs_201e6efbc07c699da37d1847ad2ae6f4 {
 
 rule memmem_92eaa644308c5944289e2af635a8398e {
 	meta:
-		aliases = "__GI_memmem, memmem"
+		aliases = "memmem"
 		type = "func"
 		size = "144"
 		objfiles = "memmem@libc.a"
@@ -14499,7 +14499,7 @@ rule memmem_92eaa644308c5944289e2af635a8398e {
 
 rule getdtablesize_042c4f7d5b0f754d05e03bd6806ed12d {
 	meta:
-		aliases = "__GI_getdtablesize, getdtablesize"
+		aliases = "getdtablesize"
 		type = "func"
 		size = "56"
 		objfiles = "getdtablesize@libc.a"
@@ -14511,7 +14511,7 @@ rule getdtablesize_042c4f7d5b0f754d05e03bd6806ed12d {
 
 rule tgamma_34ae192b56751e590aa0f74adf68f2d9 {
 	meta:
-		aliases = "__GI_tgamma, tgamma"
+		aliases = "tgamma"
 		type = "func"
 		size = "52"
 		objfiles = "w_tgamma@libm.a"
@@ -14559,7 +14559,7 @@ rule gmtime_b53a018275fd0083e79b4bc764d4f247 {
 
 rule pthread_cond_broadcast_62fc01e695bffd9ecf6e6b6e272d6938 {
 	meta:
-		aliases = "__GI_pthread_cond_broadcast, pthread_cond_broadcast"
+		aliases = "pthread_cond_broadcast"
 		type = "func"
 		size = "120"
 		objfiles = "condvar@libpthread.a"
@@ -14607,7 +14607,7 @@ rule putenv_9032729a5cc1c59bfc50acc314397374 {
 
 rule inet_addr_ca6620dc8ab9fda1da803c60693b29b3 {
 	meta:
-		aliases = "__GI_inet_addr, inet_addr"
+		aliases = "inet_addr"
 		type = "func"
 		size = "52"
 		objfiles = "inet_makeaddr@libc.a"
@@ -14619,7 +14619,7 @@ rule inet_addr_ca6620dc8ab9fda1da803c60693b29b3 {
 
 rule inet_ntoa_r_adaa11cc607f499f8df1abd730f26e55 {
 	meta:
-		aliases = "__GI_inet_ntoa_r, inet_ntoa_r"
+		aliases = "inet_ntoa_r"
 		type = "func"
 		size = "124"
 		objfiles = "inet_ntoa@libc.a"
@@ -14667,7 +14667,7 @@ rule set_input_fragment_8a4a270380c837c3328d96644d2ccab5 {
 
 rule seed48_r_b09b03141b594fcd71b24406f87aa43e {
 	meta:
-		aliases = "__GI_seed48_r, seed48_r"
+		aliases = "seed48_r"
 		type = "func"
 		size = "120"
 		objfiles = "seed48_r@libc.a"
@@ -14703,7 +14703,7 @@ rule ttyname_2c53ad1c1936ea19c5e3f1259ad8164b {
 
 rule strerror_b59d09d2f5f13e07fbd90b752fc8576d {
 	meta:
-		aliases = "__GI_strerror, strerror"
+		aliases = "strerror"
 		type = "func"
 		size = "60"
 		objfiles = "strerror@libc.a"
@@ -14787,7 +14787,7 @@ rule msgrcv_bf49b230b9c1b08e6d6723c3ce947226 {
 
 rule regcomp_3e354e8f17853a1c82361eaf612bf89c {
 	meta:
-		aliases = "__regcomp, regcomp"
+		aliases = "regcomp"
 		type = "func"
 		size = "384"
 		objfiles = "regex_old@libc.a"
@@ -14811,7 +14811,7 @@ rule __ieee754_log10_b9a5723ebb5d953ed925209ebb91d668 {
 
 rule tcgetpgrp_e7a531188f8742e31658593bd35180be {
 	meta:
-		aliases = "__GI_tcgetpgrp, tcgetpgrp"
+		aliases = "tcgetpgrp"
 		type = "func"
 		size = "64"
 		objfiles = "tcgetpgrp@libc.a"
@@ -14871,7 +14871,7 @@ rule __ieee754_atan2_51bccc0b84eaf6421f24d219df22462c {
 
 rule xdr_rmtcallres_901c475eae69b357c210c35cc52dd001 {
 	meta:
-		aliases = "__GI_xdr_rmtcallres, xdr_rmtcallres"
+		aliases = "xdr_rmtcallres"
 		type = "func"
 		size = "140"
 		objfiles = "pmap_rmt@libc.a"
@@ -14931,7 +14931,7 @@ rule pthread_free_8c33052a9d1f211109d5c9df17908f30 {
 
 rule wctype_e439358704ec9ca8a7ded5c87b474456 {
 	meta:
-		aliases = "__GI_wctrans, __GI_wctype, wctrans, wctype"
+		aliases = "wctrans, wctype"
 		type = "func"
 		size = "112"
 		objfiles = "wctype@libc.a, wctrans@libc.a"
@@ -14955,7 +14955,7 @@ rule __old_sem_wait_9fa850791fe5050ff6542f25d13457f3 {
 
 rule pthread_setschedparam_74a8ab73026bd6adad2659a4214c459e {
 	meta:
-		aliases = "__GI_pthread_setschedparam, pthread_setschedparam"
+		aliases = "pthread_setschedparam"
 		type = "func"
 		size = "228"
 		objfiles = "pthread@libpthread.a"
@@ -14967,7 +14967,7 @@ rule pthread_setschedparam_74a8ab73026bd6adad2659a4214c459e {
 
 rule pthread_getschedparam_b229a7880a14461af9f3ea34745311ff {
 	meta:
-		aliases = "__GI_pthread_getschedparam, pthread_getschedparam"
+		aliases = "pthread_getschedparam"
 		type = "func"
 		size = "196"
 		objfiles = "pthread@libpthread.a"
@@ -14991,7 +14991,7 @@ rule pthread_kill_5843bd89eb41700f683775bf142afdc4 {
 
 rule sem_wait_72a9e93d72d70b02728bca80c1901f47 {
 	meta:
-		aliases = "__new_sem_wait, sem_wait"
+		aliases = "sem_wait"
 		type = "func"
 		size = "340"
 		objfiles = "semaphore@libpthread.a"
@@ -15027,7 +15027,7 @@ rule token_9c707d00b81ca04649312e0ac651ad89 {
 
 rule getenv_00a22fa8103efd7efab0d618d7cee0ac {
 	meta:
-		aliases = "__GI_getenv, getenv"
+		aliases = "getenv"
 		type = "func"
 		size = "136"
 		objfiles = "getenv@libc.a"
@@ -15327,7 +15327,7 @@ rule __pthread_alt_lock_fb55c4ec75b7a94e3b60ba2ecdfda55e {
 
 rule lseek64_fa2b832a83634d7065b69b9ac8bc4107 {
 	meta:
-		aliases = "__GI_lseek64, __libc_lseek64, lseek64"
+		aliases = "lseek64"
 		type = "func"
 		size = "128"
 		objfiles = "llseek@libc.a"
@@ -15471,7 +15471,7 @@ rule getprotoent_cdcdf3480a849e9622b39f844afdfec2 {
 
 rule open64_1c0a5da403b7ea2f5e0fd3499005e8b5 {
 	meta:
-		aliases = "__GI___libc_open64, __GI_open64, __libc_open64, open64"
+		aliases = "open64"
 		type = "func"
 		size = "88"
 		objfiles = "open64@libc.a"
@@ -15519,7 +15519,7 @@ rule _Unwind_RaiseException_Phase2_64bbab87e74d434f1952254f8c33a4ca {
 
 rule fread_unlocked_55a9f36acb416efc29eff7705b66b012 {
 	meta:
-		aliases = "__GI_fread_unlocked, fread_unlocked"
+		aliases = "fread_unlocked"
 		type = "func"
 		size = "380"
 		objfiles = "fread_unlocked@libc.a"
@@ -15531,7 +15531,7 @@ rule fread_unlocked_55a9f36acb416efc29eff7705b66b012 {
 
 rule fwrite_unlocked_4cabcc44cd6fe3955fd54ce2d4ccc16b {
 	meta:
-		aliases = "__GI_fwrite_unlocked, fwrite_unlocked"
+		aliases = "fwrite_unlocked"
 		type = "func"
 		size = "184"
 		objfiles = "fwrite_unlocked@libc.a"
@@ -15555,7 +15555,7 @@ rule __stdio_WRITE_d71f94e654908d63843765dc3ceda250 {
 
 rule fgetws_unlocked_e78224e55ba264d3e5e5caa6d47f5df4 {
 	meta:
-		aliases = "__GI_fgetws_unlocked, fgetws_unlocked"
+		aliases = "fgetws_unlocked"
 		type = "func"
 		size = "124"
 		objfiles = "fgetws_unlocked@libc.a"
@@ -15603,7 +15603,7 @@ rule _DOT_init_7b19981fd409d5b1ef8c4e31f8ae4bea {
 
 rule socket_122230706f782474558e6b68a01837db {
 	meta:
-		aliases = "__GI_socket, socket"
+		aliases = "socket"
 		type = "func"
 		size = "52"
 		objfiles = "socket@libc.a"
@@ -15615,7 +15615,7 @@ rule socket_122230706f782474558e6b68a01837db {
 
 rule bind_f55a3398650d881e4b357b1568f72755 {
 	meta:
-		aliases = "__GI_bind, bind"
+		aliases = "bind"
 		type = "func"
 		size = "52"
 		objfiles = "bind@libc.a"
@@ -15627,7 +15627,7 @@ rule bind_f55a3398650d881e4b357b1568f72755 {
 
 rule connect_44535471132d072d74b8b0be4767d5fd {
 	meta:
-		aliases = "__GI_connect, __libc_connect, connect"
+		aliases = "connect"
 		type = "func"
 		size = "52"
 		objfiles = "connect@libc.a"
@@ -15639,7 +15639,7 @@ rule connect_44535471132d072d74b8b0be4767d5fd {
 
 rule listen_41eb31da149c964e22d151e553f713e2 {
 	meta:
-		aliases = "__GI_listen, listen"
+		aliases = "listen"
 		type = "func"
 		size = "48"
 		objfiles = "listen@libc.a"
@@ -15651,7 +15651,7 @@ rule listen_41eb31da149c964e22d151e553f713e2 {
 
 rule accept_a303f0737223fab0ec48c4288c14406f {
 	meta:
-		aliases = "__GI_accept, __libc_accept, accept"
+		aliases = "accept"
 		type = "func"
 		size = "52"
 		objfiles = "accept@libc.a"
@@ -15663,7 +15663,7 @@ rule accept_a303f0737223fab0ec48c4288c14406f {
 
 rule getsockname_55d07a6fe572d5b462994061eac4dcaa {
 	meta:
-		aliases = "__GI_getsockname, getsockname"
+		aliases = "getsockname"
 		type = "func"
 		size = "52"
 		objfiles = "getsockname@libc.a"
@@ -15699,7 +15699,7 @@ rule socketpair_e3a59f9883c40164a5a404ac0a56f20e {
 
 rule send_916e9e1d6e4d8f873277dccae4129f00 {
 	meta:
-		aliases = "__GI_send, __libc_send, send"
+		aliases = "send"
 		type = "func"
 		size = "56"
 		objfiles = "send@libc.a"
@@ -15711,7 +15711,7 @@ rule send_916e9e1d6e4d8f873277dccae4129f00 {
 
 rule recv_249b6eb0ad3dee4d5cf9cd92a6588ea4 {
 	meta:
-		aliases = "__GI_recv, __libc_recv, recv"
+		aliases = "recv"
 		type = "func"
 		size = "56"
 		objfiles = "recv@libc.a"
@@ -15735,7 +15735,7 @@ rule shutdown_36481ef06a4b3a3f8cba6292abe8a110 {
 
 rule sendmsg_4d33663d470f8283d2404f8151bc8d87 {
 	meta:
-		aliases = "__GI_sendmsg, __libc_sendmsg, sendmsg"
+		aliases = "sendmsg"
 		type = "func"
 		size = "52"
 		objfiles = "sendmsg@libc.a"
@@ -15747,7 +15747,7 @@ rule sendmsg_4d33663d470f8283d2404f8151bc8d87 {
 
 rule recvmsg_b7c1a5c002dfcf95167790ba7ecbd17e {
 	meta:
-		aliases = "__GI_recvmsg, __libc_recvmsg, recvmsg"
+		aliases = "recvmsg"
 		type = "func"
 		size = "52"
 		objfiles = "recvmsg@libc.a"
@@ -15807,7 +15807,7 @@ rule ftime_c201fa9ec4cfdd200f7ddff9b40924be {
 
 rule getc_unlocked_271a251dab3a5bcd2d66a1ac4bd151e8 {
 	meta:
-		aliases = "__GI___fgetc_unlocked, __GI_fgetc_unlocked, __GI_getc_unlocked, __fgetc_unlocked, fgetc_unlocked, getc_unlocked"
+		aliases = "getc_unlocked"
 		type = "func"
 		size = "312"
 		objfiles = "fgetc_unlocked@libc.a"
@@ -15831,7 +15831,7 @@ rule getrlimit64_76a571f6d5a751c10a1c7e1947c058c5 {
 
 rule xdr_u_long_2bc568f01cba7c2bd6afee66c707a3b8 {
 	meta:
-		aliases = "__GI_xdr_u_long, xdr_u_long"
+		aliases = "xdr_u_long"
 		type = "func"
 		size = "144"
 		objfiles = "xdr@libc.a"
@@ -15855,7 +15855,7 @@ rule xdr_uint8_t_e7a2ccc512785dba343d2c2e591b2f8e {
 
 rule xdr_u_short_c1472ad222ab8afba43648a44bc30e7f {
 	meta:
-		aliases = "__GI_xdr_u_short, xdr_u_short"
+		aliases = "xdr_u_short"
 		type = "func"
 		size = "156"
 		objfiles = "xdr@libc.a"
@@ -15879,7 +15879,7 @@ rule xdr_uint16_t_8aeb2178bad9aad5cd0caaaccfcd0e9f {
 
 rule xdr_short_25a346fa17f588ff43ce2ebb637ed19d {
 	meta:
-		aliases = "__GI_xdr_short, xdr_short"
+		aliases = "xdr_short"
 		type = "func"
 		size = "156"
 		objfiles = "xdr@libc.a"
@@ -15915,7 +15915,7 @@ rule xdr_int8_t_521d88161ac57324d855b6bd29a2b3fb {
 
 rule xdr_bool_8d51a3ca0aa923b0abd90e17695857fa {
 	meta:
-		aliases = "__GI_xdr_bool, xdr_bool"
+		aliases = "xdr_bool"
 		type = "func"
 		size = "172"
 		objfiles = "xdr@libc.a"
@@ -16083,7 +16083,7 @@ rule makefd_xprt_1ae20e1097762b044f10772e28d5bb27 {
 
 rule lfind_e4aeffd8417e05de48d1607551be0f4c {
 	meta:
-		aliases = "__GI_lfind, lfind"
+		aliases = "lfind"
 		type = "func"
 		size = "112"
 		objfiles = "lfind@libc.a"
@@ -16095,7 +16095,7 @@ rule lfind_e4aeffd8417e05de48d1607551be0f4c {
 
 rule svc_getreq_poll_652a758f856a117bdace61ddace96178 {
 	meta:
-		aliases = "__GI_svc_getreq_poll, svc_getreq_poll"
+		aliases = "svc_getreq_poll"
 		type = "func"
 		size = "160"
 		objfiles = "svc@libc.a"
@@ -16107,7 +16107,7 @@ rule svc_getreq_poll_652a758f856a117bdace61ddace96178 {
 
 rule svc_getreqset_08d66e4713acfecc32ee7b8797cbc340 {
 	meta:
-		aliases = "__GI_svc_getreqset, svc_getreqset"
+		aliases = "svc_getreqset"
 		type = "func"
 		size = "120"
 		objfiles = "svc@libc.a"
@@ -16131,7 +16131,7 @@ rule do_close_504c7a7bf5b745b09484e8e0f2027676 {
 
 rule getgroups_030185e1cc933f1eba4e9cb1b13b993d {
 	meta:
-		aliases = "__GI_getgroups, getgroups"
+		aliases = "getgroups"
 		type = "func"
 		size = "232"
 		objfiles = "getgroups@libc.a"
@@ -16179,7 +16179,7 @@ rule __md5_Update_8515489d8a7e7bb0ebaf830a09bea65c {
 
 rule fputws_unlocked_8f4a7bf9c06e5d9faaa22124bf597887 {
 	meta:
-		aliases = "__GI_fputws_unlocked, fputws_unlocked"
+		aliases = "fputws_unlocked"
 		type = "func"
 		size = "84"
 		objfiles = "fputws_unlocked@libc.a"
@@ -16191,7 +16191,7 @@ rule fputws_unlocked_8f4a7bf9c06e5d9faaa22124bf597887 {
 
 rule xdr_bytes_b2d13da87b807adb358f5104048dd72b {
 	meta:
-		aliases = "__GI_xdr_bytes, xdr_bytes"
+		aliases = "xdr_bytes"
 		type = "func"
 		size = "268"
 		objfiles = "xdr@libc.a"
@@ -16203,7 +16203,7 @@ rule xdr_bytes_b2d13da87b807adb358f5104048dd72b {
 
 rule fputs_unlocked_be68f5f552c4fbaddf3c87b83446c74b {
 	meta:
-		aliases = "__GI_fputs_unlocked, fputs_unlocked"
+		aliases = "fputs_unlocked"
 		type = "func"
 		size = "92"
 		objfiles = "fputs_unlocked@libc.a"
@@ -16215,7 +16215,7 @@ rule fputs_unlocked_be68f5f552c4fbaddf3c87b83446c74b {
 
 rule xdr_reference_d7f6f3e492eaf75347abeb6b6e437fe8 {
 	meta:
-		aliases = "__GI_xdr_reference, xdr_reference"
+		aliases = "xdr_reference"
 		type = "func"
 		size = "216"
 		objfiles = "xdr_reference@libc.a"
@@ -16251,7 +16251,7 @@ rule rwlock_have_already_cd0a82dfadd10d3f58408262222d943d {
 
 rule xdr_union_4cd2d6cf793179f3e0d08cc4f7feccf0 {
 	meta:
-		aliases = "__GI_xdr_union, xdr_union"
+		aliases = "xdr_union"
 		type = "func"
 		size = "164"
 		objfiles = "xdr@libc.a"
@@ -16323,7 +16323,7 @@ rule pthread_once_cancelhandler_4a615d4566978ad5e5a69b79ee4e33d1 {
 
 rule nanf_d663c9ed8de426a01043d185fc66becd {
 	meta:
-		aliases = "__GI_nan, __GI_nanf, nan, nanf"
+		aliases = "nan, nanf"
 		type = "func"
 		size = "156"
 		objfiles = "nan@libm.a"
@@ -16347,7 +16347,7 @@ rule pthread_cleanup_upto_ff6ac8ba94fadcd9885bab834b12f294 {
 
 rule mempcpy_3a959a15f2efc857719f8c5b31b40461 {
 	meta:
-		aliases = "__GI_mempcpy, mempcpy"
+		aliases = "mempcpy"
 		type = "func"
 		size = "52"
 		objfiles = "mempcpy@libc.a"
@@ -16371,7 +16371,7 @@ rule get_input_bytes_ad5d040a1d5663887767abc246640077 {
 
 rule regfree_f353aff50e6bce0b78322557e2204e4c {
 	meta:
-		aliases = "__regfree, regfree"
+		aliases = "regfree"
 		type = "func"
 		size = "100"
 		objfiles = "regex_old@libc.a"
@@ -16407,7 +16407,7 @@ rule _dl_fixup_ca04debd70a2a970dd10d231822ac4f3 {
 
 rule xprt_register_805df1932076c4fd779a55120feac505 {
 	meta:
-		aliases = "__GI_xprt_register, xprt_register"
+		aliases = "xprt_register"
 		type = "func"
 		size = "316"
 		objfiles = "svc@libc.a"
@@ -16419,7 +16419,7 @@ rule xprt_register_805df1932076c4fd779a55120feac505 {
 
 rule wcsncasecmp_3157092077520645ea4d5fa967e19cfb {
 	meta:
-		aliases = "__GI_wcsncasecmp, wcsncasecmp"
+		aliases = "wcsncasecmp"
 		type = "func"
 		size = "176"
 		objfiles = "wcsncasecmp@libc.a"
@@ -16503,7 +16503,7 @@ rule xdrrec_putbytes_c441055b8fdea268d2056b4a1b6c93bb {
 
 rule getcwd_fc8526e8b20a28d792fbf84420698322 {
 	meta:
-		aliases = "__GI_getcwd, getcwd"
+		aliases = "getcwd"
 		type = "func"
 		size = "264"
 		objfiles = "getcwd@libc.a"
@@ -16515,7 +16515,7 @@ rule getcwd_fc8526e8b20a28d792fbf84420698322 {
 
 rule fgets_unlocked_f7279c95d01de844f78d2de435941bd7 {
 	meta:
-		aliases = "__GI_fgets_unlocked, fgets_unlocked"
+		aliases = "fgets_unlocked"
 		type = "func"
 		size = "196"
 		objfiles = "fgets_unlocked@libc.a"
@@ -16539,7 +16539,7 @@ rule svcudp_enablecache_515b66555bcb63167308411027e15e3f {
 
 rule tsearch_4a76f40f3a5833be249de5d820def40e {
 	meta:
-		aliases = "__GI_tsearch, tsearch"
+		aliases = "tsearch"
 		type = "func"
 		size = "156"
 		objfiles = "tsearch@libc.a"
@@ -16635,7 +16635,7 @@ rule seed48_74462526fb6fe976b6557858a8f0fbc1 {
 
 rule localtime_f35e2392094fc4fc9bd21cebe61feb10 {
 	meta:
-		aliases = "__GI_localtime, localtime"
+		aliases = "localtime"
 		type = "func"
 		size = "56"
 		objfiles = "localtime@libc.a"
@@ -16671,7 +16671,7 @@ rule __pthread_perform_cleanup_9e086a4a1f09816fd18f2322ae0ec103 {
 
 rule getrpcbyname_2e64b985a4e94b0288962ee756e8a713 {
 	meta:
-		aliases = "__GI_getrpcbyname, getrpcbyname"
+		aliases = "getrpcbyname"
 		type = "func"
 		size = "132"
 		objfiles = "getrpcent@libc.a"
@@ -16683,7 +16683,7 @@ rule getrpcbyname_2e64b985a4e94b0288962ee756e8a713 {
 
 rule verrx_f02c7fc42a1a4b0329faf7758f6d29ff {
 	meta:
-		aliases = "__GI_verr, __GI_verrx, verr, verrx"
+		aliases = "verr, verrx"
 		type = "func"
 		size = "40"
 		objfiles = "err@libc.a"
@@ -16707,7 +16707,7 @@ rule wcsdup_936f4f17b184ae149d99ce1bee6ac750 {
 
 rule strdup_cb49c61c4153db97678bd78b5b1d19c2 {
 	meta:
-		aliases = "__GI_strdup, strdup"
+		aliases = "strdup"
 		type = "func"
 		size = "80"
 		objfiles = "strdup@libc.a"
@@ -16719,7 +16719,7 @@ rule strdup_cb49c61c4153db97678bd78b5b1d19c2 {
 
 rule pthread_attr_init_2fb50fd7f34b9ced4ff68ede86521c0f {
 	meta:
-		aliases = "__GI_pthread_attr_init, pthread_attr_init"
+		aliases = "pthread_attr_init"
 		type = "func"
 		size = "100"
 		objfiles = "attr@libpthread.a"
@@ -16731,7 +16731,7 @@ rule pthread_attr_init_2fb50fd7f34b9ced4ff68ede86521c0f {
 
 rule strndup_14add8ed3ae07cca8efea6469f8676c4 {
 	meta:
-		aliases = "__GI_strndup, strndup"
+		aliases = "strndup"
 		type = "func"
 		size = "88"
 		objfiles = "strndup@libc.a"
@@ -16743,7 +16743,7 @@ rule strndup_14add8ed3ae07cca8efea6469f8676c4 {
 
 rule remove_a0f2981cad987284f8ec14abc8d185f4 {
 	meta:
-		aliases = "__GI_remove, remove"
+		aliases = "remove"
 		type = "func"
 		size = "108"
 		objfiles = "remove@libc.a"
@@ -16755,7 +16755,7 @@ rule remove_a0f2981cad987284f8ec14abc8d185f4 {
 
 rule raise_8e9d40924049072d001e67e123fdc067 {
 	meta:
-		aliases = "__GI_raise, raise"
+		aliases = "raise"
 		type = "func"
 		size = "76"
 		objfiles = "signals@libpthread.a"
@@ -16779,7 +16779,7 @@ rule re_exec_e2ed554fcd5fca22b3415007e6f36927 {
 
 rule raise_6a276c4acd05296f25c8097cf1457940 {
 	meta:
-		aliases = "__GI_raise, __raise, raise"
+		aliases = "raise"
 		type = "func"
 		size = "48"
 		objfiles = "raise@libc.a"
@@ -16803,7 +16803,7 @@ rule __syscall_error_14695084b1f0d14c78c6a17ba3c58098 {
 
 rule freeaddrinfo_c646092f5bb95c2df88502de1c4def26 {
 	meta:
-		aliases = "__GI_freeaddrinfo, freeaddrinfo"
+		aliases = "freeaddrinfo"
 		type = "func"
 		size = "64"
 		objfiles = "getaddrinfo@libc.a"
@@ -16875,7 +16875,7 @@ rule __pthread_lock_40d82dd0c788f8e7a93a03ddefc2c49d {
 
 rule setgroups_32f07e70275831375595521eab977ffb {
 	meta:
-		aliases = "__GI_setgroups, setgroups"
+		aliases = "setgroups"
 		type = "func"
 		size = "228"
 		objfiles = "setgroups@libc.a"
@@ -16899,7 +16899,7 @@ rule __exit_handler_80a8fef22a3b43f89dec4747537d0883 {
 
 rule strcspn_f45985972f2f066165fff6a93c12dd04 {
 	meta:
-		aliases = "__GI_strcspn, strcspn"
+		aliases = "strcspn"
 		type = "func"
 		size = "96"
 		objfiles = "strcspn@libc.a"
@@ -16911,7 +16911,7 @@ rule strcspn_f45985972f2f066165fff6a93c12dd04 {
 
 rule wcscasecmp_4ca1f08f4b39b8de7603f4a05065f1d6 {
 	meta:
-		aliases = "__GI_wcscasecmp, wcscasecmp"
+		aliases = "wcscasecmp"
 		type = "func"
 		size = "152"
 		objfiles = "wcscasecmp@libc.a"
@@ -16923,7 +16923,7 @@ rule wcscasecmp_4ca1f08f4b39b8de7603f4a05065f1d6 {
 
 rule pthread_attr_setguardsize_60216b67a628964a70c9b3077519594a {
 	meta:
-		aliases = "__pthread_attr_setguardsize, pthread_attr_setguardsize"
+		aliases = "pthread_attr_setguardsize"
 		type = "func"
 		size = "92"
 		objfiles = "attr@libpthread.a"
@@ -16947,7 +16947,7 @@ rule __encode_question_9b0792d4487e2d848381c9d0f402860b {
 
 rule pthread_attr_setschedparam_0821f39db4b62d20b2e814525f906de6 {
 	meta:
-		aliases = "__GI_pthread_attr_setschedparam, pthread_attr_setschedparam"
+		aliases = "pthread_attr_setschedparam"
 		type = "func"
 		size = "112"
 		objfiles = "attr@libpthread.a"
@@ -16995,7 +16995,7 @@ rule authunix_destroy_e9df504cd8d9b0416ebee8d4289ae4b4 {
 
 rule __cxa_atexit_a60821b970ab8a9ddd8f1f6fda4fb2e3 {
 	meta:
-		aliases = "__GI___cxa_atexit, __cxa_atexit"
+		aliases = "__cxa_atexit"
 		type = "func"
 		size = "100"
 		objfiles = "__cxa_atexit@libc.a"
@@ -17007,7 +17007,7 @@ rule __cxa_atexit_a60821b970ab8a9ddd8f1f6fda4fb2e3 {
 
 rule strtok_r_1823dfeba734e8de4f31abe759737ebc {
 	meta:
-		aliases = "__GI_strtok_r, strtok_r"
+		aliases = "strtok_r"
 		type = "func"
 		size = "156"
 		objfiles = "strtok_r@libc.a"
@@ -17019,7 +17019,7 @@ rule strtok_r_1823dfeba734e8de4f31abe759737ebc {
 
 rule __glibc_strerror_r_1b61844e0eaf4c543ffc6aaaa8784163 {
 	meta:
-		aliases = "__GI___glibc_strerror_r, __glibc_strerror_r"
+		aliases = "__glibc_strerror_r"
 		type = "func"
 		size = "48"
 		objfiles = "__glibc_strerror_r@libc.a"
@@ -17043,7 +17043,7 @@ rule svcraw_reply_7993e949763d6ad45742880ba84b5899 {
 
 rule ether_ntoa_r_be4ca6a68c5e987a3451202a88d594d7 {
 	meta:
-		aliases = "__GI_ether_ntoa_r, ether_ntoa_r"
+		aliases = "ether_ntoa_r"
 		type = "func"
 		size = "88"
 		objfiles = "ether_addr@libc.a"
@@ -17115,7 +17115,7 @@ rule psignal_383a619445cf8617be605050386ed60e {
 
 rule tfind_9a5f3c3a6910395faeda8eb147943ffb {
 	meta:
-		aliases = "__GI_tfind, tfind"
+		aliases = "tfind"
 		type = "func"
 		size = "124"
 		objfiles = "tfind@libc.a"
@@ -17139,7 +17139,7 @@ rule xdrrec_destroy_d779d18c9aa72239f72816718072da1b {
 
 rule xdr_u_hyper_41325b6203bb4a39307122926ba2ee10 {
 	meta:
-		aliases = "__GI_xdr_u_hyper, xdr_u_hyper"
+		aliases = "xdr_u_hyper"
 		type = "func"
 		size = "268"
 		objfiles = "xdr@libc.a"
@@ -17151,7 +17151,7 @@ rule xdr_u_hyper_41325b6203bb4a39307122926ba2ee10 {
 
 rule xdr_hyper_2c3da287fd67c82a7dc6dbf75890c8c1 {
 	meta:
-		aliases = "__GI_xdr_hyper, xdr_hyper"
+		aliases = "xdr_hyper"
 		type = "func"
 		size = "280"
 		objfiles = "xdr@libc.a"
@@ -17187,7 +17187,7 @@ rule xdr_int64_t_a3c71b75aedb8c80d83ab8147cf5d735 {
 
 rule putc_unlocked_acfc07defc54e6403dafcbee9c1512bf {
 	meta:
-		aliases = "__GI___fputc_unlocked, __GI_putc_unlocked, __fputc_unlocked, fputc_unlocked, putc_unlocked"
+		aliases = "putc_unlocked"
 		type = "func"
 		size = "292"
 		objfiles = "fputc_unlocked@libc.a"
@@ -17199,7 +17199,7 @@ rule putc_unlocked_acfc07defc54e6403dafcbee9c1512bf {
 
 rule erand48_r_47d1b876f2c8faf5b7c7db3012cdc24d {
 	meta:
-		aliases = "__GI_erand48_r, erand48_r"
+		aliases = "erand48_r"
 		type = "func"
 		size = "152"
 		objfiles = "erand48_r@libc.a"
@@ -17235,7 +17235,7 @@ rule __ieee754_sinh_395bf9df7a105c5f1ea9685638655dea {
 
 rule llround_200adbeda533d6481789fd8d3df3c2ed {
 	meta:
-		aliases = "__GI_llround, llround"
+		aliases = "llround"
 		type = "func"
 		size = "332"
 		objfiles = "s_llround@libm.a"
@@ -17247,7 +17247,7 @@ rule llround_200adbeda533d6481789fd8d3df3c2ed {
 
 rule scalbn_3aa222b490c1997ae67e781d67b6b38a {
 	meta:
-		aliases = "__GI_scalbn, scalbn"
+		aliases = "scalbn"
 		type = "func"
 		size = "336"
 		objfiles = "s_scalbn@libm.a"
@@ -17259,7 +17259,7 @@ rule scalbn_3aa222b490c1997ae67e781d67b6b38a {
 
 rule tanh_3548664e6f7a85ce6bea792d030db58f {
 	meta:
-		aliases = "__GI_tanh, tanh"
+		aliases = "tanh"
 		type = "func"
 		size = "292"
 		objfiles = "s_tanh@libm.a"
@@ -17271,7 +17271,7 @@ rule tanh_3548664e6f7a85ce6bea792d030db58f {
 
 rule scalbln_f1fb679b9b6870704f312491838e844b {
 	meta:
-		aliases = "__GI_scalbln, scalbln"
+		aliases = "scalbln"
 		type = "func"
 		size = "316"
 		objfiles = "s_scalbln@libm.a"
@@ -17283,7 +17283,7 @@ rule scalbln_f1fb679b9b6870704f312491838e844b {
 
 rule logb_f1e8dfc74c352cebcd94be5d0926c0bd {
 	meta:
-		aliases = "__GI_logb, logb"
+		aliases = "logb"
 		type = "func"
 		size = "152"
 		objfiles = "s_logb@libm.a"
@@ -17295,7 +17295,7 @@ rule logb_f1e8dfc74c352cebcd94be5d0926c0bd {
 
 rule cos_41303b6419c57734cc7604f8c9820943 {
 	meta:
-		aliases = "__GI_cos, cos"
+		aliases = "cos"
 		type = "func"
 		size = "196"
 		objfiles = "s_cos@libm.a"
@@ -17307,7 +17307,7 @@ rule cos_41303b6419c57734cc7604f8c9820943 {
 
 rule sin_c5d210c74ec6841d889969e572a24e72 {
 	meta:
-		aliases = "__GI_sin, sin"
+		aliases = "sin"
 		type = "func"
 		size = "200"
 		objfiles = "s_sin@libm.a"
@@ -17319,7 +17319,7 @@ rule sin_c5d210c74ec6841d889969e572a24e72 {
 
 rule tan_8290e73673cd0ba9439264c14e03b669 {
 	meta:
-		aliases = "__GI_tan, tan"
+		aliases = "tan"
 		type = "func"
 		size = "128"
 		objfiles = "s_tan@libm.a"
@@ -17331,7 +17331,7 @@ rule tan_8290e73673cd0ba9439264c14e03b669 {
 
 rule fmin_cfc91fb6f23bf3c67a9f74a1d60ab758 {
 	meta:
-		aliases = "__GI_fmin, fmin"
+		aliases = "fmin"
 		type = "func"
 		size = "96"
 		objfiles = "s_fmin@libm.a"
@@ -17343,7 +17343,7 @@ rule fmin_cfc91fb6f23bf3c67a9f74a1d60ab758 {
 
 rule fmax_2210086abb4ec2d46c2ca6c3bcf65263 {
 	meta:
-		aliases = "__GI_fmax, fmax"
+		aliases = "fmax"
 		type = "func"
 		size = "96"
 		objfiles = "s_fmax@libm.a"
@@ -17355,7 +17355,7 @@ rule fmax_2210086abb4ec2d46c2ca6c3bcf65263 {
 
 rule fdim_f025c160bc5ffb8ff0cd7e5233c1a649 {
 	meta:
-		aliases = "__GI_fdim, fdim"
+		aliases = "fdim"
 		type = "func"
 		size = "100"
 		objfiles = "s_fdim@libm.a"
@@ -17367,7 +17367,7 @@ rule fdim_f025c160bc5ffb8ff0cd7e5233c1a649 {
 
 rule ldexp_b087b1f2e9109a465f0f38b84a6efbb1 {
 	meta:
-		aliases = "__GI_ldexp, ldexp"
+		aliases = "ldexp"
 		type = "func"
 		size = "140"
 		objfiles = "s_ldexp@libm.a"
@@ -17415,7 +17415,7 @@ rule __kernel_tan_a04cbfc9d630874885a9f261be1c641c {
 
 rule atan_193163a7e654cc1a1161c348ca1421d6 {
 	meta:
-		aliases = "__GI_atan, atan"
+		aliases = "atan"
 		type = "func"
 		size = "596"
 		objfiles = "s_atan@libm.a"
@@ -17463,7 +17463,7 @@ rule __udivdi3_e6246e2571ec7afec64dedebfdfa5ace {
 
 rule inet_network_72060f001883f28478ab2538182c5a73 {
 	meta:
-		aliases = "__GI_inet_network, inet_network"
+		aliases = "inet_network"
 		type = "func"
 		size = "312"
 		objfiles = "inet_net@libc.a"
@@ -17475,7 +17475,7 @@ rule inet_network_72060f001883f28478ab2538182c5a73 {
 
 rule __uc_malloc_63adc41a7993e16b43e33bb06bf1e3f6 {
 	meta:
-		aliases = "__GI___uc_malloc, __uc_malloc"
+		aliases = "__uc_malloc"
 		type = "func"
 		size = "120"
 		objfiles = "__uc_malloc@libc.a"
@@ -17490,7 +17490,7 @@ rule __pthread_set_own_extricate_if_c4b5e055fb26ada8fec4b15e2d631e28 {
 		aliases = "__pthread_set_own_extricate_if"
 		type = "func"
 		size = "112"
-		objfiles = "oldsemaphore@libpthread.a, semaphore@libpthread.a, condvar@libpthread.a, join@libpthread.a"
+		objfiles = "semaphore@libpthread.a, oldsemaphore@libpthread.a, condvar@libpthread.a, join@libpthread.a"
 	strings:
 		$pattern = { 94 21 FF E0 7D 80 00 26 7C 08 02 A6 2E 04 00 00 BF C1 00 18 7C 9E 23 78 90 01 00 24 7C 7F 1B 78 91 81 00 14 41 92 00 14 88 03 00 40 2F 80 00 00 40 9E 00 24 40 B2 00 10 80 7F 00 1C 7F E4 FB 78 ( 4? | 3? ) ?? ?? ?? 93 DF 01 BC 40 B2 00 0C 80 7F 00 1C ( 4? | 3? ) ?? ?? ?? 80 01 00 24 81 81 00 14 BB C1 00 18 38 21 00 20 7C 08 03 A6 7D 80 81 20 4E 80 00 20 }
 	condition:
@@ -17499,7 +17499,7 @@ rule __pthread_set_own_extricate_if_c4b5e055fb26ada8fec4b15e2d631e28 {
 
 rule pthread_cond_signal_63573ba2021a95a877cf8f99e681f155 {
 	meta:
-		aliases = "__GI_pthread_cond_signal, pthread_cond_signal"
+		aliases = "pthread_cond_signal"
 		type = "func"
 		size = "128"
 		objfiles = "condvar@libpthread.a"
@@ -17523,7 +17523,7 @@ rule __cxa_finalize_f4140610b699f29570cea13ea20002a0 {
 
 rule __ltsf2_06058c252674c7034699e921c10e1304 {
 	meta:
-		aliases = "__lesf2, __ltsf2"
+		aliases = "__ltsf2"
 		type = "func"
 		size = "272"
 		objfiles = "lesf2@libgcc.a"
@@ -17535,7 +17535,7 @@ rule __ltsf2_06058c252674c7034699e921c10e1304 {
 
 rule __gtsf2_fa5b92598227f3c885ef37bd85ba05fa {
 	meta:
-		aliases = "__gesf2, __gtsf2"
+		aliases = "__gtsf2"
 		type = "func"
 		size = "272"
 		objfiles = "gesf2@libgcc.a"
@@ -17547,7 +17547,7 @@ rule __gtsf2_fa5b92598227f3c885ef37bd85ba05fa {
 
 rule __nesf2_5eedc07bf0768f7897eb63ea94310f7c {
 	meta:
-		aliases = "__eqsf2, __nesf2"
+		aliases = "__nesf2"
 		type = "func"
 		size = "148"
 		objfiles = "eqsf2@libgcc.a"
@@ -17595,7 +17595,7 @@ rule __subsf3_821d09375783ee9f8a16bbdbd13b5f66 {
 
 rule __nedf2_9110b780d0ff775d217d832281200c44 {
 	meta:
-		aliases = "__eqdf2, __nedf2"
+		aliases = "__nedf2"
 		type = "func"
 		size = "172"
 		objfiles = "eqdf2@libgcc.a"
@@ -17619,7 +17619,7 @@ rule __unorddf2_6a0eb6d4ef136fe1c47deedcbf14829a {
 
 rule __ltdf2_e41f4d870744ad74f634db9891331116 {
 	meta:
-		aliases = "__ledf2, __ltdf2"
+		aliases = "__ltdf2"
 		type = "func"
 		size = "368"
 		objfiles = "ledf2@libgcc.a"
@@ -17631,7 +17631,7 @@ rule __ltdf2_e41f4d870744ad74f634db9891331116 {
 
 rule __gtdf2_c7f109c29550d36416d0c750b1e1696a {
 	meta:
-		aliases = "__gedf2, __gtdf2"
+		aliases = "__gtdf2"
 		type = "func"
 		size = "368"
 		objfiles = "gedf2@libgcc.a"
@@ -17643,7 +17643,7 @@ rule __gtdf2_c7f109c29550d36416d0c750b1e1696a {
 
 rule trunc_89f1e2f8f20a147c785d9494343607c9 {
 	meta:
-		aliases = "__GI_trunc, trunc"
+		aliases = "trunc"
 		type = "func"
 		size = "176"
 		objfiles = "s_trunc@libm.a"
@@ -17655,7 +17655,7 @@ rule trunc_89f1e2f8f20a147c785d9494343607c9 {
 
 rule lround_acf35048847cfd2be57c0498d711c6b1 {
 	meta:
-		aliases = "__GI_lround, lround"
+		aliases = "lround"
 		type = "func"
 		size = "196"
 		objfiles = "s_lround@libm.a"
@@ -17679,7 +17679,7 @@ rule __ieee754_fmod_4d534e4edc8f28b28464cae164c241f3 {
 
 rule copysign_8a7661118b368a00efd89a15972180e3 {
 	meta:
-		aliases = "__GI_copysign, copysign"
+		aliases = "copysign"
 		type = "func"
 		size = "64"
 		objfiles = "s_copysign@libm.a"
@@ -17703,7 +17703,7 @@ rule __divsc3_b2fa5aaea81ea9077e8be40c74b3afa9 {
 
 rule inet_aton_56831b8145fb44e043b94cee2bd60aae {
 	meta:
-		aliases = "__GI_inet_aton, inet_aton"
+		aliases = "inet_aton"
 		type = "func"
 		size = "208"
 		objfiles = "inet_aton@libc.a"
@@ -17742,7 +17742,7 @@ rule __gnat_default_unlock_0322314db5039c4f83001581358a9c99 {
 		aliases = "__clear_cache, __enable_execute_stack, __gcov_flush, __gcov_init, __gcov_merge_add, __gcov_merge_delta, __gcov_merge_single, __gnat_default_lock, __gnat_default_unlock"
 		type = "func"
 		size = "12"
-		objfiles = "_gcov_merge_single@libgcov.a, _clear_cache@libgcc.a, gthr_gnat@libgcc.a, _gcov_merge_add@libgcov.a, _gcov_merge_delta@libgcov.a"
+		objfiles = "_gcov_merge_delta@libgcov.a, _enable_execute_stack@libgcc.a, gthr_gnat@libgcc.a, _gcov@libgcov.a, _gcov_merge_single@libgcov.a"
 	strings:
 		$pattern = { 94 21 FF F0 38 21 00 10 4E 80 00 20 }
 	condition:
@@ -17775,7 +17775,7 @@ rule fde_unencoded_compare_10ae0cc3637f950dae5a4e1ffb77d47d {
 
 rule __fpclassifyf_9d521aac8a0995e070e9d60c831fd55a {
 	meta:
-		aliases = "__GI___fpclassifyf, __fpclassifyf"
+		aliases = "__fpclassifyf"
 		type = "func"
 		size = "88"
 		objfiles = "s_fpclassifyf@libm.a"
@@ -17787,7 +17787,7 @@ rule __fpclassifyf_9d521aac8a0995e070e9d60c831fd55a {
 
 rule __fpclassify_b90599cb8460ccc8b52a17be2a6ee3da {
 	meta:
-		aliases = "__GI___fpclassify, __fpclassify"
+		aliases = "__fpclassify"
 		type = "func"
 		size = "88"
 		objfiles = "s_fpclassify@libm.a"
@@ -17835,7 +17835,7 @@ rule read_sleb128_029d6da744f655a889b3e938150bd883 {
 
 rule ilogb_6aa575d06d34556b982e7820fc7191cc {
 	meta:
-		aliases = "__GI_ilogb, ilogb"
+		aliases = "ilogb"
 		type = "func"
 		size = "164"
 		objfiles = "s_ilogb@libm.a"
@@ -17859,7 +17859,7 @@ rule pzero_325a5aa5f317c8dbcd45590ff06eab87 {
 
 rule frexp_eca7bf253b8fc9c542a2de78591ff81c {
 	meta:
-		aliases = "__GI_frexp, frexp"
+		aliases = "frexp"
 		type = "func"
 		size = "172"
 		objfiles = "s_frexp@libm.a"
@@ -17871,7 +17871,7 @@ rule frexp_eca7bf253b8fc9c542a2de78591ff81c {
 
 rule __isnanf_96b2b724f39252fb53cf58cd8fa8180b {
 	meta:
-		aliases = "__GI___isnanf, __isnanf"
+		aliases = "__isnanf"
 		type = "func"
 		size = "36"
 		objfiles = "s_isnanf@libm.a"
@@ -17883,7 +17883,7 @@ rule __isnanf_96b2b724f39252fb53cf58cd8fa8180b {
 
 rule __isnan_9b21f535f17ab043fc740f10e7098aea {
 	meta:
-		aliases = "__GI___isnan, __isnan"
+		aliases = "__isnan"
 		type = "func"
 		size = "56"
 		objfiles = "s_isnan@libm.a"
@@ -17931,7 +17931,7 @@ rule __open_etc_hosts_1c726e1c8128019e63934adeafea258d {
 
 rule __uClibc_fini_d8a0358bd9b687aee9db4004b4a9f04b {
 	meta:
-		aliases = "__GI___uClibc_fini, __uClibc_fini"
+		aliases = "__uClibc_fini"
 		type = "func"
 		size = "144"
 		objfiles = "__uClibc_main@libc.a"
@@ -17991,7 +17991,7 @@ rule atexit_273a3f5d347a3ea2f2c49da78dfca82c {
 
 rule pthread_setcancelstate_84797ba154fd939d13394da5cdbc03ff {
 	meta:
-		aliases = "__GI_pthread_setcancelstate, pthread_setcancelstate"
+		aliases = "pthread_setcancelstate"
 		type = "func"
 		size = "116"
 		objfiles = "cancel@libpthread.a"
@@ -18003,7 +18003,7 @@ rule pthread_setcancelstate_84797ba154fd939d13394da5cdbc03ff {
 
 rule pthread_setcanceltype_7e71128ee291ff3635792ef67d6c3719 {
 	meta:
-		aliases = "__GI_pthread_setcanceltype, pthread_setcanceltype"
+		aliases = "pthread_setcanceltype"
 		type = "func"
 		size = "116"
 		objfiles = "cancel@libpthread.a"
@@ -18027,7 +18027,7 @@ rule setlocale_8028e5e67cbb38e7cdb046f210a1b24e {
 
 rule strsignal_d2e772d79ff6c753c7f2a639ab529a2c {
 	meta:
-		aliases = "__GI_strsignal, strsignal"
+		aliases = "strsignal"
 		type = "func"
 		size = "160"
 		objfiles = "strsignal@libc.a"
@@ -18039,7 +18039,7 @@ rule strsignal_d2e772d79ff6c753c7f2a639ab529a2c {
 
 rule sysconf_8831ee9331ae04c7c75dc35b9f9cc73e {
 	meta:
-		aliases = "__GI_sysconf, sysconf"
+		aliases = "sysconf"
 		type = "func"
 		size = "400"
 		objfiles = "sysconf@libc.a"
@@ -18087,7 +18087,7 @@ rule putpwent_bb95b9255b60db0cdc53bed820bcb186 {
 
 rule sigprocmask_635fc4111458021b08c4fac8a86541b0 {
 	meta:
-		aliases = "__GI_sigprocmask, sigprocmask"
+		aliases = "sigprocmask"
 		type = "func"
 		size = "120"
 		objfiles = "sigprocmask@libc.a"
@@ -18135,7 +18135,7 @@ rule __old_sem_init_627b0cad4a46eff0d692ae51e9321923 {
 
 rule sem_init_9e29e5475aa1edb6dbd2e5d219a78a16 {
 	meta:
-		aliases = "__new_sem_init, sem_init"
+		aliases = "sem_init"
 		type = "func"
 		size = "104"
 		objfiles = "semaphore@libpthread.a"
@@ -18147,7 +18147,7 @@ rule sem_init_9e29e5475aa1edb6dbd2e5d219a78a16 {
 
 rule xdr_opaque_9caf72bf922fae4ee45a23ed500e725e {
 	meta:
-		aliases = "__GI_xdr_opaque, xdr_opaque"
+		aliases = "xdr_opaque"
 		type = "func"
 		size = "244"
 		objfiles = "xdr@libc.a"
@@ -18183,7 +18183,7 @@ rule __negvsi2_8ff73bcbab601a73445698e770f6302f {
 
 rule endmntent_5a041d2022b2bacdd2781695e0dc931d {
 	meta:
-		aliases = "__GI_endmntent, endmntent"
+		aliases = "endmntent"
 		type = "func"
 		size = "44"
 		objfiles = "mntent@libc.a"
@@ -18279,7 +18279,7 @@ rule setgid_7de9618b5a7ee21630299302fa9bab4c {
 
 rule seteuid_7464ab2d681f74d51b60d7925fa076e4 {
 	meta:
-		aliases = "__GI_seteuid, setegid, seteuid"
+		aliases = "setegid, seteuid"
 		type = "func"
 		size = "144"
 		objfiles = "seteuid@libc.a, setegid@libc.a"
@@ -18339,7 +18339,7 @@ rule _pthread_cleanup_pop_e404d76d4745e4e5c9003891b40e09ed {
 
 rule _pthread_cleanup_pop_restore_4eb86c1efd26dbf990adbbe9f7a38356 {
 	meta:
-		aliases = "__pthread_cleanup_pop_restore, _pthread_cleanup_pop_restore"
+		aliases = "_pthread_cleanup_pop_restore"
 		type = "func"
 		size = "128"
 		objfiles = "cancel@libpthread.a"
@@ -18375,7 +18375,7 @@ rule __subvdi3_7a993f4ea196747ec30cdc514d1e20f0 {
 
 rule tzset_6411c9b7d3c09c1ea4b17a63102098e2 {
 	meta:
-		aliases = "__GI_tzset, tzset"
+		aliases = "tzset"
 		type = "func"
 		size = "68"
 		objfiles = "tzset@libc.a"
@@ -18423,7 +18423,7 @@ rule xdrrec_getpos_65637cc047694dc4bdc11f10d38900a4 {
 
 rule sigemptyset_4f53b9ec65cd6711f0f6225e075d0125 {
 	meta:
-		aliases = "__GI_sigemptyset, sigemptyset"
+		aliases = "sigemptyset"
 		type = "func"
 		size = "44"
 		objfiles = "sigempty@libc.a"
@@ -18459,7 +18459,7 @@ rule pthread_rwlock_unlock_d41e81ba16f51d755eaef0bdbc514049 {
 
 rule sem_trywait_4e834bbba40f2bd73d3c50d44d98f1f1 {
 	meta:
-		aliases = "__new_sem_trywait, sem_trywait"
+		aliases = "sem_trywait"
 		type = "func"
 		size = "104"
 		objfiles = "semaphore@libpthread.a"
@@ -18507,7 +18507,7 @@ rule sigpending_c3c4c1e49e4c46d9cbc84141e87c2d9e {
 
 rule sigsuspend_532cbcb31b472cc3c083ffa6a56df865 {
 	meta:
-		aliases = "__GI_sigsuspend, __libc_sigsuspend, sigsuspend"
+		aliases = "sigsuspend"
 		type = "func"
 		size = "76"
 		objfiles = "sigsuspend@libc.a"
@@ -18519,7 +18519,7 @@ rule sigsuspend_532cbcb31b472cc3c083ffa6a56df865 {
 
 rule sigfillset_6a971f46af837fa38bc39b00c78d7527 {
 	meta:
-		aliases = "__GI_sigfillset, sigfillset"
+		aliases = "sigfillset"
 		type = "func"
 		size = "44"
 		objfiles = "sigfillset@libc.a"
@@ -18555,7 +18555,7 @@ rule xdrstdio_setpos_91f7d1d7c4e0f445253f474043bb6b49 {
 
 rule wcstod_84b4381a63e0abe82680bec860e9aa48 {
 	meta:
-		aliases = "__GI_strtod, __GI_wcstod, strtod, wcstod"
+		aliases = "strtod, wcstod"
 		type = "func"
 		size = "60"
 		objfiles = "wcstod@libc.a, strtod@libc.a"
@@ -18567,10 +18567,10 @@ rule wcstod_84b4381a63e0abe82680bec860e9aa48 {
 
 rule wcstof_9d9986936063abfe5dadf90496012a17 {
 	meta:
-		aliases = "__GI_strtof, __GI_wcstof, strtof, wcstof"
+		aliases = "strtof, wcstof"
 		type = "func"
 		size = "64"
-		objfiles = "wcstof@libc.a, strtof@libc.a"
+		objfiles = "strtof@libc.a, wcstof@libc.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 38 A0 00 00 90 01 00 14 DB E1 00 08 ( 4? | 3? ) ?? ?? ?? FF E0 08 18 FC 40 08 90 FC 20 F8 90 ( 4? | 3? ) ?? ?? ?? 80 01 00 14 FC 20 F8 90 CB E1 00 08 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -18603,7 +18603,7 @@ rule addmntent_fbe6a73f47a1e18caa690eb1fd11065e {
 
 rule pthread_attr_getschedparam_9a55daccd1e30b07d560fe9fab7d9244 {
 	meta:
-		aliases = "__GI_pthread_attr_getschedparam, pthread_attr_getschedparam"
+		aliases = "pthread_attr_getschedparam"
 		type = "func"
 		size = "52"
 		objfiles = "attr@libpthread.a"
@@ -18663,7 +18663,7 @@ rule mq_receive_a541b16a740bbd511c7fbcc3ab03c595 {
 
 rule clntudp_create_88f1709210605d11584685b37828dbcb {
 	meta:
-		aliases = "__GI_clntudp_create, clntudp_create"
+		aliases = "clntudp_create"
 		type = "func"
 		size = "60"
 		objfiles = "clnt_udp@libc.a"
@@ -18687,7 +18687,7 @@ rule read_uleb128_4cf437cb602821120ae8e8498443c3b6 {
 
 rule re_compile_pattern_6f0eb3933bb6681dd10e53da8eed470f {
 	meta:
-		aliases = "__re_compile_pattern, re_compile_pattern"
+		aliases = "re_compile_pattern"
 		type = "func"
 		size = "104"
 		objfiles = "regex_old@libc.a"
@@ -18723,7 +18723,7 @@ rule __stdio_adjust_position_0f62adc2894de6f5ae7dd9016045abae {
 
 rule _authenticate_0f6d7f17e54aaaceaab2cddb16ef93d4 {
 	meta:
-		aliases = "__GI__authenticate, _authenticate"
+		aliases = "_authenticate"
 		type = "func"
 		size = "120"
 		objfiles = "svc_auth@libc.a"
@@ -18747,7 +18747,7 @@ rule __psfs_parse_spec_4091e3660947b195c44b3dd9ca0677a7 {
 
 rule inet_ntoa_43853d7bc70bdc4ab100cdc4f519a046 {
 	meta:
-		aliases = "__GI_inet_ntoa, inet_ntoa"
+		aliases = "inet_ntoa"
 		type = "func"
 		size = "52"
 		objfiles = "inet_ntoa@libc.a"
@@ -18807,7 +18807,7 @@ rule print_and_abort_9d49ec1cd59a1452e2b9ef32a9886d2d {
 
 rule __assert_e00256c80e1ec641fdb648f4c137d9c9 {
 	meta:
-		aliases = "__GI___assert, __assert"
+		aliases = "__assert"
 		type = "func"
 		size = "112"
 		objfiles = "__assert@libc.a"
@@ -18831,7 +18831,7 @@ rule cfsetspeed_5e5358e57c938639e63d6646c2537fab {
 
 rule __ns_name_ntop_59a06eb22b69991e3bd0fe63671aac6c {
 	meta:
-		aliases = "__GI___ns_name_ntop, __ns_name_ntop"
+		aliases = "__ns_name_ntop"
 		type = "func"
 		size = "460"
 		objfiles = "ns_name@libc.a"
@@ -18843,7 +18843,7 @@ rule __ns_name_ntop_59a06eb22b69991e3bd0fe63671aac6c {
 
 rule endttyent_6138c87f08f4290aebb342e40051fad1 {
 	meta:
-		aliases = "__GI_endttyent, endttyent"
+		aliases = "endttyent"
 		type = "func"
 		size = "88"
 		objfiles = "getttyent@libc.a"
@@ -18867,7 +18867,7 @@ rule getusershell_59ce51ea2eda9dff5f5802e378e987bd {
 
 rule setttyent_f96de0dea55a526822ddd6d5ed26144d {
 	meta:
-		aliases = "__GI_setttyent, setttyent"
+		aliases = "setttyent"
 		type = "func"
 		size = "116"
 		objfiles = "getttyent@libc.a"
@@ -18891,7 +18891,7 @@ rule _dl_protect_relro_7aceac01ee4de73876ca82d00ec78566 {
 
 rule __uClibc_init_f78f116676ebec1573bdbe0734d72e9d {
 	meta:
-		aliases = "__GI___uClibc_init, __uClibc_init"
+		aliases = "__uClibc_init"
 		type = "func"
 		size = "128"
 		objfiles = "__uClibc_main@libc.a"
@@ -19062,7 +19062,7 @@ rule __fixsfdi_9daafa1746ae2d2d9c05b86125b6ca70 {
 		aliases = "__fixdfdi, __fixsfdi"
 		type = "func"
 		size = "108"
-		objfiles = "_fixdfdi@libgcc.a, _fixsfdi@libgcc.a"
+		objfiles = "_fixsfdi@libgcc.a, _fixdfdi@libgcc.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 42 9F 00 05 93 C1 00 08 7F C8 02 A6 90 01 00 14 80 1E FF F0 7F C0 F2 14 81 3E 80 00 C0 09 00 00 FF 81 00 00 41 9C 00 1C ( 4? | 3? ) ?? ?? ?? 80 01 00 14 83 C1 00 08 38 21 00 10 7C 08 03 A6 4E 80 00 20 FC 20 08 50 ( 4? | 3? ) ?? ?? ?? 80 01 00 14 20 84 00 00 7C 63 01 90 83 C1 00 08 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -19083,7 +19083,7 @@ rule ustat_78701508e263c0d267ac72dc906e5ff6 {
 
 rule mknod_926c69384811e6cd8bb687af28eb0418 {
 	meta:
-		aliases = "__GI_mknod, mknod"
+		aliases = "mknod"
 		type = "func"
 		size = "96"
 		objfiles = "mknod@libc.a"
@@ -19095,7 +19095,7 @@ rule mknod_926c69384811e6cd8bb687af28eb0418 {
 
 rule pthread_exit_bff02832461e2d5762bded12cda88747 {
 	meta:
-		aliases = "__GI_pthread_exit, pthread_exit"
+		aliases = "pthread_exit"
 		type = "func"
 		size = "20"
 		objfiles = "join@libpthread.a"
@@ -19131,7 +19131,7 @@ rule mblen_762d39516f999c7bc9d5ffe66f722567 {
 
 rule putwc_unlocked_2e557919fdd7577b05b2e7246a0ed248 {
 	meta:
-		aliases = "__GI_fputwc_unlocked, fputwc_unlocked, putwc_unlocked"
+		aliases = "putwc_unlocked"
 		type = "func"
 		size = "64"
 		objfiles = "fputwc_unlocked@libc.a"
@@ -19311,7 +19311,7 @@ rule truncate64_463f988c559bf14feecef00be1d15910 {
 
 rule ftruncate64_b135d64e0212ccb8761c253d7a40f3e0 {
 	meta:
-		aliases = "__GI_ftruncate64, ftruncate64"
+		aliases = "ftruncate64"
 		type = "func"
 		size = "96"
 		objfiles = "ftruncate64@libc.a"
@@ -19335,7 +19335,7 @@ rule readahead_5ef5dc2aada8895668fadb5a7e498553 {
 
 rule re_search_803a80de37c599e03044ee8af4e4ea37 {
 	meta:
-		aliases = "__re_search, re_search"
+		aliases = "re_search"
 		type = "func"
 		size = "72"
 		objfiles = "regex_old@libc.a"
@@ -19407,7 +19407,7 @@ rule sem_unlink_e7b16393fdc456d6685a782398d364e4 {
 
 rule __rpc_thread_createerr_be5d3c8e4ffbd46876343c09e8708e6a {
 	meta:
-		aliases = "__GI___rpc_thread_createerr, __rpc_thread_createerr"
+		aliases = "__rpc_thread_createerr"
 		type = "func"
 		size = "60"
 		objfiles = "rpc_thread@libc.a"
@@ -19419,7 +19419,7 @@ rule __rpc_thread_createerr_be5d3c8e4ffbd46876343c09e8708e6a {
 
 rule __rpc_thread_svc_pollfd_1655f1e9f987979ff96871836a9ea637 {
 	meta:
-		aliases = "__GI___rpc_thread_svc_pollfd, __rpc_thread_svc_pollfd"
+		aliases = "__rpc_thread_svc_pollfd"
 		type = "func"
 		size = "60"
 		objfiles = "rpc_thread@libc.a"
@@ -19431,7 +19431,7 @@ rule __rpc_thread_svc_pollfd_1655f1e9f987979ff96871836a9ea637 {
 
 rule __rpc_thread_svc_max_pollfd_83052e66cdadb1281c7a0fd8ac8eeeb0 {
 	meta:
-		aliases = "__GI___rpc_thread_svc_max_pollfd, __rpc_thread_svc_max_pollfd"
+		aliases = "__rpc_thread_svc_max_pollfd"
 		type = "func"
 		size = "60"
 		objfiles = "rpc_thread@libc.a"
@@ -19443,7 +19443,7 @@ rule __rpc_thread_svc_max_pollfd_83052e66cdadb1281c7a0fd8ac8eeeb0 {
 
 rule __rpc_thread_svc_fdset_9c5afe5acf84b18aa45a5bdd64d4a9bb {
 	meta:
-		aliases = "__GI___rpc_thread_svc_fdset, __rpc_thread_svc_fdset"
+		aliases = "__rpc_thread_svc_fdset"
 		type = "func"
 		size = "56"
 		objfiles = "rpc_thread@libc.a"
@@ -19453,9 +19453,9 @@ rule __rpc_thread_svc_fdset_9c5afe5acf84b18aa45a5bdd64d4a9bb {
 		$pattern
 }
 
-rule ftello_640b7fc0a11c899b60e4611a4bdd8ec1 {
+rule ftell_640b7fc0a11c899b60e4611a4bdd8ec1 {
 	meta:
-		aliases = "__GI_ftell, ftell, ftello"
+		aliases = "ftell"
 		type = "func"
 		size = "76"
 		objfiles = "ftello@libc.a"
@@ -19470,7 +19470,7 @@ rule suspend_d971404419bbc58325533d2485aaa8ee {
 		aliases = "__deregister_frame_info, mq_close, restart, suspend"
 		type = "func"
 		size = "32"
-		objfiles = "spinlock@libpthread.a, rwlock@libpthread.a, mq_close@librt.a, join@libpthread.a, unwind_dw2_fde_glibc@libgcc.a"
+		objfiles = "unwind_dw2_fde_glibc@libgcc.a, mq_close@librt.a, rwlock@libpthread.a, condvar@libpthread.a, manager@libpthread.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 90 01 00 14 ( 4? | 3? ) ?? ?? ?? 80 01 00 14 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -19482,7 +19482,7 @@ rule truncf_cd325701858acd9fc7ef7c520614fce8 {
 		aliases = "acosf, acoshf, asinf, asinhf, atan2f, atanf, atanhf, cbrtf, ceilf, copysignf, cosf, coshf, erfcf, erff, expf, expm1f, fabsf, floorf, fmodf, frexpf, hypotf, ldexpf, lgammaf, log10f, log1pf, logbf, logf, nextafterf, powf, remainderf, rintf, roundf, scalblnf, scalbnf, sinf, sinhf, sqrtf, tanf, tanhf, tgammaf, truncf"
 		type = "func"
 		size = "36"
-		objfiles = "rintf@libm.a, sinf@libm.a, remainderf@libm.a, cosf@libm.a, copysignf@libm.a"
+		objfiles = "asinhf@libm.a, erff@libm.a, fabsf@libm.a, atanhf@libm.a, cbrtf@libm.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 90 01 00 14 ( 4? | 3? ) ?? ?? ?? 80 01 00 14 FC 20 08 18 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -19503,7 +19503,7 @@ rule free_mem_77535dd141ddb8464564ac9b52d7be5b {
 
 rule xdr_callhdr_50e9cb06c5a885a124820df63873f27e {
 	meta:
-		aliases = "__GI_xdr_callhdr, xdr_callhdr"
+		aliases = "xdr_callhdr"
 		type = "func"
 		size = "176"
 		objfiles = "rpc_prot@libc.a"
@@ -19515,10 +19515,10 @@ rule xdr_callhdr_50e9cb06c5a885a124820df63873f27e {
 
 rule fgetspent_r_d09f65ff6b89365387acf017be9f625a {
 	meta:
-		aliases = "__GI_fgetgrent_r, __GI_fgetpwent_r, __GI_fgetspent_r, fgetgrent_r, fgetpwent_r, fgetspent_r"
+		aliases = "fgetgrent_r, fgetpwent_r, fgetspent_r"
 		type = "func"
 		size = "80"
-		objfiles = "fgetspent_r@libc.a, fgetpwent_r@libc.a, fgetgrent_r@libc.a"
+		objfiles = "fgetpwent_r@libc.a, fgetgrent_r@libc.a, fgetspent_r@libc.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 90 01 00 14 38 00 00 00 BF C1 00 08 7C FE 3B 78 90 07 00 00 7C 67 1B 78 3C 60 ?? ?? 7C 9F 23 78 38 63 ?? ?? ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 40 9E 00 08 93 FE 00 00 80 01 00 14 BB C1 00 08 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -19527,7 +19527,7 @@ rule fgetspent_r_d09f65ff6b89365387acf017be9f625a {
 
 rule towctrans_bc262cf0d219619486c07839999a4e64 {
 	meta:
-		aliases = "__GI_towctrans, towctrans"
+		aliases = "towctrans"
 		type = "func"
 		size = "124"
 		objfiles = "towctrans@libc.a"
@@ -19587,7 +19587,7 @@ rule setusershell_ce6bd796b53f8712f56eba076d40d3ed {
 
 rule cfsetispeed_10fe422ab3eaed2dbf87aec7e3a6397a {
 	meta:
-		aliases = "__GI_cfsetispeed, cfsetispeed"
+		aliases = "cfsetispeed"
 		type = "func"
 		size = "124"
 		objfiles = "speed@libc.a"
@@ -19599,7 +19599,7 @@ rule cfsetispeed_10fe422ab3eaed2dbf87aec7e3a6397a {
 
 rule cfsetospeed_71fb5a4c295cc62148461946f13dbaca {
 	meta:
-		aliases = "__GI_cfsetospeed, cfsetospeed"
+		aliases = "cfsetospeed"
 		type = "func"
 		size = "92"
 		objfiles = "speed@libc.a"
@@ -19635,10 +19635,10 @@ rule __pthread_unlock_16e9e08e2c3ae7d1ee7bf15ce53b278a {
 
 rule sigismember_d5e4ad0398ce597f747c1a4b063e7046 {
 	meta:
-		aliases = "__GI_sigaddset, __GI_sigdelset, sigaddset, sigdelset, sigismember"
+		aliases = "sigaddset, sigdelset, sigismember"
 		type = "func"
 		size = "76"
-		objfiles = "sigdelset@libc.a, sigaddset@libc.a, sigismem@libc.a"
+		objfiles = "sigismem@libc.a, sigdelset@libc.a, sigaddset@libc.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 90 01 00 14 7C 80 23 79 40 81 00 0C 2F 80 00 40 40 9D 00 18 ( 4? | 3? ) ?? ?? ?? 38 00 00 16 39 20 FF FF 90 03 00 00 48 00 00 0C ( 4? | 3? ) ?? ?? ?? 7C 69 1B 78 80 01 00 14 7D 23 4B 78 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -19683,7 +19683,7 @@ rule call___do_global_dtors_aux_64f653d689c353b72ae29953b8e75794 {
 
 rule xdr_long_d128a6f6e2c482fa9dd1889640d20660 {
 	meta:
-		aliases = "__GI_xdr_long, xdr_long"
+		aliases = "xdr_long"
 		type = "func"
 		size = "92"
 		objfiles = "xdr@libc.a"
@@ -19755,7 +19755,7 @@ rule _Unwind_DeleteException_657f1e026c10816b089fd5b3cdf81b7b {
 
 rule pthread_mutex_unlock_9b75634c3a058ef7d625818d1f01a2e3 {
 	meta:
-		aliases = "__pthread_mutex_unlock, pthread_mutex_unlock"
+		aliases = "pthread_mutex_unlock"
 		type = "func"
 		size = "196"
 		objfiles = "mutex@libpthread.a"
@@ -19767,7 +19767,7 @@ rule pthread_mutex_unlock_9b75634c3a058ef7d625818d1f01a2e3 {
 
 rule sem_destroy_b63c93e53823c6825e684b746d516e35 {
 	meta:
-		aliases = "__new_sem_destroy, sem_destroy"
+		aliases = "sem_destroy"
 		type = "func"
 		size = "60"
 		objfiles = "semaphore@libpthread.a"
@@ -19779,7 +19779,7 @@ rule sem_destroy_b63c93e53823c6825e684b746d516e35 {
 
 rule fileno_unlocked_81ad39c8a52d8911bc25bcaa1dec5d36 {
 	meta:
-		aliases = "__GI_fileno_unlocked, fileno_unlocked"
+		aliases = "fileno_unlocked"
 		type = "func"
 		size = "56"
 		objfiles = "fileno_unlocked@libc.a"
@@ -19863,7 +19863,7 @@ rule _dl_strdup_018bb3ee591726c6bfdd056e9b020ea6 {
 
 rule _exit_1e2adb4e918c8f411bd54cace74f93ba {
 	meta:
-		aliases = "__GI__exit, _exit"
+		aliases = "_exit"
 		type = "func"
 		size = "60"
 		objfiles = "_exit@libc.a"
@@ -19899,7 +19899,7 @@ rule __do_global_dtors_aux_8dae8a436597a0c22c6ede6f9564eb33 {
 
 rule _rpc_dtablesize_d7d327d1a6ee2e045696057326dbea7a {
 	meta:
-		aliases = "__GI__rpc_dtablesize, _rpc_dtablesize"
+		aliases = "_rpc_dtablesize"
 		type = "func"
 		size = "64"
 		objfiles = "rpc_dtablesize@libc.a"
@@ -19914,7 +19914,7 @@ rule __initbuf_c4a25846bb63f9e018eb58d1fb2538ec {
 		aliases = "__initbuf"
 		type = "func"
 		size = "76"
-		objfiles = "getservice@libc.a, getproto@libc.a"
+		objfiles = "getproto@libc.a, getservice@libc.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 93 E1 00 0C 3F E0 ?? ?? 90 01 00 14 80 1F ?? ?? 2F 80 00 00 40 BE 00 1C 38 60 10 8D ( 4? | 3? ) ?? ?? ?? 2F 83 00 00 90 7F ?? ?? 40 BE 00 08 ( 4? | 3? ) ?? ?? ?? 80 01 00 14 83 E1 00 0C 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -19959,7 +19959,7 @@ rule cuserid_8e1f6567571379d322161f181f1acdc9 {
 
 rule login_tty_21a84c71c5e92dfd4ccdb74d6b7edff1 {
 	meta:
-		aliases = "__GI_login_tty, login_tty"
+		aliases = "login_tty"
 		type = "func"
 		size = "136"
 		objfiles = "login_tty@libutil.a"
@@ -20067,7 +20067,7 @@ rule __stdio_trans2w_o_85f7cf9e806c46245b76669572c122ba {
 
 rule hdestroy_r_4ba156f2ccba952b78969717c7579352 {
 	meta:
-		aliases = "__GI_hdestroy_r, hdestroy_r"
+		aliases = "hdestroy_r"
 		type = "func"
 		size = "76"
 		objfiles = "hdestroy_r@libc.a"
@@ -20091,7 +20091,7 @@ rule tmpnam_r_f50b8d0fc8adb689cc383c14292be0ca {
 
 rule sigwait_764ade1027b945c719d2903c630b8c32 {
 	meta:
-		aliases = "__GI_sigwait, __sigwait, sigwait"
+		aliases = "sigwait"
 		type = "func"
 		size = "72"
 		objfiles = "sigwait@libc.a"
@@ -20115,7 +20115,7 @@ rule authnone_marshal_42e3db7818b46a9d6495e76fdc4c862a {
 
 rule hcreate_r_9d3d8ccf80c7fcd1d09e9893b9d2542b {
 	meta:
-		aliases = "__GI_hcreate_r, hcreate_r"
+		aliases = "hcreate_r"
 		type = "func"
 		size = "192"
 		objfiles = "hcreate_r@libc.a"
@@ -20151,7 +20151,7 @@ rule __dn_expand_62ccd0b835991b0bdc84ac44b7a6c7f1 {
 
 rule clnt_perror_519de2ea3023d7ed1da2a050ec358816 {
 	meta:
-		aliases = "__GI_clnt_perror, clnt_pcreateerror, clnt_perrno, clnt_perror"
+		aliases = "clnt_pcreateerror, clnt_perrno, clnt_perror"
 		type = "func"
 		size = "48"
 		objfiles = "clnt_perror@libc.a"
@@ -20163,7 +20163,7 @@ rule clnt_perror_519de2ea3023d7ed1da2a050ec358816 {
 
 rule ctime_3c2c89bc3cb93f79417aa1aec2b50d43 {
 	meta:
-		aliases = "__GI_ctime, ctime"
+		aliases = "ctime"
 		type = "func"
 		size = "40"
 		objfiles = "ctime@libc.a"
@@ -20211,7 +20211,7 @@ rule svcraw_create_1317042b379c4917bc2d484f7eeca447 {
 
 rule fork_7125fc42a743345253f1dcecd347e5f8 {
 	meta:
-		aliases = "__GI_fork, __libc_fork, fork"
+		aliases = "fork"
 		type = "func"
 		size = "72"
 		objfiles = "fork@libc.a"
@@ -20223,7 +20223,7 @@ rule fork_7125fc42a743345253f1dcecd347e5f8 {
 
 rule read_1a8b5384da58b283e57b14e6363f239a {
 	meta:
-		aliases = "__GI_read, __libc_read, read"
+		aliases = "read"
 		type = "func"
 		size = "72"
 		objfiles = "read@libc.a"
@@ -20235,7 +20235,7 @@ rule read_1a8b5384da58b283e57b14e6363f239a {
 
 rule write_a4a5df355ef335c1aaded21b1e0efa1b {
 	meta:
-		aliases = "__GI_write, __libc_write, write"
+		aliases = "write"
 		type = "func"
 		size = "72"
 		objfiles = "write@libc.a"
@@ -20247,7 +20247,7 @@ rule write_a4a5df355ef335c1aaded21b1e0efa1b {
 
 rule close_ac00d5712d1b9a5a1cc05faefb8a73c5 {
 	meta:
-		aliases = "__GI_close, __libc_close, close"
+		aliases = "close"
 		type = "func"
 		size = "72"
 		objfiles = "close@libc.a"
@@ -20271,7 +20271,7 @@ rule link_0338dfe21701b75a8565cfb27886a31c {
 
 rule unlink_7783230acc634b1910a0ce14eb1686cc {
 	meta:
-		aliases = "__GI_unlink, unlink"
+		aliases = "unlink"
 		type = "func"
 		size = "72"
 		objfiles = "unlink@libc.a"
@@ -20283,7 +20283,7 @@ rule unlink_7783230acc634b1910a0ce14eb1686cc {
 
 rule execve_c262bf0ae345951b9013218cbe17c9c8 {
 	meta:
-		aliases = "__GI_execve, execve"
+		aliases = "execve"
 		type = "func"
 		size = "72"
 		objfiles = "execve@libc.a"
@@ -20295,7 +20295,7 @@ rule execve_c262bf0ae345951b9013218cbe17c9c8 {
 
 rule chdir_80e65542a0b889e53d407661aebc0dbd {
 	meta:
-		aliases = "__GI_chdir, chdir"
+		aliases = "chdir"
 		type = "func"
 		size = "72"
 		objfiles = "chdir@libc.a"
@@ -20307,7 +20307,7 @@ rule chdir_80e65542a0b889e53d407661aebc0dbd {
 
 rule time_2e133c73706dfeaf51f4b1db27d3cedb {
 	meta:
-		aliases = "__GI_time, time"
+		aliases = "time"
 		type = "func"
 		size = "72"
 		objfiles = "time@libc.a"
@@ -20319,7 +20319,7 @@ rule time_2e133c73706dfeaf51f4b1db27d3cedb {
 
 rule chmod_1b693be8f0d4eab87e832f6af24bcee2 {
 	meta:
-		aliases = "__GI_chmod, chmod"
+		aliases = "chmod"
 		type = "func"
 		size = "72"
 		objfiles = "chmod@libc.a"
@@ -20343,7 +20343,7 @@ rule lchown_bd69efbe8e696ac3a694ded4e8fded82 {
 
 rule lseek_8cfabcc26c24e0f95a176f8c2e5ac6fd {
 	meta:
-		aliases = "__GI___libc_lseek, __GI_lseek, __libc_lseek, lseek"
+		aliases = "lseek"
 		type = "func"
 		size = "72"
 		objfiles = "lseek@libc.a"
@@ -20355,7 +20355,7 @@ rule lseek_8cfabcc26c24e0f95a176f8c2e5ac6fd {
 
 rule getpid_fbc3852156427284eec3f31da3fd70fa {
 	meta:
-		aliases = "__GI_getpid, __libc_getpid, getpid"
+		aliases = "getpid"
 		type = "func"
 		size = "72"
 		objfiles = "getpid@libc.a"
@@ -20391,7 +20391,7 @@ rule umount_7a07ad4ae0bef9842a7da6c8f1ec7ba7 {
 
 rule getuid_05daabcc74acdb4e40b8e8c664921059 {
 	meta:
-		aliases = "__GI_getuid, getuid"
+		aliases = "getuid"
 		type = "func"
 		size = "72"
 		objfiles = "getuid@libc.a"
@@ -20415,7 +20415,7 @@ rule stime_d9c2c06fdd5056f624fa871e65eb4f42 {
 
 rule alarm_7b4625ce26e932f615b57260f6a18728 {
 	meta:
-		aliases = "__GI_alarm, alarm"
+		aliases = "alarm"
 		type = "func"
 		size = "72"
 		objfiles = "alarm@libc.a"
@@ -20427,7 +20427,7 @@ rule alarm_7b4625ce26e932f615b57260f6a18728 {
 
 rule pause_76f4a74142bf2c90e99d605ae2d9c190 {
 	meta:
-		aliases = "__libc_pause, pause"
+		aliases = "pause"
 		type = "func"
 		size = "72"
 		objfiles = "pause@libc.a"
@@ -20439,7 +20439,7 @@ rule pause_76f4a74142bf2c90e99d605ae2d9c190 {
 
 rule utime_68d87d9d883bf9c46864151979f7164a {
 	meta:
-		aliases = "__GI_utime, utime"
+		aliases = "utime"
 		type = "func"
 		size = "72"
 		objfiles = "utime@libc.a"
@@ -20487,7 +20487,7 @@ rule sync_ee235187a8752c814754e1f19b05a674 {
 
 rule kill_39c808a5816007ea873098241d73097f {
 	meta:
-		aliases = "__GI_kill, kill"
+		aliases = "kill"
 		type = "func"
 		size = "72"
 		objfiles = "kill@libc.a"
@@ -20511,7 +20511,7 @@ rule rename_b33b53f00c09daceb1a0d303e9360222 {
 
 rule mkdir_a85afa9887dd05c83e72fa282bf97ab7 {
 	meta:
-		aliases = "__GI_mkdir, mkdir"
+		aliases = "mkdir"
 		type = "func"
 		size = "72"
 		objfiles = "mkdir@libc.a"
@@ -20523,7 +20523,7 @@ rule mkdir_a85afa9887dd05c83e72fa282bf97ab7 {
 
 rule rmdir_2e1dfaf7b509b96f709aa459db073157 {
 	meta:
-		aliases = "__GI_rmdir, rmdir"
+		aliases = "rmdir"
 		type = "func"
 		size = "72"
 		objfiles = "rmdir@libc.a"
@@ -20547,7 +20547,7 @@ rule dup_1167102034b2ae9b6783f7f5b83629a8 {
 
 rule pipe_b80d1a0fbacfe2cbfd9d3c9fac41aad1 {
 	meta:
-		aliases = "__GI_pipe, pipe"
+		aliases = "pipe"
 		type = "func"
 		size = "72"
 		objfiles = "pipe@libc.a"
@@ -20559,7 +20559,7 @@ rule pipe_b80d1a0fbacfe2cbfd9d3c9fac41aad1 {
 
 rule times_ea399414d4a6d365ec7231f80dc8fb5d {
 	meta:
-		aliases = "__GI_times, times"
+		aliases = "times"
 		type = "func"
 		size = "72"
 		objfiles = "times@libc.a"
@@ -20571,7 +20571,7 @@ rule times_ea399414d4a6d365ec7231f80dc8fb5d {
 
 rule getgid_a4a82488f060cab5270505a56c836255 {
 	meta:
-		aliases = "__GI_getgid, getgid"
+		aliases = "getgid"
 		type = "func"
 		size = "72"
 		objfiles = "getgid@libc.a"
@@ -20583,7 +20583,7 @@ rule getgid_a4a82488f060cab5270505a56c836255 {
 
 rule geteuid_8604560f77c506a1f8a5cc7e35b7327a {
 	meta:
-		aliases = "__GI_geteuid, geteuid"
+		aliases = "geteuid"
 		type = "func"
 		size = "72"
 		objfiles = "geteuid@libc.a"
@@ -20595,7 +20595,7 @@ rule geteuid_8604560f77c506a1f8a5cc7e35b7327a {
 
 rule getegid_35ffe5f0c76e449fc77fd08c6d576ebb {
 	meta:
-		aliases = "__GI_getegid, getegid"
+		aliases = "getegid"
 		type = "func"
 		size = "72"
 		objfiles = "getegid@libc.a"
@@ -20631,7 +20631,7 @@ rule umount2_26307881439ccec0d3093d07d35b149f {
 
 rule setpgid_7045b3de03e6f6b06d7747b6a8d46884 {
 	meta:
-		aliases = "__GI_setpgid, setpgid"
+		aliases = "setpgid"
 		type = "func"
 		size = "72"
 		objfiles = "setpgid@libc.a"
@@ -20679,7 +20679,7 @@ rule chroot_f263fe724811ea2fbf7cae1a4ab099f5 {
 
 rule dup2_74530435ab711bce2341ad518a111b90 {
 	meta:
-		aliases = "__GI_dup2, dup2"
+		aliases = "dup2"
 		type = "func"
 		size = "72"
 		objfiles = "dup2@libc.a"
@@ -20715,7 +20715,7 @@ rule getpgrp_832c4087daef822a876a820e780dd150 {
 
 rule setsid_9bf7e7e9def200990a72d97aff266f10 {
 	meta:
-		aliases = "__GI_setsid, setsid"
+		aliases = "setsid"
 		type = "func"
 		size = "72"
 		objfiles = "setsid@libc.a"
@@ -20727,7 +20727,7 @@ rule setsid_9bf7e7e9def200990a72d97aff266f10 {
 
 rule setreuid_65a40895e43c721469ebf8cc5f179551 {
 	meta:
-		aliases = "__GI_setreuid, setreuid"
+		aliases = "setreuid"
 		type = "func"
 		size = "72"
 		objfiles = "setreuid@libc.a"
@@ -20739,7 +20739,7 @@ rule setreuid_65a40895e43c721469ebf8cc5f179551 {
 
 rule setregid_b66b2ded87ec7f46dedc1f9311fdc006 {
 	meta:
-		aliases = "__GI_setregid, setregid"
+		aliases = "setregid"
 		type = "func"
 		size = "72"
 		objfiles = "setregid@libc.a"
@@ -20763,7 +20763,7 @@ rule sethostname_9a3d0c3c56a2ce495fe8ebcce0be5eff {
 
 rule setrlimit_a26e431a9131ccca182f63e051dc1c12 {
 	meta:
-		aliases = "__GI_setrlimit, setrlimit"
+		aliases = "setrlimit"
 		type = "func"
 		size = "72"
 		objfiles = "setrlimit@libc.a"
@@ -20787,7 +20787,7 @@ rule getrusage_ffbe362ebf6849187309e4625527a425 {
 
 rule gettimeofday_245fc0a41f95dc77e72cd498bf3bf462 {
 	meta:
-		aliases = "__GI_gettimeofday, gettimeofday"
+		aliases = "gettimeofday"
 		type = "func"
 		size = "72"
 		objfiles = "gettimeofday@libc.a"
@@ -20799,7 +20799,7 @@ rule gettimeofday_245fc0a41f95dc77e72cd498bf3bf462 {
 
 rule settimeofday_8be21b164863b3876ceb829b9daaeda9 {
 	meta:
-		aliases = "__GI_settimeofday, settimeofday"
+		aliases = "settimeofday"
 		type = "func"
 		size = "72"
 		objfiles = "settimeofday@libc.a"
@@ -20823,7 +20823,7 @@ rule symlink_0bb6e643a3935de54f218b40f0643e88 {
 
 rule readlink_32617f676b909846075d5fb4d9707734 {
 	meta:
-		aliases = "__GI_readlink, readlink"
+		aliases = "readlink"
 		type = "func"
 		size = "72"
 		objfiles = "readlink@libc.a"
@@ -20847,7 +20847,7 @@ rule swapon_cc854c9c3f08cb2a38f65b27f67d2ffa {
 
 rule mmap_e8a0a5112bd08e668f9329130434cee7 {
 	meta:
-		aliases = "__GI_mmap, mmap"
+		aliases = "mmap"
 		type = "func"
 		size = "72"
 		objfiles = "mmap@libc.a"
@@ -20859,7 +20859,7 @@ rule mmap_e8a0a5112bd08e668f9329130434cee7 {
 
 rule munmap_ce463a4d3be6abbcc04fcd3e830b0524 {
 	meta:
-		aliases = "__GI_munmap, munmap"
+		aliases = "munmap"
 		type = "func"
 		size = "72"
 		objfiles = "munmap@libc.a"
@@ -20871,7 +20871,7 @@ rule munmap_ce463a4d3be6abbcc04fcd3e830b0524 {
 
 rule truncate_bb88e01654dee17063bc739feb5df88a {
 	meta:
-		aliases = "__GI_truncate, truncate"
+		aliases = "truncate"
 		type = "func"
 		size = "72"
 		objfiles = "truncate@libc.a"
@@ -20883,7 +20883,7 @@ rule truncate_bb88e01654dee17063bc739feb5df88a {
 
 rule ftruncate_515c2583893ff7405baf6ca13e77ccbf {
 	meta:
-		aliases = "__GI_ftruncate, ftruncate"
+		aliases = "ftruncate"
 		type = "func"
 		size = "72"
 		objfiles = "ftruncate@libc.a"
@@ -20919,7 +20919,7 @@ rule fchown_238693fc908d319124c61777fc96f8c7 {
 
 rule getpriority_63f1b0315df0fb4e4bc83bfdea170b1d {
 	meta:
-		aliases = "__GI_getpriority, getpriority"
+		aliases = "getpriority"
 		type = "func"
 		size = "96"
 		objfiles = "getpriority@libc.a"
@@ -20931,7 +20931,7 @@ rule getpriority_63f1b0315df0fb4e4bc83bfdea170b1d {
 
 rule setpriority_cf1821255d543fd14991a3b1c9f71345 {
 	meta:
-		aliases = "__GI_setpriority, setpriority"
+		aliases = "setpriority"
 		type = "func"
 		size = "72"
 		objfiles = "setpriority@libc.a"
@@ -20943,7 +20943,7 @@ rule setpriority_cf1821255d543fd14991a3b1c9f71345 {
 
 rule statfs_2359b2d9e9d43deb98d905eb51402da9 {
 	meta:
-		aliases = "__GI___libc_statfs, __GI_statfs, __libc_statfs, statfs"
+		aliases = "statfs"
 		type = "func"
 		size = "72"
 		objfiles = "statfs@libc.a"
@@ -20955,7 +20955,7 @@ rule statfs_2359b2d9e9d43deb98d905eb51402da9 {
 
 rule fstatfs_6e9591365942f7c2bd68d66e49a0805e {
 	meta:
-		aliases = "__GI___libc_fstatfs, __GI_fstatfs, __libc_fstatfs, fstatfs"
+		aliases = "fstatfs"
 		type = "func"
 		size = "72"
 		objfiles = "fstatfs@libc.a"
@@ -21003,7 +21003,7 @@ rule klogctl_d9f9f382f88effd7eba5dd7f78fdcd1a {
 
 rule setitimer_d38fac41324a51b5dd781a322d16c32e {
 	meta:
-		aliases = "__GI_setitimer, setitimer"
+		aliases = "setitimer"
 		type = "func"
 		size = "72"
 		objfiles = "setitimer@libc.a"
@@ -21051,7 +21051,7 @@ rule vhangup_39bb3a8896b421c13b4d87a3d8eaa67c {
 
 rule wait4_8f51dd9761882f1385e989a83b7e28fb {
 	meta:
-		aliases = "__GI_wait4, wait4"
+		aliases = "wait4"
 		type = "func"
 		size = "72"
 		objfiles = "wait4@libc.a"
@@ -21099,7 +21099,7 @@ rule __syscall_ipc_8075cdb24a863ae4ea35cb4d1c4d5d1c {
 
 rule fsync_da9865d28def24fb6904b3f682631c5a {
 	meta:
-		aliases = "__libc_fsync, fsync"
+		aliases = "fsync"
 		type = "func"
 		size = "72"
 		objfiles = "fsync@libc.a"
@@ -21123,7 +21123,7 @@ rule setdomainname_b8f139728b935627cd216946eed67332 {
 
 rule uname_1d6a83f53f403730bf51f4b8058ada5c {
 	meta:
-		aliases = "__GI_uname, uname"
+		aliases = "uname"
 		type = "func"
 		size = "72"
 		objfiles = "uname@libc.a"
@@ -21145,9 +21145,9 @@ rule modify_ldt_93a31b6b93a3ed7b395779c8f307f4dc {
 		$pattern
 }
 
-rule ntp_adjtime_075b7c440bcbb9de38d29a357335f7b0 {
+rule adjtimex_075b7c440bcbb9de38d29a357335f7b0 {
 	meta:
-		aliases = "__GI_adjtimex, adjtimex, ntp_adjtime"
+		aliases = "adjtimex"
 		type = "func"
 		size = "72"
 		objfiles = "adjtimex@libc.a"
@@ -21243,7 +21243,7 @@ rule getpgid_57e07aabbab81a39924895ca3172c669 {
 
 rule fchdir_937874bc3017028ae66248dfaa37bca1 {
 	meta:
-		aliases = "__GI_fchdir, fchdir"
+		aliases = "fchdir"
 		type = "func"
 		size = "72"
 		objfiles = "fchdir@libc.a"
@@ -21303,7 +21303,7 @@ rule setfsgid_d0a66b44aed861868f0789897ac784ff {
 
 rule select_ef75987dbe035141b02ca991d6a4363b {
 	meta:
-		aliases = "__GI_select, __libc_select, select"
+		aliases = "select"
 		type = "func"
 		size = "72"
 		objfiles = "select@libc.a"
@@ -21327,7 +21327,7 @@ rule flock_86613658614ed7962c2191a8171df4a1 {
 
 rule msync_a0b876258e37585bf26feb0d1b8ee91a {
 	meta:
-		aliases = "__libc_msync, msync"
+		aliases = "msync"
 		type = "func"
 		size = "72"
 		objfiles = "msync@libc.a"
@@ -21339,7 +21339,7 @@ rule msync_a0b876258e37585bf26feb0d1b8ee91a {
 
 rule readv_83efe4b33ca6b59dd0b2c240c83636d2 {
 	meta:
-		aliases = "__libc_readv, readv"
+		aliases = "readv"
 		type = "func"
 		size = "72"
 		objfiles = "readv@libc.a"
@@ -21351,7 +21351,7 @@ rule readv_83efe4b33ca6b59dd0b2c240c83636d2 {
 
 rule writev_a07516a89c95de81eeb20d1737e55278 {
 	meta:
-		aliases = "__libc_writev, writev"
+		aliases = "writev"
 		type = "func"
 		size = "72"
 		objfiles = "writev@libc.a"
@@ -21363,7 +21363,7 @@ rule writev_a07516a89c95de81eeb20d1737e55278 {
 
 rule getsid_8fbe26df1bc976494cca523146e2f362 {
 	meta:
-		aliases = "__GI_getsid, getsid"
+		aliases = "getsid"
 		type = "func"
 		size = "72"
 		objfiles = "getsid@libc.a"
@@ -21531,7 +21531,7 @@ rule sched_rr_get_interval_7a88003f99aa7928c5a726eccfd467f4 {
 
 rule nanosleep_56f949f22cbe8ab94ee9db6c3fbaa3a8 {
 	meta:
-		aliases = "__GI_nanosleep, __libc_nanosleep, nanosleep"
+		aliases = "nanosleep"
 		type = "func"
 		size = "72"
 		objfiles = "nanosleep@libc.a"
@@ -21543,7 +21543,7 @@ rule nanosleep_56f949f22cbe8ab94ee9db6c3fbaa3a8 {
 
 rule mremap_1dd7d6ac41614f4cf0cf5737edbd6c5f {
 	meta:
-		aliases = "__GI_mremap, mremap"
+		aliases = "mremap"
 		type = "func"
 		size = "72"
 		objfiles = "mremap@libc.a"
@@ -21555,7 +21555,7 @@ rule mremap_1dd7d6ac41614f4cf0cf5737edbd6c5f {
 
 rule setresuid_f5e45ff099d8a0efb90cc95cfed7331a {
 	meta:
-		aliases = "__GI_setresuid, setresuid"
+		aliases = "setresuid"
 		type = "func"
 		size = "72"
 		objfiles = "setresuid@libc.a"
@@ -21579,7 +21579,7 @@ rule query_module_e4e48429421547e23c8b8b5e4af2a3fa {
 
 rule poll_5058390b7aff7ddf6a6f9b1317cc20b8 {
 	meta:
-		aliases = "__GI_poll, __libc_poll, poll"
+		aliases = "poll"
 		type = "func"
 		size = "72"
 		objfiles = "poll@libc.a"
@@ -21591,7 +21591,7 @@ rule poll_5058390b7aff7ddf6a6f9b1317cc20b8 {
 
 rule setresgid_18a2d06a5fa453d462c636e551bd0890 {
 	meta:
-		aliases = "__GI_setresgid, setresgid"
+		aliases = "setresgid"
 		type = "func"
 		size = "72"
 		objfiles = "setresgid@libc.a"
@@ -21639,7 +21639,7 @@ rule __rt_sigtimedwait_e3409a47bb249eaf8e3f014a120c3a7d {
 
 rule chown_71e6fd1d77b05a9988ce6338f0dc0527 {
 	meta:
-		aliases = "__GI_chown, chown"
+		aliases = "chown"
 		type = "func"
 		size = "72"
 		objfiles = "chown@libc.a"
@@ -21699,7 +21699,7 @@ rule sendfile_af1a17a2d1c8c384f4c7a1726ed2d9e8 {
 
 rule getrlimit_ecb8d57e48201dca2023fbdbef8d23bf {
 	meta:
-		aliases = "__GI_getrlimit, getrlimit"
+		aliases = "getrlimit"
 		type = "func"
 		size = "72"
 		objfiles = "getrlimit@libc.a"
@@ -22011,7 +22011,7 @@ rule clock_gettime_e566e88cdbced60d48877b2476b9050b {
 
 rule clock_getres_036ed21240463186f5dd1445375a060e {
 	meta:
-		aliases = "__GI_clock_getres, clock_getres"
+		aliases = "clock_getres"
 		type = "func"
 		size = "72"
 		objfiles = "clock_getres@libc.a"
@@ -22023,7 +22023,7 @@ rule clock_getres_036ed21240463186f5dd1445375a060e {
 
 rule utimes_f8ca2293537e27767918a171c4046c81 {
 	meta:
-		aliases = "__GI_utimes, utimes"
+		aliases = "utimes"
 		type = "func"
 		size = "72"
 		objfiles = "utimes@libc.a"
@@ -22035,7 +22035,7 @@ rule utimes_f8ca2293537e27767918a171c4046c81 {
 
 rule mq_setattr_fe614478d93a37c829c140011d2beb12 {
 	meta:
-		aliases = "__GI_mq_setattr, mq_setattr"
+		aliases = "mq_setattr"
 		type = "func"
 		size = "72"
 		objfiles = "mq_getsetattr@librt.a"
@@ -22095,7 +22095,7 @@ rule inotify_rm_watch_7d84c7413e39ba12d35478f22f296276 {
 
 rule splice_a3a9c6810cb05e26db2f6149bb5b739c {
 	meta:
-		aliases = "__GI_splice, splice"
+		aliases = "splice"
 		type = "func"
 		size = "72"
 		objfiles = "splice@libc.a"
@@ -22119,7 +22119,7 @@ rule tee_026898fead7e1a23b592f6c413c154ec {
 
 rule vmsplice_5a85ba87e8d8a43f15ac13932301946f {
 	meta:
-		aliases = "__GI_vmsplice, vmsplice"
+		aliases = "vmsplice"
 		type = "func"
 		size = "72"
 		objfiles = "vmsplice@libc.a"
@@ -22131,7 +22131,7 @@ rule vmsplice_5a85ba87e8d8a43f15ac13932301946f {
 
 rule getrpcent_3b2ac68029b9a7cad641ac38a7fafbc7 {
 	meta:
-		aliases = "__GI_getrpcent, getrpcent"
+		aliases = "getrpcent"
 		type = "func"
 		size = "120"
 		objfiles = "getrpcent@libc.a"
@@ -22143,7 +22143,7 @@ rule getrpcent_3b2ac68029b9a7cad641ac38a7fafbc7 {
 
 rule dirfd_d19b98d15a861b648b0b9c92cfdd0a19 {
 	meta:
-		aliases = "__GI_dirfd, dirfd"
+		aliases = "dirfd"
 		type = "func"
 		size = "64"
 		objfiles = "dirfd@libc.a"
@@ -22155,7 +22155,7 @@ rule dirfd_d19b98d15a861b648b0b9c92cfdd0a19 {
 
 rule xdrrec_skiprecord_7db16dfadc0dc89c8cfc5d7872fc53c8 {
 	meta:
-		aliases = "__GI_xdrrec_skiprecord, xdrrec_skiprecord"
+		aliases = "xdrrec_skiprecord"
 		type = "func"
 		size = "144"
 		objfiles = "xdr_rec@libc.a"
@@ -22167,7 +22167,7 @@ rule xdrrec_skiprecord_7db16dfadc0dc89c8cfc5d7872fc53c8 {
 
 rule xdrrec_eof_d2d8fce9958129aa73b6f7d3ef05886e {
 	meta:
-		aliases = "__GI_xdrrec_eof, xdrrec_eof"
+		aliases = "xdrrec_eof"
 		type = "func"
 		size = "152"
 		objfiles = "xdr_rec@libc.a"
@@ -22215,7 +22215,7 @@ rule valloc_2fa328818897bbe4c79de54042e353ab {
 
 rule sbrk_6c8f96aa8300ecad604d67aba2c17be1 {
 	meta:
-		aliases = "__GI_sbrk, sbrk"
+		aliases = "sbrk"
 		type = "func"
 		size = "116"
 		objfiles = "sbrk@libc.a"
@@ -22225,9 +22225,9 @@ rule sbrk_6c8f96aa8300ecad604d67aba2c17be1 {
 		$pattern
 }
 
-rule strrchr_754ba63787df784f53bb2b4c9acd72e7 {
+rule rindex_754ba63787df784f53bb2b4c9acd72e7 {
 	meta:
-		aliases = "__GI_strrchr, rindex, strrchr"
+		aliases = "rindex"
 		type = "func"
 		size = "112"
 		objfiles = "strrchr@libc.a"
@@ -22251,7 +22251,7 @@ rule getlogin_r_9f59202fdcd3b6449aacd083f733d909 {
 
 rule if_freenameindex_8fb827c50d1d14586676e25cd633a4b4 {
 	meta:
-		aliases = "__GI_if_freenameindex, if_freenameindex"
+		aliases = "if_freenameindex"
 		type = "func"
 		size = "92"
 		objfiles = "if_index@libc.a"
@@ -22299,7 +22299,7 @@ rule timer_delete_9a0ad17d9218a418e89c7145bc4aee25 {
 
 rule getrpcbynumber_c85a69910d6140ed67a12f19a3349083 {
 	meta:
-		aliases = "__GI_getrpcbynumber, getrpcbynumber"
+		aliases = "getrpcbynumber"
 		type = "func"
 		size = "100"
 		objfiles = "getrpcent@libc.a"
@@ -22311,7 +22311,7 @@ rule getrpcbynumber_c85a69910d6140ed67a12f19a3349083 {
 
 rule setrpcent_3bbf5cf23e29dbf6dd95223336a00285 {
 	meta:
-		aliases = "__GI_setrpcent, setrpcent"
+		aliases = "setrpcent"
 		type = "func"
 		size = "124"
 		objfiles = "getrpcent@libc.a"
@@ -22323,7 +22323,7 @@ rule setrpcent_3bbf5cf23e29dbf6dd95223336a00285 {
 
 rule xdr_opaque_auth_b79219b0a713e489b4f3762f2f6ab0a8 {
 	meta:
-		aliases = "__GI_xdr_opaque_auth, xdr_opaque_auth"
+		aliases = "xdr_opaque_auth"
 		type = "func"
 		size = "92"
 		objfiles = "rpc_prot@libc.a"
@@ -22335,7 +22335,7 @@ rule xdr_opaque_auth_b79219b0a713e489b4f3762f2f6ab0a8 {
 
 rule xdr_replymsg_5f9d87441e963497905da29354693e5a {
 	meta:
-		aliases = "__GI_xdr_replymsg, xdr_replymsg"
+		aliases = "xdr_replymsg"
 		type = "func"
 		size = "136"
 		objfiles = "rpc_prot@libc.a"
@@ -22347,7 +22347,7 @@ rule xdr_replymsg_5f9d87441e963497905da29354693e5a {
 
 rule xdr_rejected_reply_c36cd76f5a352739d25ec93dfdf28f4f {
 	meta:
-		aliases = "__GI_xdr_rejected_reply, xdr_rejected_reply"
+		aliases = "xdr_rejected_reply"
 		type = "func"
 		size = "160"
 		objfiles = "rpc_prot@libc.a"
@@ -22359,7 +22359,7 @@ rule xdr_rejected_reply_c36cd76f5a352739d25ec93dfdf28f4f {
 
 rule xdr_authunix_parms_06df93854495ffe0a25c0d17c3ed7ef7 {
 	meta:
-		aliases = "__GI_xdr_authunix_parms, xdr_authunix_parms"
+		aliases = "xdr_authunix_parms"
 		type = "func"
 		size = "172"
 		objfiles = "authunix_prot@libc.a"
@@ -22371,7 +22371,7 @@ rule xdr_authunix_parms_06df93854495ffe0a25c0d17c3ed7ef7 {
 
 rule xdr_accepted_reply_70091415922712b3a5668289e5142312 {
 	meta:
-		aliases = "__GI_xdr_accepted_reply, xdr_accepted_reply"
+		aliases = "xdr_accepted_reply"
 		type = "func"
 		size = "184"
 		objfiles = "rpc_prot@libc.a"
@@ -22395,7 +22395,7 @@ rule dladdr_842a2cd525c072316792a8f22f091d24 {
 
 rule xdr_callmsg_59a47d8f40f07ca46b7f3cdc5c3c9827 {
 	meta:
-		aliases = "__GI_xdr_callmsg, xdr_callmsg"
+		aliases = "xdr_callmsg"
 		type = "func"
 		size = "1008"
 		objfiles = "rpc_cmsg@libc.a"
@@ -22405,9 +22405,9 @@ rule xdr_callmsg_59a47d8f40f07ca46b7f3cdc5c3c9827 {
 		$pattern
 }
 
-rule siglongjmp_4e4f39634cb89815709fe7a70daaaf20 {
+rule longjmp_4e4f39634cb89815709fe7a70daaaf20 {
 	meta:
-		aliases = "__libc_longjmp, __libc_siglongjmp, _longjmp, longjmp, siglongjmp"
+		aliases = "longjmp"
 		type = "func"
 		size = "76"
 		objfiles = "longjmp@libc.a"
@@ -22419,7 +22419,7 @@ rule siglongjmp_4e4f39634cb89815709fe7a70daaaf20 {
 
 rule xprt_unregister_28adcc4b8bad78be9541cbfb84adba91 {
 	meta:
-		aliases = "__GI_xprt_unregister, xprt_unregister"
+		aliases = "xprt_unregister"
 		type = "func"
 		size = "192"
 		objfiles = "svc@libc.a"
@@ -22431,7 +22431,7 @@ rule xprt_unregister_28adcc4b8bad78be9541cbfb84adba91 {
 
 rule strsep_331ed62f2885abae74d4d9fa43437d19 {
 	meta:
-		aliases = "__GI_strsep, strsep"
+		aliases = "strsep"
 		type = "func"
 		size = "176"
 		objfiles = "strsep@libc.a"
@@ -22479,10 +22479,10 @@ rule clntunix_destroy_5f02f0aa435edfcbc15b5ce4a6605c86 {
 
 rule globfree64_b53a14b0df77690c564c4ed6249bbdb3 {
 	meta:
-		aliases = "__GI_globfree, __GI_globfree64, globfree, globfree64"
+		aliases = "globfree, globfree64"
 		type = "func"
 		size = "124"
-		objfiles = "glob@libc.a, glob64@libc.a"
+		objfiles = "glob64@libc.a, glob@libc.a"
 	strings:
 		$pattern = { 94 21 FF F0 7C 08 02 A6 BF C1 00 08 7C 7F 1B 78 90 01 00 14 3B C0 00 00 80 03 00 04 2F 80 00 00 40 BE 00 2C 48 00 00 44 81 3F 00 08 7D 3E 4A 14 3B DE 00 01 55 29 10 3A 7C 09 18 2E 2F 80 00 00 7C 03 03 78 41 9E 00 08 ( 4? | 3? ) ?? ?? ?? 80 1F 00 00 80 7F 00 04 7F 9E 00 40 41 9C FF D0 ( 4? | 3? ) ?? ?? ?? 38 00 00 00 90 1F 00 04 80 01 00 14 BB C1 00 08 38 21 00 10 7C 08 03 A6 4E 80 00 20 }
 	condition:
@@ -22491,7 +22491,7 @@ rule globfree64_b53a14b0df77690c564c4ed6249bbdb3 {
 
 rule xdr_pmap_e283f9d6bd6b1f549bc8f6a43fd824f0 {
 	meta:
-		aliases = "__GI_xdr_pmap, xdr_pmap"
+		aliases = "xdr_pmap"
 		type = "func"
 		size = "128"
 		objfiles = "pmap_prot@libc.a"
@@ -22563,7 +22563,7 @@ rule xdrmem_putbytes_9fa7401e773d99e1424244d22f9bf9bc {
 
 rule pthread_mutex_lock_cc103b470033c5818d825467834d8123 {
 	meta:
-		aliases = "__pthread_mutex_lock, pthread_mutex_lock"
+		aliases = "pthread_mutex_lock"
 		type = "func"
 		size = "232"
 		objfiles = "mutex@libpthread.a"
@@ -22575,7 +22575,7 @@ rule pthread_mutex_lock_cc103b470033c5818d825467834d8123 {
 
 rule pthread_mutex_trylock_71fb521618b32c2ea473bfd795c5d4fe {
 	meta:
-		aliases = "__pthread_mutex_trylock, pthread_mutex_trylock"
+		aliases = "pthread_mutex_trylock"
 		type = "func"
 		size = "228"
 		objfiles = "mutex@libpthread.a"
@@ -22623,7 +22623,7 @@ rule svcudp_destroy_4162f7cd77f717777aa81bfcd03e733a {
 
 rule herror_df8d4df559b1cc806357b87b678acef4 {
 	meta:
-		aliases = "__GI_herror, herror"
+		aliases = "herror"
 		type = "func"
 		size = "148"
 		objfiles = "herror@libc.a"
@@ -22647,7 +22647,7 @@ rule __check_one_fd_094c75b3d4cfbe4483df9e12efa0ca1c {
 
 rule fdopen_116c27701a96cff33c845d7e5b2c8070 {
 	meta:
-		aliases = "__GI_fdopen, fdopen"
+		aliases = "fdopen"
 		type = "func"
 		size = "100"
 		objfiles = "fdopen@libc.a"
@@ -22731,7 +22731,7 @@ rule xdrrec_putint32_14508e6e15e3963106fd816c5fd15cbb {
 
 rule jrand48_r_0c1d1c7f8d34accc90b11e81c92d606b {
 	meta:
-		aliases = "__GI_jrand48_r, jrand48_r"
+		aliases = "jrand48_r"
 		type = "func"
 		size = "84"
 		objfiles = "jrand48_r@libc.a"
@@ -22743,7 +22743,7 @@ rule jrand48_r_0c1d1c7f8d34accc90b11e81c92d606b {
 
 rule nrand48_r_e3b93e692f48c01523a3e98d4f46fd5a {
 	meta:
-		aliases = "__GI_nrand48_r, nrand48_r"
+		aliases = "nrand48_r"
 		type = "func"
 		size = "88"
 		objfiles = "nrand48_r@libc.a"
@@ -22755,7 +22755,7 @@ rule nrand48_r_e3b93e692f48c01523a3e98d4f46fd5a {
 
 rule endrpcent_f329217128af942cf341551b689d0d68 {
 	meta:
-		aliases = "__GI_endrpcent, endrpcent"
+		aliases = "endrpcent"
 		type = "func"
 		size = "92"
 		objfiles = "getrpcent@libc.a"
@@ -22839,7 +22839,7 @@ rule _Unwind_GetLanguageSpecificDat_6c3ea6d4e6b02c0b1032fa6a26b0c6dc {
 
 rule brk_38d59b07bfbe7766120e168273abb9bc {
 	meta:
-		aliases = "__GI_brk, brk"
+		aliases = "brk"
 		type = "func"
 		size = "52"
 		objfiles = "brk@libc.a"
@@ -22851,7 +22851,7 @@ rule brk_38d59b07bfbe7766120e168273abb9bc {
 
 rule cabs_10229de573c5dcc1c5136887cc636026 {
 	meta:
-		aliases = "__GI_cabs, cabs"
+		aliases = "cabs"
 		type = "func"
 		size = "36"
 		objfiles = "w_cabs@libm.a"
@@ -22863,7 +22863,7 @@ rule cabs_10229de573c5dcc1c5136887cc636026 {
 
 rule carg_b21acaadafd9e066da12951cf7efce34 {
 	meta:
-		aliases = "__GI_carg, carg"
+		aliases = "carg"
 		type = "func"
 		size = "36"
 		objfiles = "carg@libm.a"
@@ -22887,7 +22887,7 @@ rule _dl_init_got_9e799f27365b3aac9877e796ded9353d {
 
 rule __isinff_ad018fcabb51a4c3cd606995dd2d3e22 {
 	meta:
-		aliases = "__GI___isinff, __isinff"
+		aliases = "__isinff"
 		type = "func"
 		size = "48"
 		objfiles = "s_isinff@libm.a"
@@ -22899,7 +22899,7 @@ rule __isinff_ad018fcabb51a4c3cd606995dd2d3e22 {
 
 rule __signbitf_acc3ecddd8b7b2892c6713d47be61339 {
 	meta:
-		aliases = "__GI___signbitf, __signbitf"
+		aliases = "__signbitf"
 		type = "func"
 		size = "24"
 		objfiles = "s_signbitf@libm.a"
@@ -22911,7 +22911,7 @@ rule __signbitf_acc3ecddd8b7b2892c6713d47be61339 {
 
 rule __finitef_c27be30a44607602989e6c9829767053 {
 	meta:
-		aliases = "__GI___finitef, __finitef"
+		aliases = "__finitef"
 		type = "func"
 		size = "32"
 		objfiles = "s_finitef@libm.a"
@@ -22923,7 +22923,7 @@ rule __finitef_c27be30a44607602989e6c9829767053 {
 
 rule __signbit_0535d46c4386d340c849bfe1c63e80b6 {
 	meta:
-		aliases = "__GI___signbit, __signbit"
+		aliases = "__signbit"
 		type = "func"
 		size = "24"
 		objfiles = "s_signbit@libm.a"
@@ -22935,7 +22935,7 @@ rule __signbit_0535d46c4386d340c849bfe1c63e80b6 {
 
 rule __finite_2bd2b6ddda3343f0505b4fe5302bf20b {
 	meta:
-		aliases = "__GI___finite, __finite"
+		aliases = "__finite"
 		type = "func"
 		size = "32"
 		objfiles = "s_finite@libm.a"
@@ -22947,7 +22947,7 @@ rule __finite_2bd2b6ddda3343f0505b4fe5302bf20b {
 
 rule __isinf_6c5a12c75b9dcb1ddee8160c1a800b1b {
 	meta:
-		aliases = "__GI___isinf, __isinf"
+		aliases = "__isinf"
 		type = "func"
 		size = "60"
 		objfiles = "s_isinf@libm.a"
@@ -22959,7 +22959,7 @@ rule __isinf_6c5a12c75b9dcb1ddee8160c1a800b1b {
 
 rule fabs_bbe97b4b0399425068de9e663bce142e {
 	meta:
-		aliases = "__GI_fabs, fabs"
+		aliases = "fabs"
 		type = "func"
 		size = "40"
 		objfiles = "s_fabs@libm.a"
@@ -22971,7 +22971,7 @@ rule fabs_bbe97b4b0399425068de9e663bce142e {
 
 rule round_5af14888c4a1660f23ba23e44be91c01 {
 	meta:
-		aliases = "__GI_round, round"
+		aliases = "round"
 		type = "func"
 		size = "316"
 		objfiles = "s_round@libm.a"
@@ -22983,7 +22983,7 @@ rule round_5af14888c4a1660f23ba23e44be91c01 {
 
 rule rint_f24b97e21a7bf86ccc029deb3fcc451d {
 	meta:
-		aliases = "__GI_rint, rint"
+		aliases = "rint"
 		type = "func"
 		size = "380"
 		objfiles = "s_rint@libm.a"
@@ -22995,7 +22995,7 @@ rule rint_f24b97e21a7bf86ccc029deb3fcc451d {
 
 rule ceil_58c10b80d6fa5093c3c7e19cee705689 {
 	meta:
-		aliases = "__GI_ceil, ceil"
+		aliases = "ceil"
 		type = "func"
 		size = "352"
 		objfiles = "s_ceil@libm.a"
@@ -23007,7 +23007,7 @@ rule ceil_58c10b80d6fa5093c3c7e19cee705689 {
 
 rule floor_de5534abd2c0e6f364a6642d88cfba64 {
 	meta:
-		aliases = "__GI_floor, floor"
+		aliases = "floor"
 		type = "func"
 		size = "356"
 		objfiles = "s_floor@libm.a"
@@ -23919,7 +23919,7 @@ rule pex_unix_cleanup_0bef97bac983f8addfdedda1bab9d602 {
 
 rule fma_7a5b13d1ad4ead220f4c8985452d55e5 {
 	meta:
-		aliases = "__GI_fma, fma"
+		aliases = "fma"
 		type = "func"
 		size = "8"
 		objfiles = "s_fma@libm.a"
@@ -23931,7 +23931,7 @@ rule fma_7a5b13d1ad4ead220f4c8985452d55e5 {
 
 rule exp2_97cf3ea3fbac732757b34e27577d6e65 {
 	meta:
-		aliases = "__GI_exp2, exp2"
+		aliases = "exp2"
 		type = "func"
 		size = "16"
 		objfiles = "w_exp2@libm.a"
