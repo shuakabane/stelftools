@@ -765,9 +765,24 @@ def fetch_opecodes(f, arfile = '', exapis = []):
                     textsec[t_sec][_fmt_offset:_fmt_offset+4] = ['E?', '??', '??', '??']
                 elif textsec[t_sec][_fmt_offset:_fmt_offset+4] == ['67', '00', '03', '00']: # bgeu instruction
                     textsec[t_sec][_fmt_offset:_fmt_offset+4] = ['67', '??', '??', '??']
+
+    # dbg
+    exclude_alias_list = []
+    f_info_dict = {}
+    for sym in symtab.iter_symbols():
+        if sym.name == '':
+            continue
+        for _f_key, _f_value in f_info_dict.items():
+            if _f_value == {'value':sym['st_value'], 'size':sym['st_size'], 'st_shndx':sym['st_shndx']}:
+                exclude_alias_list.append(max([_f_key, sym.name], key=len))
+        f_info_dict[sym.name] = {'value':sym['st_value'], 'size':sym['st_size'], 'st_shndx':sym['st_shndx']}
+    #print(exclude_alias_list)
+
     # ppc64 custom
     if opd_flag == False:
         for sym in symtab.iter_symbols():
+            if sym.name in exclude_alias_list: # exclude long alias
+                continue
             if sym.name in exapis:
                 continue
             if e['e_machine'] == 'EM_RISCV' and sym.name in ['_nl_locale_subfreeres', '__libc_freeres_fn']:
