@@ -106,8 +106,8 @@ def analy_symtab(e, fname, symtab_list, reltab_dict):
         for rel in section.iter_relocations():
             if rel['r_info_type'] == 16: # R_386_TLS_GOTIE
                 continue
-            #callee = del_alias_funcname(symbols.get_symbol(rel.entry['r_info_sym']).name)
-            callee = symbols.get_symbol(rel.entry['r_info_sym']).name
+            callee = del_alias_funcname(symbols.get_symbol(rel.entry['r_info_sym']).name)
+            #callee = symbols.get_symbol(rel.entry['r_info_sym']).name
             if start <= rel['r_offset'] <= end and len(callee):
                 r_offset = rel['r_offset'] - start
                 _object_rel_info_list.append([callee, r_offset])
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     # format arg
     parser = argparse.ArgumentParser(prog = sys.argv[0])
     parser.add_argument('files', nargs = '+', help = 'File name of archive, object, executable file')
-    parser.add_argument('--output', '-o', choices = ['stdout', 'dot', 'graph', 'no'], default = 'no', help = 'output function dependency')
+    parser.add_argument('--output', '-o', choices = ['stdout', 'dot', 'graph', 'no'], default = 'stdout', help = 'output function dependency')
     args = parser.parse_args()
     # make depend_list
     depend_list = {}
