@@ -1118,19 +1118,6 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
             exit(1)
         return depend_data
 
-    #def caller_base_name_filter(functions, call_map, depend_list, alias_list):
-    #    print('---')
-    #    static_lib_depend_info = {}
-    #    static_lib_func_list = sorted([ depend_info[0] for depend_info in depend_list] )
-
-    #    for static_lib_func in static_lib_func_list:
-    #        print(static_lib_func)
-    #        print( [ depend_info[1] for depend_info in depend_list if depend_info[0] == static_lib_func ] )
-
-    #    #for depend_info in depend_list:
-    #    #    print(depend_info)
-    #    #    print(depend_info[0])
-
     def caller_base_name_filter(functions, call_map, depend_data, alias_list):
         matched_func_num = 0
         for key, value in functions.items():
@@ -1138,6 +1125,7 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                 for opecode_addr, inst_size, operand_callee_addr in call_map:
                     if int(key) <= int(opecode_addr) <= int(key)+int(functions[key]['size']):
                         for caller_alias, callee, offset in depend_data:
+                            #print(caller_alias, callee, offset)
                             _caller_func_len = len(value['names'])
                             if len(set(value['names']) & set(caller_alias)) == _caller_func_len \
                                     or _caller_func_len == 1 and value['names'][0] == caller_alias[0]:
@@ -1151,9 +1139,10 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                                 if call_offset_start <= int(offset) < call_offset_end:
                                     # get all callee alias
                                     functions_callee_aliases = get_func_name_list_alias_list(functions_callee, alias_list)
+                                    #print(functions_callee, callee, functions_callee_aliases)
                                     #if callee in functions_callee and len(functions_callee) > 1:
                                     if callee in functions_callee_aliases and len(functions_callee) > 1:
-                                        # print('[matched : caller base] (%s) : %s => %s' % \
+                                        # print('[matched! : caller base] (%s) : %s => %s' % \
                                         #         ( \
                                         #         hex(operand_callee_addr), \
                                         #         functions[operand_callee_addr]['names'], \
@@ -1162,18 +1151,6 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                                         functions[operand_callee_addr]['names'] = [callee]
                                         matched_func_num = matched_func_num + 1
         return functions, matched_func_num
-    #def caller_base_name_filter(functions, call_map, depend_list, alias_list):
-    #    print('---')
-    #    static_lib_depend_info = {}
-    #    static_lib_func_list = sorted([ depend_info[0] for depend_info in depend_list] )
-
-    #    for static_lib_func in static_lib_func_list:
-    #        print(static_lib_func)
-    #        print( [ depend_info[1] for depend_info in depend_list if depend_info[0] == static_lib_func ] )
-
-    #    #for depend_info in depend_list:
-    #    #    print(depend_info)
-    #    #    print(depend_info[0])
 
     def callee_base_name_filter(functions, call_map, depend_data, alias_list):
         matched_func_num = 0
@@ -1256,7 +1233,7 @@ def id_func_name_for_depend(functions, call_map, depend_path, alias_list):
                         for alias in alias_list:
                             if len(matched_func_list) ==  len(set(matched_func_list) & set(alias)):
                                 matched_func_list = [min(alias, key=len)]
-                    #print('[matched : callee base] (%s) : %s -> %s' % (hex(multi_addr), functions[multi_addr]['names'], matched_func_list))
+                    #print('[matched! : callee base] (%s) : %s -> %s' % (hex(multi_addr), functions[multi_addr]['names'], matched_func_list))
                     functions[multi_addr]['names'] = matched_func_list
         return functions, matched_func_num
 
@@ -1319,11 +1296,15 @@ def multiple_consecutive_candidate_filt(functions, link_order_list, alias_list):
                         for count_i in range(next_i):
                             if len(functions[libfunc_addr_list[i+count_i]]['names']) == 1:
                                 continue
-                            # print('[matched : additional func link order] (%s) %s -> %s' % ( \
-                            #         hex(libfunc_addr_list[i+count_i]), \
-                            #         functions[libfunc_addr_list[i+count_i]]['names'], \
-                            #         link_order_list[s_multi_func_name_alias_index+count_i]))
-                            functions[libfunc_addr_list[i+count_i]]['names'] = [link_order_list[s_multi_func_name_alias_index+count_i]]
+                            detect_fname = link_order_list[s_multi_func_name_alias_index+count_i]
+                            for _alias in alias_list:
+                                if detect_fname in _alias:
+                                    detect_fname = min(_alias, key=len)
+                            #print('[matched : additional func link order] (%s) %s -> %s' % ( \
+                            #        hex(libfunc_addr_list[i+count_i]), \
+                            #        functions[libfunc_addr_list[i+count_i]]['names'], \
+                            #        detect_fname))
+                            functions[libfunc_addr_list[i+count_i]]['names'] = [detect_fname]
     return functions
 
 
@@ -1486,6 +1467,7 @@ if __name__ == '__main__':
         if id_l_num == id_d_num == 0:
             break
         id_loop_count += 1
+
     if link_order_flag == True and alias_flag == True:
         functions = multiple_consecutive_candidate_filt(functions, link_order_list, alias_list)
     # save checked target dump info
