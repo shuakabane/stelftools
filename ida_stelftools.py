@@ -81,7 +81,10 @@ def func_ident(tc_cfg_path):
     target = get_target_fp(target_path) # target
     bin_target = target.read()
     # get symbol table information
-    symtab_info = get_symtab_info(target_path) # get vaddr
+    try:
+        symtab_info = get_symtab_info_by_capstone(target_path) # get vaddr
+    except exceptions.ELFParseError as e:
+        symtab_info = get_symtab_info_by_reaelf(target_path) # get vaddr
     base_vaddr = symtab_info[0][2]
     # get function call information
     call_map, top_inst_addr, bot_inst_addr  = get_func_addr(target, base_vaddr)
@@ -122,11 +125,12 @@ def func_ident(tc_cfg_path):
     #identifying the function name
     id_loop_count = 0
     exclude_func_list = []
+    # identifying the function name based on the link order
     while True:
         # identifying the function name based on the link order
         id_l_num = 0
         if linkorder_flag == True:
-            functions, id_l_num = id_func_name_for_linkorder(\
+            functions, id_l_num, link_order_list = id_func_name_for_linkorder(\
                     functions, target_path, compiler_path, \
                     alias_list, call_map, id_loop_count, exclude_func_list \
                     )
@@ -139,8 +143,7 @@ def func_ident(tc_cfg_path):
         if id_l_num == id_d_num == 0:
             break
         id_loop_count += 1
-    else:
-        print("cannot access the compiler for the given toolchain : %s" % compiler_path, file=sys.stderr)
+
     # save checked target dump info
     targets_info = {'name' : target_path, \
             'functions' : functions, \
