@@ -61,27 +61,30 @@ def func_ident(tc_cfg_path):
     alias_list_path  = STELFTOOLS_PATH + tc_cfg_info['alias_list_path']
     depend_list_path = STELFTOOLS_PATH + tc_cfg_info['dependency_list_path']
 
-    alias_list_flag = False
+    alias_flag = False
     linkorder_flag = False
     depend_flag = False
 
     if os.path.exists(alias_list_path) == True:
         alias_flag = True
     if os.path.exists(compiler_path) == True:
-        link_order_flag = True
+        linkorder_flag = True
     if os.path.exists(depend_list_path) == True:
-        dependency_flag = True
+        depend_flag = True
 
     print("delete alias :", alias_flag)
-    print("function name identification by link order :", link_order_flag)
-    print("function name identification by dependency :", dependency_flag)
+    print("function name identification by link order :", linkorder_flag)
+    print("function name identification by dependency :", depend_flag)
 
     start_rule_length = arch_pattern_length(target_arch)
 
     target = get_target_fp(target_path) # target
     bin_target = target.read()
     # get symbol table information
-    symtab_info = get_symtab_info(target_path) # get vaddr
+    try:
+        symtab_info = get_symtab_info_by_capstone(target_path) # get vaddr
+    except exceptions.ELFParseError as e:
+        symtab_info = get_symtab_info_by_reaelf(target_path) # get vaddr
     base_vaddr = symtab_info[0][2]
     # get function call information
     call_map, top_inst_addr, bot_inst_addr  = get_func_addr(target, base_vaddr)
@@ -122,25 +125,25 @@ def func_ident(tc_cfg_path):
     #identifying the function name
     id_loop_count = 0
     exclude_func_list = []
+    # identifying the function name based on the link order
     while True:
         # identifying the function name based on the link order
         id_l_num = 0
-        if link_order_flag == True:
-            functions, id_l_num = id_func_name_for_linkorder(\
+        if linkorder_flag == True:
+            functions, id_l_num, link_order_list = id_func_name_for_linkorder(\
                     functions, target_path, compiler_path, \
                     alias_list, call_map, id_loop_count, exclude_func_list \
                     )
         # identifying the function name based on the dependency
         id_d_num = 0
-        if dependency_flag == True:
+        if depend_flag == True:
             functions, id_d_num = id_func_name_for_depend( \
                     functions, call_map, depend_list_path, alias_list \
                     )
         if id_l_num == id_d_num == 0:
             break
         id_loop_count += 1
-    else:
-        print("cannot access the compiler for the given toolchain : %s" % compiler_path, file=sys.stderr)
+
     # save checked target dump info
     targets_info = {'name' : target_path, \
             'functions' : functions, \
