@@ -1,0 +1,3 @@
+syscall 400500 f
+__syscall_error 400570 f
+__errno_location 4005c0 f
