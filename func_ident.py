@@ -1385,15 +1385,15 @@ if __name__ == '__main__':
         alias_list_path  = STELFTOOLS_PATH + cfg_info['alias_list_path']
         depend_list_path = STELFTOOLS_PATH + cfg_info['dependency_list_path']
         # set flag
-        alias_list_flag = False
-        link_order_flag = False
+        alias_flag = False
+        linkorder_flag = False
         depend_flag = False
         if os.path.exists(alias_list_path) == True:
             alias_flag = True
         if os.path.exists(compiler_path) == True:
-            link_order_flag = True
+            linkorder_flag = True
         if os.path.exists(depend_list_path) == True:
-            dependency_flag = True
+            depend_flag = True
     elif args.yara != None:
         target_path = args.target
         target_arch = args.arch
@@ -1453,14 +1453,14 @@ if __name__ == '__main__':
     while True:
         # identifying the function name based on the link order
         id_l_num = 0
-        if link_order_flag == True:
+        if linkorder_flag == True:
             functions, id_l_num, link_order_list = id_func_name_for_linkorder(\
                     functions, target_path, compiler_path, \
                     alias_list, call_map, id_loop_count, exclude_func_list \
                     )
         # identifying the function name based on the dependency
         id_d_num = 0
-        if dependency_flag == True:
+        if depend_flag == True:
             functions, id_d_num = id_func_name_for_depend( \
                     functions, call_map, depend_list_path, alias_list \
                     )
@@ -1468,7 +1468,7 @@ if __name__ == '__main__':
             break
         id_loop_count += 1
 
-    if link_order_flag == True and alias_flag == True:
+    if linkorder_flag == True and alias_flag == True:
         functions = multiple_consecutive_candidate_filt(functions, link_order_list, alias_list)
     # save checked target dump info
     targets_info = {'name' : target_path, \
