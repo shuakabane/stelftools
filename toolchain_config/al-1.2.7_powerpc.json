@@ -1,6 +1,6 @@
 {
   "name" : "al-1.2.7_powerpc",
-  "arch" : "powerpc",
+  "arch" : "ppc",
   "yara_path" : "yara-patterns/al-1.2.7_powerpc.yara",
   "compiler_path" : "",
   "alias_list_path" : "_tmpdir/alias_list/al-1.2.7_powerpc.alist",
