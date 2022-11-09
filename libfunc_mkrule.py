@@ -127,6 +127,7 @@ def fetch_opecodes(f, arfile = '', exapis = []):
     # analyze relocation sections
     relnames = ['.rel' + x for x in textsec.keys()]
     relnames += ['.rela' + x for x in textsec.keys()]
+    #print(relnames)
 
     for sec in e.iter_sections():
         if not sec['sh_type'] in ['SHT_REL', 'SHT_RELA']:
@@ -176,7 +177,7 @@ def fetch_opecodes(f, arfile = '', exapis = []):
                 # ref) https://docs.oracle.com/cd/E19683-01/817-3677/chapter8-1/index.html
                 elif rtype in [0x0f, 0x10, 0x2b]:
                     if textsec[name][offset - 1] == 'A1':
-                        textsec[name][offset - 1:offset + 4] = ['( A1 | B8 | B9 | BA | BB | BC | BD | BE | BF )', '??', '??', '??', '??'] # al-1.2.4-i586, centos-5.4-i386
+                        textsec[name][offset - 1:offset + 4] = ['( A1 | B? )', '??', '??', '??', '??'] # al-1.2.4-i586, centos-5.4-i386
                     elif textsec[name][offset - 2] == '8B':
                         textsec[name][offset - 2:offset + 4] = ['( 8B | C7 )', '??', '??', '??', '??', '??']
                     elif textsec[name][offset - 2] == '03': # 03 15 00 00 00 00: add reg, ds:[0x0] --> 81 C? 00 00 00 00: add reg, 0xffffff?? # centos-5.4-i586
@@ -769,19 +770,26 @@ def fetch_opecodes(f, arfile = '', exapis = []):
     # dbg
     exclude_alias_list = []
     f_info_dict = {}
+    _offset_list = []
+    _offset_idx = 0
     for sym in symtab.iter_symbols():
         if sym.name == '':
             continue
-        for _f_key, _f_value in f_info_dict.items():
-            if _f_value == {'value':sym['st_value'], 'size':sym['st_size'], 'st_shndx':sym['st_shndx']}:
-                exclude_alias_list.append(max([_f_key, sym.name], key=len))
-        f_info_dict[sym.name] = {'value':sym['st_value'], 'size':sym['st_size'], 'st_shndx':sym['st_shndx']}
-    #print(exclude_alias_list)
+        #print('-')
+        if sym['st_info']['type'] == "STT_FUNC":
+            #print("%s: 0x%X %d %s " % ( sym.name, sym['st_value'], sym['st_size'], sym['st_shndx']) )
+            _offset_list.append(sym['st_value'])
+            for _f_key, _f_value in f_info_dict.items():
+                if _f_value == {'value':sym['st_value'], 'size':sym['st_size'], 'st_shndx':sym['st_shndx']}:
+                    exclude_alias_list.append(max([_f_key, sym.name], key=len))
+            f_info_dict[sym.name] = {'value':sym['st_value'], 'size':sym['st_size'], 'st_shndx':sym['st_shndx']}
+    _offset_list = sorted(set(_offset_list))
 
     # ppc64 custom
     if opd_flag == False:
         for sym in symtab.iter_symbols():
             if sym.name in exclude_alias_list: # exclude long alias
+                #print(sym.name)
                 continue
             if sym.name in exapis:
                 continue
@@ -844,9 +852,19 @@ def fetch_opecodes(f, arfile = '', exapis = []):
             baseaddr = target_sec.header['sh_addr']
 
             # because there are functions whose size is set to zero, but its size is not zero.
+            #print(target_sec.name, sym.name, sym['st_value'], textsec[target_sec.name])
             if sym['st_size'] == 0:
                 # TODO: check valid length of the function
-                opecodes = textsec[target_sec.name][sym['st_value'] - baseaddr:]
+                _offset_idx += 1
+                try:
+                    _top = sym['st_value'] - baseaddr
+                    _bot = _offset_list[_offset_idx]
+                    #print('a', _top, _bot)
+                except IndexError:
+                    _top = sym['st_value'] - baseaddr
+                    _bot = _top + len(textsec[target_sec.name][sym['st_value'] - baseaddr: ])
+                    #print('b', _top, _bot)
+                opecodes = textsec[target_sec.name][_top:_bot]
                 size = len(opecodes)
             else:
                 #print(sym['st_value'], baseaddr)
@@ -1108,7 +1126,7 @@ if __name__ == '__main__':
     tab = {}
     crt_tab = {}
 
-    EXCLUDE_OBJ_FILES = ['Scrt1.o', 'rcrt1.o', 'crtbegin.o', 'crtbeginS.o', 'crtendS.o']
+    EXCLUDE_OBJ_FILES = []#['Scrt1.o', 'rcrt1.o', 'crtbegin.o', 'crtbeginS.o', 'crtendS.o']
 
     for filename in args.files:
         # skip dynamic link object
