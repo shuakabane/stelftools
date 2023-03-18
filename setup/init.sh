@@ -7,6 +7,7 @@ sed -i "s/STELFTOOLS_PATH=\"\/path\/to\/stelftools\/\"/STELFTOOLS_PATH=\"$CURREN
 sed -i "s/STELFTOOLS_PATH=\"\/path\/to\/stelftools\/\"/STELFTOOLS_PATH=\"$CURRENT_PATH\/\"/g" DubMaker.py
 sed -i "s/STELFTOOLS_PATH=\"\/path\/to\/stelftools\/\"/STELFTOOLS_PATH=\"$CURRENT_PATH\/\"/g" libfunc_info_create.py
 sed -i "s/STELFTOOLS_PATH=\"\/path\/to\/stelftools\/\"/STELFTOOLS_PATH=\"$CURRENT_PATH\/\"/g" ida_stelftools.py
+sed -i "s/STELFTOOLS_PATH=\"\/path\/to\/stelftools\/\"/STELFTOOLS_PATH=\"$CURRENT_PATH\/\"/g" r2_stelftools.py
 # install the python3 package
 pip3 install yara-python
 pip3 install capstone
