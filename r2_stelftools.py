@@ -2,7 +2,7 @@ import r2pipe, sys, subprocess, os
 from termcolor import colored
 from pyfzf.pyfzf import FzfPrompt
 
-STELFTOOLS_PATH="/home/lilium/src/github.com/n01e0/stelftools/"
+STELFTOOLS_PATH="/path/to/stelftools/"
 STELFTOOLS_TOOLCHAIN_PATH = STELFTOOLS_PATH + 'toolchain_config/'
 
 def createR2Pipe():
