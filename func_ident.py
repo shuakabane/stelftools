@@ -357,9 +357,11 @@ def objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_
     target_path = target.name
     # objdump path
     if t_arch in ['EM_ARC_COMPACT']:
+        #Set the path of objdump that supports the arc architecture.
         OBJDUMP_PATH = \
                 "/path/to/arc objdump"
     elif t_arch in ['EM_SH']:
+        #Set the path of objdump that supports the sh4 architecture.
         OBJDUMP_PATH = \
                 "/path/to/sh4 objdump"
     objdump_res = subprocess.run([OBJDUMP_PATH, '-d', target_path], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -554,7 +556,6 @@ def get_symtab_info_by_capstone(target):
     return symtab_info
 
 def get_symtab_info_by_reaelf(target):
-    print('a')
     symtab_info = []
     arch = os.popen('LANG=CC readelf -h ' + target + ' 2> /dev/null | grep Machine | tr -s " " | cut -f2 -d:').read().strip() # TODO: do not use readelf
     bit = os.popen('LANG=CC readelf -h ' + target + ' 2> /dev/null | grep Class | tr -s " " | cut -f2 -d:').read().strip() # TODO: do not use readelf
