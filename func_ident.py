@@ -628,22 +628,6 @@ def yara_matching(rules, target):
     data = _get_target_data(target)
     yara.set_config(max_match_data=MAX_PATTERN_LENGTH)
     match_res = rules.match(data=data)
-    # # dbg
-    # for m in match_res:
-    #     print('-')
-    #     print(m.rule)
-    #     #print(type(m.strings))
-    #     for strs_m in m.strings:
-    #         print(strs_m, ':', type(strs_m))
-    #         print(strs_m.instances)
-    #         for strs_m_inst in strs_m.instances:
-    #             print(type(strs_m_inst))
-    #             print('matched_data:  ', strs_m_inst.matched_data)
-    #             print('matched_length:', strs_m_inst.matched_length)
-    #             print('offset:', strs_m_inst.offset)
-    #             print('xor_key:', strs_m_inst.xor_key)
-    #             print('plaintext:', strs_m_inst.plaintext)
-    # exit(-1)
     return match_res
 
 def _get_target_data(f):
