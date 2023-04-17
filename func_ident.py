@@ -1327,28 +1327,28 @@ def arch_pattern_length(arch):
             'armv6-eabihf', 'armv6l', \
             'armv7-eabihf', 'armv7l', 'armv7m' \
             ]:
-        length = 8
-    elif arch in ['x86', 'x86-i686', 'i386', 'i486', 'i586', 'i686']:
-        length = 8
+        length = 4
+    elif arch in ['x86', 'x86-i686', 'i386', 'i486', 'i586', 'i686', 'x86-core2', '80386']:
+        length = 4
     elif arch in ['mips', 'mips32', 'mipsel', 'mips32el']:
         length = 9
     elif arch in ['mips64', 'mips64el']:
         length = 9
     elif arch in ['ppc', 'powerpc', 'powerpc-440fp', 'powerpc-e300c3', 'powerpc-e500mc']:
         length = 8
-    elif arch in ['ppc64', 'powerpc64']:
+    elif arch in ['ppc64', 'powerpc64', 'powerpc64-e6500', 'powerpc64-pwoer8']:
         length = 16
-    elif arch in ['risc-v-32', 'risc-v-64']:
+    elif arch in ['risc-v', 'riscv', 'risc-v-32', 'risc-v-64']:
         length = 9
     elif arch in ['sparc', 'sparc64']:
         length = 9
-    elif arch in ['x86_64', 'x86-core2']:
+    elif arch in ['x86_64', 'x86-64', 'x86-64-core-i7']:
         length = 8
     elif arch in ['arc']:
-        length = 6
+        length = 4
     elif arch in ['sh4']:
         length = 4
-    elif arch in ['m68k', 'm68000']:
+    elif arch in ['m68k', 'm68k-q800', 'm68k-mcf', 'm68k-mcf5208', 'm68000']:
         length = 4
     return length
 
