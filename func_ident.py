@@ -17,7 +17,7 @@ from elftools.common import exceptions
 
 import DubMaker
 
-STELFTOOLS_PATH="/path/to/stelftools/"
+STELFTOOLS_PATH="/home/akabane/research/remote/stelftools/"
 
 INIT_CRT_FUNC_LIST = ['__init', '_init', '.init', \
         '_start', '_start_c', '__start', 'hlt', '__gmon_start__', 'set_fast_math', \
@@ -581,46 +581,69 @@ def get_symtab_info_by_reaelf(target):
 
 def format_match_res(match_res, symtab_info, risc_v_flag):
     functions = {}
+    #print(match_res)
     for m in match_res:
-        for addr, _, match_ptn in m.strings:
-            match_ptn_size = len(match_ptn)
-            if int(m.meta['size']) > MAX_PATTERN_LENGTH or risc_v_flag == False:
-                match_ptn_size = int(m.meta['size'])
-            for begin, end, vaddr in symtab_info:
-                if begin <= addr < end or begin == end == 0:
-                    addr += vaddr
-                    # fix risc-v relaxation size
-                    if 'hex_only_num' in m.meta.keys() and (match_ptn_size % 4) != 0:
-                        match_ptn_size = (match_ptn_size // 4) * 4
-                        #match_ptn_size = (match_ptn_size // 4) * 4 + 4
-                    if addr in functions:
-                        # exclude risc-v mismatch many relaxation function
-                        if 'hex_only_num' in m.meta.keys():
-                            if match_ptn_size > int(m.meta['hex_only_num']):
-                                continue
-                        if functions[addr]['size'] < match_ptn_size: # overwrite big func info
-                            functions[addr]['names'] = [x for x in m.meta['aliases'].split(', ')]
-                            functions[addr]['size'] = match_ptn_size
-                            functions[addr]['detected'] = True
-                        elif functions[addr]['size'] == match_ptn_size:
-                            functions[addr]['names'].extend([x for x in m.meta['aliases'].split(', ')])
-                    else:
-                        #if 'hex_only_num' in m.meta.keys():
-                        #    if int(m.meta['hex_only_num']) % 4 != 0:
-                        #        match_ptn_size = (int(m.meta['hex_only_num']) // 4) * 4 + 4
-                        functions[addr] = { \
-                                'names': [x for x in m.meta['aliases'].split(', ')], \
-                                'size' : match_ptn_size, \
-                                'detected' : True, \
-                                'category' : 'library function'
-                                }
-            #print(hex(addr), match_ptn_size, ':', m.meta, functions[addr])
+        ##if yara-python <= 4.2.3
+        #for addr, _, match_ptn in m.strings:
+        # else yara-python > 4.2.3
+        # document: https://yara.readthedocs.io/en/v4.3.0/yarapython.html
+        for strs_m in m.strings:
+            for strs_m_inst in strs_m.instances:
+                addr = strs_m_inst.offset
+                match_len = strs_m_inst.matched_length
+                if int(m.meta['size']) > MAX_PATTERN_LENGTH or risc_v_flag == False:
+                    matched_len = int(m.meta['size'])
+                for begin, end, vaddr in symtab_info:
+                    if begin <= addr < end or begin == end == 0:
+                        addr += vaddr
+                        # fix risc-v relaxation size
+                        if 'hex_only_num' in m.meta.keys() and (matched_len % 4) != 0:
+                            matched_len = (matched_len // 4) * 4
+                            #matched_len = (matched_len // 4) * 4 + 4
+                        if addr in functions:
+                            # exclude risc-v mismatch many relaxation function
+                            if 'hex_only_num' in m.meta.keys():
+                                if matched_len > int(m.meta['hex_only_num']):
+                                    continue
+                            if functions[addr]['size'] < matched_len: # overwrite big func info
+                                functions[addr]['names'] = [x for x in m.meta['aliases'].split(', ')]
+                                functions[addr]['size'] = matched_len
+                                functions[addr]['detected'] = True
+                            elif functions[addr]['size'] == matched_len:
+                                functions[addr]['names'].extend([x for x in m.meta['aliases'].split(', ')])
+                        else:
+                            #if 'hex_only_num' in m.meta.keys():
+                            #    if int(m.meta['hex_only_num']) % 4 != 0:
+                            #        matched_len = (int(m.meta['hex_only_num']) // 4) * 4 + 4
+                            functions[addr] = { \
+                                    'names': [x for x in m.meta['aliases'].split(', ')], \
+                                    'size' : matched_len, \
+                                    'detected' : True, \
+                                    'category' : 'library function'
+                                    }
+            #print(hex(addr), matched_len, ':', m.meta, functions[addr])
     return functions
 
 def yara_matching(rules, target):
     data = _get_target_data(target)
     yara.set_config(max_match_data=MAX_PATTERN_LENGTH)
     match_res = rules.match(data=data)
+    # # dbg
+    # for m in match_res:
+    #     print('-')
+    #     print(m.rule)
+    #     #print(type(m.strings))
+    #     for strs_m in m.strings:
+    #         print(strs_m, ':', type(strs_m))
+    #         print(strs_m.instances)
+    #         for strs_m_inst in strs_m.instances:
+    #             print(type(strs_m_inst))
+    #             print('matched_data:  ', strs_m_inst.matched_data)
+    #             print('matched_length:', strs_m_inst.matched_length)
+    #             print('offset:', strs_m_inst.offset)
+    #             print('xor_key:', strs_m_inst.xor_key)
+    #             print('plaintext:', strs_m_inst.plaintext)
+    # exit(-1)
     return match_res
 
 def _get_target_data(f):
