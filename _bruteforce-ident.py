@@ -19,6 +19,9 @@ def get_lief_bin_arch(target_path):
     t_arch_list = []
     _bin = lief.parse(target_path)
     _bin_arch = str(_bin.header.machine_type)
+    _bin_iclass = str(_bin.header.identity_class)
+    _bin_idata = str(_bin.header.identity_data)
+
     if _bin_arch == 'ARCH.AARCH64':
         t_arch_list = ['arm64', 'AARCH64']
     elif _bin_arch == 'ARCH.ARM':
@@ -28,7 +31,16 @@ def get_lief_bin_arch(target_path):
     elif _bin_arch == 'ARCH.ARCH_68K':
         t_arch_list = ['m68k']
     elif _bin_arch == 'ARCH.MIPS':
-        t_arch_list = ['mips', 'mips32', 'mips64', 'mipsel', 'mips32el', 'mips64el']
+        if _bin_iclass == str('ELF_CLASS.CLASS32'):
+            if _bin_idata == str('ELF_DATA.LSB'):
+                t_arch_list = ['mipsel', 'mips32el']
+            else
+                t_arch_list = ['mips', 'mips32']
+        else:
+            if _bin_idata == str('ELF_DATA.LSB'):
+                t_arch_list = ['mips64el']
+            else:
+                t_arch_list = ['mips64']
     elif _bin_arch == 'ARCH.PPC':
         t_arch_list = ['powerpc', 'powerpc-440fp', 'powerpc-e300c3', 'powerpc-e500mc', 'ppc']
     elif _bin_arch == 'ARCH.PPC64':
