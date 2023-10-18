@@ -92,7 +92,7 @@ To make a symblic link in the IDA's plugin directory to stelftools.
 ##### Library Function Identification
 
 ```bash
-python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target /path/to/target
+python3 ./func_ident.py -cfg ./toolchain_config/{name of toolchain}.json -target {path to target binary}
 ```
 - -cfg: the config file for a toolchain 
   - *Recommendation*
@@ -183,6 +183,18 @@ python3 ./libfunc_info_create.py -name {toolchain name} -tp {toolchain directory
 - -tp: the path of the toolchain directory (additional)
 - -cp: the path of the compiler of a toolchain
 - -arch: the architecture of a toolchain
+
+
+##### Toolchain identification
+
+Even if the toolchain used in the sample build is unknown, it may be possible to identify the toolchain using brute-force. 
+
+```bash
+python3 _bruteforce-ident.py -target {path to target binary} 
+  or 
+python3 _bruteforce-ident.py -arch AUTO -target {path to target binary} 
+```
+
 
 #### IDA plugin mode  
 
