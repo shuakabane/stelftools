@@ -7,8 +7,6 @@ import argparse
 import subprocess
 import lief
 
-STELFTOOLS_PATH="/path/to/stelftools/"
-
 def set_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-arch', help = 'input the architecture of the toolchain to brute force')
