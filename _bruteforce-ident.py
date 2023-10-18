@@ -34,7 +34,7 @@ def get_lief_bin_arch(target_path):
         if _bin_iclass == str('ELF_CLASS.CLASS32'):
             if _bin_idata == str('ELF_DATA.LSB'):
                 t_arch_list = ['mipsel', 'mips32el']
-            else
+            else:
                 t_arch_list = ['mips', 'mips32']
         else:
             if _bin_idata == str('ELF_DATA.LSB'):
