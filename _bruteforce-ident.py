@@ -53,7 +53,7 @@ def get_lief_bin_arch(target_path):
         t_arch_list = ['sparc64']
     elif _bin_arch == 'ARCH.i386':
         t_arch_list = ['i386', 'i486', 'i586', 'i686', 'x86', 'x86-core2', 'x86-i686']
-    elif _bin_arch == 'ARCH.X86_64':
+    elif _bin_arch == 'ARCH.x86_64':
         t_arch_list = ['x86_64', 'amd64']
     else:
         print('[error] Unknown architecture %s : %s' % (_bin_arch, target_path))
