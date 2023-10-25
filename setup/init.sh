@@ -15,6 +15,7 @@ pip3 install pyelftools
 pip3 install python-magic
 pip3 install arpy
 pip3 install cxxfilt
+pip3 install lief
 # add directories to be used by scripts
 #mkdir ./_tmpdir
 mkdir ./_tmpdir/man_datasets
