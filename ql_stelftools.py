@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 ## Usage
-# python3 qi_stelftools.py /path/to/bin /path/to/result_of_libfunc_identification
+# python3 qi_stelftools.py -cfg {toolchain}.json -target /path/to/bin
+# or
+# python3 qi_stelftools.py -flist /path/to/result_of_libfunc_identification -target /path/to/bin
 
 STELFTOOLS_PATH="/path/to/stelftools/"
 STELFTOOLS_TOOLCHAIN_PATH = STELFTOOLS_PATH + "toolchain_config/"
