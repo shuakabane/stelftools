@@ -28,24 +28,35 @@ def arch_pattern_length(arch):
     length = 0
     if arch in ['aarch64']:
         length = 9
-    elif arch in ['arm']:
-        length = 8
-    elif arch in ['x86', 'i386', 'i486', 'i586', 'i686']:
-        length = 8
+    elif arch in ['arm', \
+            'armv4eb', 'armv4l', 'armv4tl', \
+            'armv5-eabi', 'armv5l', \
+            'armv6-eabihf', 'armv6l', \
+            'armv7-eabihf', 'armv7l', 'armv7m' \
+            ]:
+        length = 4
+    elif arch in ['x86', 'x86-i686', 'i386', 'i486', 'i586', 'i686', 'x86-core2', '80386']:
+        length = 4
     elif arch in ['mips', 'mips32', 'mipsel', 'mips32el']:
         length = 9
     elif arch in ['mips64', 'mips64el']:
         length = 9
-    elif arch in ['ppc']:
+    elif arch in ['ppc', 'powerpc', 'powerpc-440fp', 'powerpc-e300c3', 'powerpc-e500mc']:
         length = 8
-    elif arch in ['ppc64']:
+    elif arch in ['ppc64', 'powerpc64', 'powerpc64-e6500', 'powerpc64-pwoer8']:
         length = 16
-    elif arch in ['risc-v-32', 'risc-v-64']:
+    elif arch in ['risc-v', 'riscv', 'risc-v-32', 'risc-v-64']:
         length = 9
     elif arch in ['sparc', 'sparc64']:
         length = 9
-    elif arch in ['x86_64']:
+    elif arch in ['x86_64', 'x86-64', 'x86-64-core-i7']:
         length = 8
+    elif arch in ['arc']:
+        length = 4
+    elif arch in ['sh4']:
+        length = 4
+    elif arch in ['m68k', 'm68k-q800', 'm68k-mcf', 'm68k-mcf5208', 'm68000']:
+        length = 4
     return length
 
 def func_ident(tc_cfg_path):
@@ -95,7 +106,6 @@ def func_ident(tc_cfg_path):
         yara_rules, risc_v_flag = get_yara_rule(yara_path, 'func', _length) # rule
         # matching
         _match_res = yara_matching(yara_rules, target) # do matching
-        _match_res = yara_matching(yara_rules, target) # do matching
         # format matching result
         _functions = format_match_res(_match_res, symtab_info, risc_v_flag)
         #print('---')
@@ -110,10 +120,6 @@ def func_ident(tc_cfg_path):
     functions = del_mismatch(functions)
     # close target fp
     target.close()
-
-    #for _addr in sorted(functions.keys()):
-    #    print(hex(_addr), ':', functions[_addr])
-    #exit(-1)
 
     # function name identification
     # set function alias list
