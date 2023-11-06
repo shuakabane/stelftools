@@ -22,7 +22,7 @@ The figure below shows that `stelftools`(IDA plugin mode) recognizes many functi
   - SPARC / SPARC64
   - Intel 80386 / x86_64
 
-Moreover, we developed several heuristics based on our observation of compiler and linker behaviors into `stelftools` to reduce false detection. We then achieved the highest detection accuracy, i.e., 99.8%, compared to publicly available tools for statically-linked library function detection, such as IDA FLIRT [1], BinDiff [2], or rizzo [3].
+Moreover, we developed several heuristics based on our observation of compiler and linker behaviors into `stelftools` to reduce false detection. We then achieved the highest detection accuracy, i.e., 97.18%, compared to publicly available tools for statically-linked library function detection, such as IDA FLIRT [1], BinDiff [2], or rizzo [3].
 
 We can use `stelftools` as a command-line tool or a plugin for a reverse engineering tool of IDA and Ghidra. We believe it would be a best friend for practitioners to keep close with and use in their daily IoT malware analysis.
 
@@ -49,11 +49,11 @@ We can use `stelftools` as a command-line tool or a plugin for a reverse enginee
 ## Comparison with other function identification tools
 
 We have compared `stelftools` with other tools for statically-linked library function detection, IDA FLIRT [1], BinDiff [2], and rizzo [3], using the dataset composed of `150` malware samples. 
-The below table shows the results of the comparison. As you can see, `stelftools` achieves the highest detection accuracy indicating that it correctly detected 96% of the statically-linked functions used in the dataset.
+The below table shows the results of the comparison. As you can see, `stelftools` achieves the highest detection accuracy indicating that it correctly detected 97.18% of the statically-linked functions used in the dataset.
 
 | `stelftools` | IDA FLIRT | BinDiff | rizzo  |
 | ------------ | ----------| --------| -------|
-| 96.65%       | 90.59%    | 73.21%  | 85.25% |
+| 97.18%       | 91.79%    | 82.82%  | 81.56% |
 
 ## Requirement
 ### python3 package
