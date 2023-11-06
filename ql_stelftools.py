@@ -5,7 +5,6 @@
 # python3 qi_stelftools.py -flist /path/to/result_of_libfunc_identification -target /path/to/bin
 
 STELFTOOLS_PATH="/path/to/stelftools/"
-STELFTOOLS_TOOLCHAIN_PATH = STELFTOOLS_PATH + "toolchain_config/"
 QILING_PATH="/path/to/qiling/"
 
 import os
@@ -33,7 +32,7 @@ def set_args():
 
 def ident_lfunc(cfg_path, target_path):
     script_path = STELFTOOLS_PATH + 'func_ident.py'
-    tc_cfg_path = STELFTOOLS_TOOLCHAIN_PATH + cfg_path
+    tc_cfg_path = STELFTOOLS_PATH + cfg_path
     run_cmd = [ \
             'python3', script_path, \
             '-cfg', tc_cfg_path, \
