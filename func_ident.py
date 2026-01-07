@@ -233,6 +233,81 @@ def get_bin_arch(target):
             endian = 'big'
     return arch, bit, endian
 
+def _run_readelf_command(cmd):
+    try:
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True,
+            env={'LANG': 'C'},
+            check=False
+        )
+        if result.returncode == 0 and result.stdout:
+            return [line for line in result.stdout.strip().split('\n') if line]
+        return []
+    except Exception:
+        return []
+
+def _get_load_section_32bit(target_name):
+    cmd = [
+        'llvm-readelf-13', '-l', target_name,
+        '|', 'grep', 'LOAD',
+        '|', 'grep', 'R',
+        '|', 'grep', 'E',
+        '|', 'tr', '-s', ' ',
+        '|', 'cut', '-c2-'
+    ]
+    load_addr = _run_readelf_command(['sh', '-c', ' '.join(cmd)])
+    if load_addr:
+        return load_addr[0]
+    cmd = [
+        'readelf', '-l', target_name,
+        '|', 'grep', 'LOAD',
+        '|', 'grep', 'R',
+        '|', 'grep', 'E',
+        '|', 'tr', '-s', ' ',
+        '|', 'cut', '-c2-'
+    ]
+    load_addr = _run_readelf_command(['sh', '-c', ' '.join(cmd)])
+
+    return load_addr[0] if load_addr else None
+
+def _get_load_section_64bit(target_name):
+    cmd = [
+        'llvm-readelf-13', '-l', target_name,
+        '|', 'grep', '-A', '1', 'LOAD',
+        '|', 'grep', 'R E',
+        '|', 'tr', '-s', ' ',
+        '|', 'tr', '-d', r'\n',
+        '|', 'cut', '-c2-'
+    ]
+    load_addr = _run_readelf_command(['sh', '-c', ' '.join(cmd)])
+    if load_addr:
+        return load_addr[0]
+    cmd = [
+        'readelf', '-l', target_name,
+        '|', 'grep', '-A', '1', 'LOAD',
+        '|', 'cut', '-d:', '-f2-',
+        '|', 'cut', '-d-', '-f2-',
+        '|', 'grep', '-B', '1', '-e', 'R E', '-e', 'RWE',
+        '|', 'grep', '-v', '--',
+        '|', 'tr', '-s', ' ',
+        '|', 'cut', '-c2-',
+        '|', 'tr', '-s', r'\n', ' ',
+        '|', "sed", '-e', 's/LOAD/_/g'
+    ]
+    result = _run_readelf_command(['sh', '-c', ' '.join(cmd)])
+    if result:
+        sections = result[0].split('_')
+        return sections[1] if len(sections) > 1 else None
+    return None
+
+def _parse_load_address(load_addr, base_vaddr):
+    parts = load_addr.split()
+    top_inst_addr = int(parts[3], 16) - base_vaddr
+    bot_inst_addr = top_inst_addr + int(parts[4], 16)
+    return top_inst_addr, bot_inst_addr
+
 def get_inst_area(target, base_vaddr, t_bit):
     top_inst_addr = 0
     top_inst_addr = 0
@@ -260,31 +335,15 @@ def get_inst_area(target, base_vaddr, t_bit):
         #exit(-1)
     except exceptions.ELFParseError as e:
         None
-    if top_inst_addr == bot_inst_addr == 0:
-        if t_bit == 32:
-             _load_addr = os.popen('LANG=CC llvm-readelf-13 -l ' + target.name + \
-                     ' 2> /dev/null | grep "LOAD " | grep "R" | grep "E" | tr -s " " | cut -c2-' \
-                     ).read().split('\n')[:-1]
-             if _load_addr == []:
-                 _load_addr = os.popen('LANG=CC readelf -l ' + target.name + \
-                         ' 2> /dev/null | grep "LOAD " | grep "R" | grep "E" | tr -s " " | cut -c2-' \
-                         ).read().split('\n')[:-1]
-             load_addr = _load_addr[0]
-             top_inst_addr = int(load_addr.split(' ')[3], 16) - base_vaddr
-             bot_inst_addr = top_inst_addr + int(load_addr.split(' ')[4], 16)
-        elif t_bit == 64:
-             _load_addr = os.popen('LANG=CC llvm-readelf-13 -l ' + target.name + \
-                     ' 2> /dev/null | grep -A 1 "LOAD " | grep "R E" | tr -s " " | tr -d "\n" | cut -c2-' \
-                     ).read().split('\n')[:-1]
-             if _load_addr != []:
-                 load_addr =  _load_addr[0]
-             else:
-                 load_addr = os.popen('LANG=CC readelf -l ' + target.name + \
-                         ' 2> /dev/null | grep -A 1 "LOAD " | cut -d":" -f2- | cut -d"-" -f2- | grep -B 1 -e "R E" -e "RWE" | grep -v "\-\-" | tr -s " " | cut -c2- | tr -s "\n" " "' + " | sed -e 's/LOAD/_/g'" \
-                         ).read().split('_')[1]
 
-             top_inst_addr = int(load_addr.split(' ')[3], 16) - base_vaddr
-             bot_inst_addr = top_inst_addr + int(load_addr.split(' ')[4], 16)
+    if top_inst_addr == bot_inst_addr == 0:
+        load_addr = None
+        if t_bit == 32:
+            load_addr = _get_load_section_32bit(target.name)
+        elif t_bit == 64:
+            load_addr = _get_load_section_64bit(target.name)
+        if load_addr:
+            top_inst_addr, bot_inst_addr = _parse_load_address(load_addr, base_vaddr)
 
     #print(hex(top_inst_addr), hex(bot_inst_addr))
     #exit(-1)
@@ -371,7 +430,7 @@ def objdump_disasm_bin(target, t_arch, t_bit, t_endian, top_inst_addr, bot_inst_
             continue
         if re.search("^[ ]+[0-9a-fA-F]+", d_line) == None:
             continue
-        _addr = int(re.sub('[\s+|:]', '', d_line.split('\t')[0]), 16)
+        _addr = int(re.sub(r'[\s+|:]', '', d_line.split(r'\t')[0]), 16)
         _hex = [_h for _h in (d_line.split('\t')[1].split(' ')) if _h != '']
         _inst = ' '.join([_i for _i in (d_line.split('\t')[2:]) if _i != ''])
         #print(hex(_addr), _hex, _inst)
@@ -430,15 +489,15 @@ def parse_inst(target, target_inst, base_vaddr, t_arch, t_bit, t_endian, top_ins
                 elif i.mnemonic == 'bsr.s':
                     inst_size = 2
                 call_map.append([ \
-                        i.address, inst_size, int(re.sub('^\$', '0x', i.op_str), 16) \
+                        i.address, inst_size, int(re.sub(r'^\$', '0x', i.op_str), 16) \
                         ])
         elif t_arch in ['EM_MIPS']: # mips, mipsel, mips64, mips64el
             try:
                 if (i.mnemonic == 'lw' \
-                        and re.search("\(\$gp\)$", i.op_str) != None) \
+                        and re.search(r"\(\$gp\)$", i.op_str) != None) \
                         or ( i.mnemonic == 'ld' \
-                        and (re.search("\(\$gp\)$", i.op_str) != None \
-                        or re.search("\(\$a.\)$", i.op_str) != None)):
+                        and (re.search(r"\(\$gp\)$", i.op_str) != None \
+                        or re.search(r"\(\$a.\)$", i.op_str) != None)):
                     ref_got_offset = int( \
                             re.sub('-', '', i.op_str.split(' ')[1]).split('(')[0], \
                             16 \
@@ -696,7 +755,7 @@ def get_yara_rule(yara_rule_path, r_type, r_length):
             if yara_rule_line.startswith('rule'):
                 y_pattern = str(all_rule_line[line_index+7].strip('\t').strip('$pattern = {').strip(' }'))
                 # get yara rule real length
-                fmt_y_pattern = re.sub('(?<=\().*?(?=\))', 'XX', y_pattern).split(' ')
+                fmt_y_pattern = re.sub(r'(?<=\().*?(?=\))', 'XX', y_pattern).split(' ')
                 y_pattern_length = len(fmt_y_pattern) - fmt_y_pattern.count('??') # pattern len - wildcard len
                 # get yara rule type
                 fmt_r_type = str(all_rule_line[line_index+3].strip('\t').replace('type = \"', '').replace('\"', ''))

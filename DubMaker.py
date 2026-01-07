@@ -220,7 +220,7 @@ def get_func_order_list(dummy_bin_name):
     func_order_list = []
     dummy_bin_path = STELFTOOLS_PATH + '/_tmpdir/dummy_bin/' + dummy_bin_name
     nm_stdout, nm_stderr = subprocess.Popen( \
-            'nm ' + dummy_bin_path + ' | grep -v "^ " | grep -v "\$[a-z]$" ', \
+            'nm ' + dummy_bin_path + r' | grep -v "^ " | grep -v "\$[a-z]$" ', \
             shell=True, encoding='utf-8', stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     for s in nm_stdout.splitlines():
         s_list = s.split(' ')
@@ -246,7 +246,7 @@ def get_only_global_sym_func_order_list(dummy_bin_name):
     global_sym_func_order_list = []
     dummy_bin_path = STELFTOOLS_PATH + '/_tmpdir/dummy_bin/' + dummy_bin_name
     nm_stdout, nm_stderr = subprocess.Popen( \
-            'nm ' + dummy_bin_path + ' | grep -v "^ " | grep -v "\$[a-z]$" | grep " T " ', \
+            'nm ' + dummy_bin_path + r' | grep -v "^ " | grep -v "\$[a-z]$" | grep " T " ', \
             shell=True, encoding='utf-8', stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     for s in nm_stdout.splitlines():
         s_list = s.split(' ')

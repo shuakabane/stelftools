@@ -81,14 +81,14 @@ def get_lief_bin_rootfs(target_path):
                 t_arch_rootfs = "examples/rootfs/mips32el_linux"
             else:
                 t_arch_rootfs = "examples/rootfs/mips32_linux"
-    elif _bin_arch == 'ARCH.i386':
+    elif _bin_arch == 'ARCH.I386':
         t_arch_rootfs = "examples/rootfs/x86_linux"
     elif _bin_arch == 'ARCH.RISCV':
         if _bin_iclass == str('ELF_CLASS.CLASS32'):
             t_arch_rootfs = "examples/rootfs/riscv32_linux"
         else:
             t_arch_rootfs = "examples/rootfs/riscv64_linux"
-    elif _bin_arch == 'ARCH.x86_64':
+    elif _bin_arch == 'ARCH.X86_64':
         t_arch_rootfs = "examples/rootfs/x8664_linux"
     else:
         print('[error] Unknown architecture %s : %s' % (_bin_arch, target_path))
